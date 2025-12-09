@@ -1,16 +1,372 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+import { HeroSection } from '../components/react/HeroSection';
+import { AnimatedSection } from '../components/react/AnimatedSection';
+import { Button } from '../components/react/Button';
+import { ServiceCard } from '../components/react/ServiceCard';
+import { VehicleCard } from '../components/react/VehicleCard';
+import { Trash2, Package, Hammer, Mountain, Shield, Clock, Award, Users, Phone, ArrowRight, CheckCircle, Star } from 'lucide-react';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Location de Camion Benne à Tours (37) | Devis Gratuit 24h"
+  description="Location de camion benne à Tours et Indre-et-Loire. Service professionnel pour évacuation gravats, transport matériaux. Flotte moderne, tarifs compétitifs. Devis gratuit."
+  keywords="location camion benne, Tours, 37, Indre-et-Loire, évacuation gravats, transport matériaux, BTP, déchets chantier"
+>
+  <Header client:load />
+
+  <main>
+    <!-- Hero Section with Framer Motion -->
+    <HeroSection client:load />
+
+    <!-- Advantages Section -->
+    <section class="py-20 bg-white relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <AnimatedSection client:visible animation="slideUp">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Pourquoi nous choisir ?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+              Une expertise reconnue dans la location de camions benne pour tous vos projets
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection client:visible animation="staggerFadeIn" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <ServiceCard
+            client:visible
+            icon={Shield}
+            title="Flotte moderne et entretenue"
+            description="Des véhicules récents, contrôlés régulièrement et parfaitement entretenus pour votre sécurité."
+          />
+          <ServiceCard
+            client:visible
+            icon={Award}
+            title="Tarifs transparents"
+            description="Prix compétitifs sans surprise. Devis détaillé incluant tous les frais pour une visibilité totale."
+          />
+          <ServiceCard
+            client:visible
+            icon={Users}
+            title="Chauffeurs expérimentés"
+            description="Personnel qualifié et formé aux normes de sécurité, courtois et professionnel."
+          />
+          <ServiceCard
+            client:visible
+            icon={Clock}
+            title="Disponibilité rapide"
+            description="Intervention sous 24-48h selon disponibilités. Service d'urgence 7 jours sur 7."
+          />
+        </AnimatedSection>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-orange-50/30 relative overflow-hidden">
+      <div class="container mx-auto px-4 relative z-10">
+        <AnimatedSection client:visible animation="slideUp">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Nos Services
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+              Des solutions adaptées à tous vos besoins de transport et d'évacuation
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection client:visible animation="staggerFadeIn" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <ServiceCard
+            client:visible
+            icon={Trash2}
+            title="Évacuation gravats et déchets"
+            description="Évacuation rapide de tous types de gravats et déchets de chantier vers centres de tri agréés."
+            link="/services#evacuation"
+          />
+          <ServiceCard
+            client:visible
+            icon={Package}
+            title="Transport de matériaux"
+            description="Livraison de matériaux de construction : sable, gravier, terre, enrobé et autres matériaux en vrac."
+            link="/services#transport"
+          />
+          <ServiceCard
+            client:visible
+            icon={Hammer}
+            title="Démolition et débarras"
+            description="Assistance pour démolition et évacuation d'encombrants, mobilier, déchets suite à rénovation."
+            link="/services#demolition"
+          />
+          <ServiceCard
+            client:visible
+            icon={Mountain}
+            title="Terrassement"
+            description="Évacuation de terres après terrassement, nivellement de terrain et préparation de fondations."
+            link="/services#terrassement"
+          />
+        </AnimatedSection>
+
+        <AnimatedSection client:visible animation="scaleIn">
+          <div class="text-center mt-12">
+            <Button client:load variant="primary" size="lg" href="/services">
+              Découvrir tous nos services
+              <ArrowRight class="w-5 h-5 ml-2" />
+            </Button>
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
+
+    <!-- Fleet Preview Section -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Notre Flotte
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Des véhicules adaptés à chaque type de projet
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <VehicleCard
+            client:visible
+            name="Benne 8m³"
+            description="Parfait pour les petits chantiers et travaux de rénovation"
+            capacity="8m³"
+            payload="3,5 tonnes"
+            dimensions="4m x 2m x 1m"
+            features={[
+              'Idéal pour particuliers',
+              'Évacuation déchets légers',
+              'Accès facilité zones urbaines',
+              'Tarif économique'
+            ]}
+            available={true}
+          />
+          <VehicleCard
+            client:visible
+            name="Benne 15m³"
+            description="Solution polyvalente pour chantiers moyens"
+            capacity="15m³"
+            payload="7 tonnes"
+            dimensions="5m x 2,5m x 1,2m"
+            features={[
+              'Chantiers moyens',
+              'Transport matériaux',
+              'Démolition partielle',
+              'Rapport capacité/prix optimal'
+            ]}
+            available={true}
+          />
+          <VehicleCard
+            client:visible
+            name="Benne Grappin 20m³"
+            description="Pour gros volumes et chantiers importants"
+            capacity="20m³"
+            payload="10 tonnes"
+            dimensions="6m x 2,5m x 1,5m"
+            features={[
+              'Gros chantiers',
+              'Préhension matériaux',
+              'Évacuation terres',
+              'Haute capacité'
+            ]}
+            available={true}
+          />
+        </div>
+
+        <div class="text-center mt-12">
+          <Button client:load variant="secondary" size="lg" href="/notre-flotte">
+            Voir toute notre flotte
+            <ArrowRight class="w-5 h-5 ml-2" />
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gradient-to-br from-orange-50 to-orange-100/50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Ils nous font confiance
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            L'avis de nos clients sur notre service
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} class="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+            <p class="text-gray-700 mb-4">
+              "Service impeccable ! Intervention rapide pour évacuer les gravats de notre rénovation. Chauffeur professionnel et ponctuel. Je recommande vivement."
+            </p>
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                JM
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Jean Martin</div>
+                <div class="text-sm text-gray-500">Particulier - Tours</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} class="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+            <p class="text-gray-700 mb-4">
+              "Nous faisons appel à eux régulièrement pour nos chantiers. Toujours à l'heure, tarifs compétitifs et équipe sérieuse. Partenaire fiable."
+            </p>
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                SB
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Sophie Bertrand</div>
+                <div class="text-sm text-gray-500">Entreprise BTP - Joué-lès-Tours</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} class="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+            <p class="text-gray-700 mb-4">
+              "Excellent rapport qualité-prix. Camions en parfait état et chauffeurs compétents. Devis clair sans frais cachés. Très satisfait !"
+            </p>
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                PD
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Pierre Dubois</div>
+                <div class="text-sm text-gray-500">Artisan - Saint-Cyr-sur-Loire</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Zone d'intervention Section -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Zone d'intervention
+            </h2>
+            <p class="text-xl text-gray-600">
+              Nous intervenons dans tout le département de l'Indre-et-Loire (37)
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-8 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+              <div class="flex items-center justify-center space-x-2">
+                <CheckCircle class="w-5 h-5 text-orange-500" />
+                <span class="font-medium">Tours</span>
+              </div>
+              <div class="flex items-center justify-center space-x-2">
+                <CheckCircle class="w-5 h-5 text-orange-500" />
+                <span class="font-medium">Joué-lès-Tours</span>
+              </div>
+              <div class="flex items-center justify-center space-x-2">
+                <CheckCircle class="w-5 h-5 text-orange-500" />
+                <span class="font-medium">Saint-Cyr-sur-Loire</span>
+              </div>
+              <div class="flex items-center justify-center space-x-2">
+                <CheckCircle class="w-5 h-5 text-orange-500" />
+                <span class="font-medium">Saint-Pierre-des-Corps</span>
+              </div>
+              <div class="flex items-center justify-center space-x-2">
+                <CheckCircle class="w-5 h-5 text-orange-500" />
+                <span class="font-medium">Chambray-lès-Tours</span>
+              </div>
+              <div class="flex items-center justify-center space-x-2">
+                <CheckCircle class="w-5 h-5 text-orange-500" />
+                <span class="font-medium">Ballan-Miré</span>
+              </div>
+            </div>
+            <p class="text-center mt-6 text-gray-600">
+              <strong>Rayon d'intervention :</strong> 50km autour de Tours
+            </p>
+          </div>
+
+          <div class="text-center">
+            <Button client:load variant="outline" size="lg" href="/zone-intervention">
+              Voir toutes les villes desservies
+              <ArrowRight class="w-5 h-5 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl md:text-5xl font-bold mb-6">
+            Besoin d'un camion benne ?
+          </h2>
+          <p class="text-xl text-gray-300 mb-8">
+            Contactez-nous dès maintenant pour un devis gratuit et personnalisé.<br />
+            Réponse garantie sous 24h.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Button client:load variant="primary" size="lg" href="/contact">
+              <Phone class="w-5 h-5 mr-2" />
+              Demander un devis
+            </Button>
+            <a
+              href="tel:+33247000000"
+              class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-gray-900 transition-all duration-300"
+            >
+              <Phone class="w-5 h-5 mr-2" />
+              02 47 XX XX XX
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <CheckCircle class="w-8 h-8 text-orange-500 mb-3" />
+              <h3 class="font-bold text-lg mb-2">Réponse rapide</h3>
+              <p class="text-gray-300 text-sm">Devis détaillé sous 24h maximum</p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <CheckCircle class="w-8 h-8 text-orange-500 mb-3" />
+              <h3 class="font-bold text-lg mb-2">Sans engagement</h3>
+              <p class="text-gray-300 text-sm">Devis gratuit et sans obligation</p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <CheckCircle class="w-8 h-8 text-orange-500 mb-3" />
+              <h3 class="font-bold text-lg mb-2">Conseils personnalisés</h3>
+              <p class="text-gray-300 text-sm">Accompagnement dans votre projet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>

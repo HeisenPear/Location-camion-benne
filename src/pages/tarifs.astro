@@ -1,0 +1,350 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+import { Button } from '../components/react/Button';
+import { Check, Phone, Clock, MapPin, Truck, AlertCircle } from 'lucide-react';
+---
+
+<Layout
+  title="Tarifs Location Camion Benne Tours (37) | Devis Gratuit"
+  description="Tarifs transparents pour la location de camions benne à Tours. Prix compétitifs, devis personnalisé gratuit. Bennes 8m³, 15m³, 20m³. À l'heure, à la journée ou au volume."
+  keywords="tarif location camion benne, prix benne Tours, devis gratuit, tarifs transparents 37"
+>
+  <Header client:load />
+
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Nos Tarifs
+          </h1>
+          <p class="text-xl text-orange-100">
+            Des prix transparents et compétitifs adaptés à votre projet
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Grille tarifaire indicative
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Tarifs TTC incluant chauffeur, carburant et assurance
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+          <!-- Benne 8m³ -->
+          <div class="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden hover:border-orange-500 transition-colors">
+            <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">Benne 8m³</h3>
+              <p class="text-gray-600">Petits chantiers</p>
+            </div>
+            <div class="p-6">
+              <div class="text-center mb-6">
+                <div class="text-4xl font-bold text-orange-500 mb-2">À partir de</div>
+                <div class="text-5xl font-bold text-gray-900">250€</div>
+                <div class="text-gray-500 mt-2">la demi-journée</div>
+              </div>
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Capacité : 3,5 tonnes</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Chauffeur professionnel</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Carburant inclus</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Assurance RC Pro</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Évacuation en déchetterie</span>
+                </li>
+              </ul>
+              <div class="text-sm text-gray-500 mb-4">
+                <strong>Journée complète :</strong> 400€<br />
+                <strong>Supplément weekend :</strong> +15%
+              </div>
+            </div>
+          </div>
+
+          <!-- Benne 15m³ -->
+          <div class="bg-white rounded-2xl shadow-xl border-2 border-orange-500 overflow-hidden relative">
+            <div class="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+              Populaire
+            </div>
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-center text-white">
+              <h3 class="text-2xl font-bold mb-2">Benne 15m³</h3>
+              <p class="text-orange-100">Chantiers moyens</p>
+            </div>
+            <div class="p-6">
+              <div class="text-center mb-6">
+                <div class="text-4xl font-bold text-orange-500 mb-2">À partir de</div>
+                <div class="text-5xl font-bold text-gray-900">400€</div>
+                <div class="text-gray-500 mt-2">la demi-journée</div>
+              </div>
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Capacité : 7 tonnes</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Chauffeur professionnel</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Carburant inclus</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Assurance RC Pro</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Évacuation en déchetterie</span>
+                </li>
+              </ul>
+              <div class="text-sm text-gray-500 mb-4">
+                <strong>Journée complète :</strong> 650€<br />
+                <strong>Supplément weekend :</strong> +15%
+              </div>
+            </div>
+          </div>
+
+          <!-- Benne 20m³ -->
+          <div class="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden hover:border-orange-500 transition-colors">
+            <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-6 text-center text-white">
+              <h3 class="text-2xl font-bold mb-2">Benne 20m³</h3>
+              <p class="text-gray-200">Gros chantiers</p>
+            </div>
+            <div class="p-6">
+              <div class="text-center mb-6">
+                <div class="text-4xl font-bold text-orange-500 mb-2">À partir de</div>
+                <div class="text-5xl font-bold text-gray-900">550€</div>
+                <div class="text-gray-500 mt-2">la demi-journée</div>
+              </div>
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Capacité : 10 tonnes</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Chauffeur professionnel</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Carburant inclus</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Assurance RC Pro</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Check class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span class="text-gray-700">Évacuation en déchetterie</span>
+                </li>
+              </ul>
+              <div class="text-sm text-gray-500 mb-4">
+                <strong>Journée complète :</strong> 900€<br />
+                <strong>Supplément weekend :</strong> +15%
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
+          <div class="flex items-start space-x-3">
+            <AlertCircle class="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
+            <div>
+              <h4 class="font-bold text-blue-900 mb-2">Tarifs indicatifs</h4>
+              <p class="text-blue-800">
+                Ces tarifs sont donnés à titre indicatif et peuvent varier selon plusieurs facteurs. Nous vous recommandons de demander un devis personnalisé pour obtenir un prix exact adapté à votre projet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Facteurs influençant le prix -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Facteurs influençant le tarif
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Plusieurs éléments sont pris en compte dans l'établissement de votre devis
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mb-4">
+              <Truck class="w-6 h-6 text-orange-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Type de benne</h3>
+            <p class="text-gray-600">
+              Le volume et les équipements spécifiques (grappin, ampliroll, etc.) influencent le tarif de location.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4">
+              <Clock class="w-6 h-6 text-blue-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Durée de location</h3>
+            <p class="text-gray-600">
+              Demi-journée, journée complète ou location longue durée. Tarifs dégressifs pour locations prolongées.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mb-4">
+              <MapPin class="w-6 h-6 text-green-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Distance</h3>
+            <p class="text-gray-600">
+              Zone d'intervention dans Tours et environs. Supplément possible pour interventions éloignées.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg mb-4">
+              <AlertCircle class="w-6 h-6 text-purple-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Nature des déchets</h3>
+            <p class="text-gray-600">
+              Type de déchets à évacuer (inertes, DIB, DND). Frais de traitement variables selon les matériaux.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-red-100 rounded-lg mb-4">
+              <Clock class="w-6 h-6 text-red-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Délai d'intervention</h3>
+            <p class="text-gray-600">
+              Intervention standard ou urgente. Supplément possible pour interventions en urgence sous 24h.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-lg mb-4">
+              <Truck class="w-6 h-6 text-yellow-600" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Options supplémentaires</h3>
+            <p class="text-gray-600">
+              Temps d'attente sur site, rotations multiples, bâchage spécifique ou autres services sur mesure.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Options supplémentaires -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Options supplémentaires
+          </h2>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-gray-50 rounded-2xl p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex items-start space-x-3">
+                <Check class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                <div>
+                  <strong class="text-gray-900">Temps d'attente sur site</strong>
+                  <p class="text-sm text-gray-600">Facturation au quart d'heure au-delà du temps prévu</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <Check class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                <div>
+                  <strong class="text-gray-900">Rotations multiples</strong>
+                  <p class="text-sm text-gray-600">Tarif dégressif pour plusieurs allers-retours</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <Check class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                <div>
+                  <strong class="text-gray-900">Bâchage obligatoire</strong>
+                  <p class="text-sm text-gray-600">Inclus pour transport de déchets volatils</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <Check class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                <div>
+                  <strong class="text-gray-900">Intervention weekend</strong>
+                  <p class="text-sm text-gray-600">Supplément de 15% sam/dim et jours fériés</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <Check class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                <div>
+                  <strong class="text-gray-900">Zone étendue</strong>
+                  <p class="text-sm text-gray-600">Au-delà de 50km de Tours, forfait km supplémentaires</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <Check class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                <div>
+                  <strong class="text-gray-900">Nettoyage benne</strong>
+                  <p class="text-sm text-gray-600">Facturation si salissures importantes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Besoin d'un devis personnalisé ?
+          </h2>
+          <p class="text-xl text-orange-100 mb-8">
+            Contactez-nous pour obtenir un tarif exact adapté à votre projet. Réponse sous 24h garantie.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button client:load variant="secondary" size="lg" href="/contact">
+              <Phone class="w-5 h-5 mr-2" />
+              Demander un devis gratuit
+            </Button>
+            <a
+              href="tel:+33247000000"
+              class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-orange-600 transition-all duration-300"
+            >
+              <Phone class="w-5 h-5 mr-2" />
+              02 47 XX XX XX
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>

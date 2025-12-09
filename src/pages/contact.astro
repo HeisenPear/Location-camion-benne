@@ -1,0 +1,246 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+import { ContactForm } from '../components/react/ContactForm';
+import { Phone, Mail, MapPin, Clock, MessageSquare } from 'lucide-react';
+---
+
+<Layout
+  title="Contact Location Camion Benne Tours | Devis Gratuit 24h"
+  description="Contactez Location Camion Benne Tours pour un devis gratuit. Téléphone, email, formulaire de contact. Réponse sous 24h garantie. Service client réactif."
+  keywords="contact location camion benne, devis gratuit Tours, téléphone, email, formulaire contact"
+>
+  <Header client:load />
+
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+            <MessageSquare class="w-8 h-8" />
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Contactez-nous
+          </h1>
+          <p class="text-xl text-orange-100">
+            Une question ? Un projet ? Notre équipe vous répond sous 24h
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Info + Form -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 max-w-7xl mx-auto">
+          <!-- Contact Information -->
+          <div class="lg:col-span-2">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">
+              Nos coordonnées
+            </h2>
+
+            <div class="space-y-6 mb-12">
+              <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <Phone class="w-6 h-6 text-orange-500" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900 mb-2">Téléphone</h3>
+                    <a href="tel:+33247000000" class="text-lg text-orange-500 hover:text-orange-600 font-semibold">
+                      02 47 XX XX XX
+                    </a>
+                    <p class="text-sm text-gray-600 mt-1">Appel gratuit depuis un fixe</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Mail class="w-6 h-6 text-blue-500" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900 mb-2">Email</h3>
+                    <a href="mailto:contact@lcb-tours.fr" class="text-lg text-blue-500 hover:text-blue-600">
+                      contact@lcb-tours.fr
+                    </a>
+                    <p class="text-sm text-gray-600 mt-1">Réponse sous 24h</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                      <MapPin class="w-6 h-6 text-green-500" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900 mb-2">Adresse</h3>
+                    <p class="text-gray-700">
+                      Tours et environs<br />
+                      Indre-et-Loire (37)<br />
+                      France
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <Clock class="w-6 h-6 text-purple-500" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900 mb-2">Horaires</h3>
+                    <div class="text-gray-700 space-y-1">
+                      <p><strong>Lun-Sam :</strong> 7h00 - 19h00</p>
+                      <p><strong>Dimanche :</strong> Sur demande</p>
+                      <p class="text-orange-500 font-semibold mt-2">Urgences 7j/7</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
+              <h3 class="text-xl font-bold mb-3">Nos engagements</h3>
+              <ul class="space-y-2">
+                <li class="flex items-center space-x-2">
+                  <span class="w-2 h-2 bg-white rounded-full"></span>
+                  <span>Réponse sous 24h garantie</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span class="w-2 h-2 bg-white rounded-full"></span>
+                  <span>Devis gratuit et sans engagement</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span class="w-2 h-2 bg-white rounded-full"></span>
+                  <span>Conseils personnalisés</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span class="w-2 h-2 bg-white rounded-full"></span>
+                  <span>Transparence des tarifs</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="lg:col-span-3">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">
+              Demander un devis gratuit
+            </h2>
+            <ContactForm client:load />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section (Placeholder) -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Notre zone d'intervention
+          </h2>
+
+          <!-- Google Maps Placeholder -->
+          <div class="bg-gray-200 rounded-2xl overflow-hidden shadow-xl h-96 flex items-center justify-center">
+            <div class="text-center">
+              <MapPin class="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <p class="text-gray-600 text-lg font-semibold">
+                Carte de la zone d'intervention
+              </p>
+              <p class="text-gray-500">
+                Rayon de 50km autour de Tours
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-8 text-center">
+            <p class="text-gray-600 mb-4">
+              Nous intervenons dans tout le département de l'Indre-et-Loire (37) et limitrophes
+            </p>
+            <a
+              href="/zone-intervention"
+              class="inline-flex items-center text-orange-500 hover:text-orange-600 font-semibold"
+            >
+              Voir toutes les villes desservies →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ rapide -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">
+            Questions fréquentes
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Quel est le délai pour obtenir un devis ?
+              </h3>
+              <p class="text-gray-600">
+                Nous nous engageons à vous répondre sous 24h maximum après réception de votre demande. Pour les demandes urgentes, n'hésitez pas à nous appeler directement.
+              </p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Le devis est-il vraiment gratuit ?
+              </h3>
+              <p class="text-gray-600">
+                Oui, tous nos devis sont gratuits et sans engagement. Nous étudions votre projet et vous proposons une solution adaptée avec un tarif transparent incluant tous les frais.
+              </p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Intervenez-vous en urgence ?
+              </h3>
+              <p class="text-gray-600">
+                Oui, nous proposons un service d'urgence 7j/7 pour les situations nécessitant une intervention rapide. Contactez-nous par téléphone pour une prise en charge immédiate.
+              </p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Comment choisir la taille de benne adaptée ?
+              </h3>
+              <p class="text-gray-600">
+                Pas d'inquiétude ! Lors de votre demande, nos experts vous conseilleront sur la benne la plus adaptée à votre projet en fonction du volume et du type de déchets à évacuer.
+              </p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Puis-je modifier ou annuler ma réservation ?
+              </h3>
+              <p class="text-gray-600">
+                Oui, sous réserve de nous prévenir au moins 48h avant la date prévue. Contactez-nous au plus vite en cas de changement dans votre planning.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>

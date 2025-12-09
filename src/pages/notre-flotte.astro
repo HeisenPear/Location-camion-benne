@@ -1,0 +1,276 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+import { Button } from '../components/react/Button';
+import { VehicleCard } from '../components/react/VehicleCard';
+import { Shield, Wrench, FileCheck, Phone } from 'lucide-react';
+---
+
+<Layout
+  title="Notre Flotte de Camions Benne | Location à Tours (37)"
+  description="Découvrez notre flotte moderne de camions benne à Tours : bennes 8m³, 15m³, 20m³, bennes grappin. Véhicules entretenus, chauffeurs professionnels. Location avec ou sans chauffeur."
+  keywords="flotte camions benne Tours, location benne 8m3, benne 15m3, benne grappin, camion benne avec chauffeur"
+>
+  <Header client:load />
+
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Notre Flotte
+          </h1>
+          <p class="text-xl text-gray-300">
+            Des véhicules modernes et parfaitement entretenus pour tous vos besoins de transport et d'évacuation
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fleet Section -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <VehicleCard
+            client:visible
+            name="Benne 8m³"
+            description="Parfait pour les petits chantiers et travaux de rénovation en zone urbaine"
+            capacity="8m³"
+            payload="3,5 tonnes"
+            dimensions="4m x 2m x 1m"
+            features={[
+              'Idéal pour particuliers',
+              'Évacuation déchets légers',
+              'Accès facilité zones urbaines',
+              'Tarif économique',
+              'Manœuvrabilité excellente'
+            ]}
+            available={true}
+          />
+
+          <VehicleCard
+            client:visible
+            name="Benne 15m³"
+            description="Solution polyvalente pour chantiers moyens et transport de matériaux"
+            capacity="15m³"
+            payload="7 tonnes"
+            dimensions="5m x 2,5m x 1,2m"
+            features={[
+              'Chantiers moyens',
+              'Transport matériaux',
+              'Démolition partielle',
+              'Rapport capacité/prix optimal',
+              'Benne basculante'
+            ]}
+            available={true}
+          />
+
+          <VehicleCard
+            client:visible
+            name="Benne 20m³"
+            description="Pour gros volumes et chantiers de grande envergure"
+            capacity="20m³"
+            payload="10 tonnes"
+            dimensions="6m x 2,5m x 1,5m"
+            features={[
+              'Gros chantiers',
+              'Volumes importants',
+              'Évacuation terres',
+              'Haute capacité',
+              'Projets d\'envergure'
+            ]}
+            available={true}
+          />
+
+          <VehicleCard
+            client:visible
+            name="Benne Grappin 15m³"
+            description="Équipée d'un grappin pour la préhension de matériaux"
+            capacity="15m³"
+            payload="7 tonnes"
+            dimensions="5m x 2,5m x 1,2m"
+            features={[
+              'Grappin hydraulique',
+              'Chargement facilité',
+              'Matériaux volumineux',
+              'Branches et végétaux',
+              'Déchets métalliques'
+            ]}
+            available={true}
+          />
+
+          <VehicleCard
+            client:visible
+            name="Benne Ampliroll"
+            description="Système de benne amovible pour locations prolongées"
+            capacity="Variable"
+            payload="Jusqu'à 12 tonnes"
+            dimensions="Multiples formats"
+            features={[
+              'Benne déposée sur site',
+              'Location à la semaine',
+              'Chargement autonome',
+              'Idéal longue durée',
+              'Flexibilité maximale'
+            ]}
+            available={false}
+          />
+
+          <VehicleCard
+            client:visible
+            name="Camion Plateau"
+            description="Pour transport de matériaux palettisés ou équipements"
+            capacity="40m² de plateau"
+            payload="8 tonnes"
+            dimensions="7m x 2,5m"
+            features={[
+              'Transport équipements',
+              'Matériaux palettisés',
+              'Engins de chantier légers',
+              'Chargement par grue',
+              'Polyvalence maximale'
+            ]}
+            available={true}
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Entretien & Sécurité -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Entretien & Sécurité
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Votre sécurité est notre priorité absolue
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-xl mb-4">
+              <Wrench class="w-8 h-8 text-green-600" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Maintenance régulière</h3>
+            <p class="text-gray-600">
+              Tous nos véhicules font l'objet d'un entretien préventif rigoureux. Révisions mensuelles et contrôles systématiques avant chaque location.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-xl mb-4">
+              <FileCheck class="w-8 h-8 text-blue-600" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Normes respectées</h3>
+            <p class="text-gray-600">
+              Conformité totale aux réglementations en vigueur. Contrôles techniques à jour, certifications CACES pour nos chauffeurs.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-xl mb-4">
+              <Shield class="w-8 h-8 text-orange-600" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Assurances complètes</h3>
+            <p class="text-gray-600">
+              Tous nos véhicules sont couverts par une assurance professionnelle tous risques. Protection maximale pour votre tranquillité.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Caractéristiques techniques -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Équipements & Options
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Tous nos camions sont équipés pour intervenir en toute sécurité
+          </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-50 rounded-xl p-6">
+            <h3 class="font-bold text-gray-900 mb-4">Équipements standard</h3>
+            <ul class="space-y-2 text-gray-700">
+              <li>• Bâches de protection</li>
+              <li>• Système de calage et arrimage</li>
+              <li>• Signalisation et gyrophares</li>
+              <li>• GPS et communication radio</li>
+              <li>• Kit de sécurité complet</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-50 rounded-xl p-6">
+            <h3 class="font-bold text-gray-900 mb-4">Options disponibles</h3>
+            <ul class="space-y-2 text-gray-700">
+              <li>• Benne couverte (transport sécurisé)</li>
+              <li>• Hayon élévateur</li>
+              <li>• Système de pesage embarqué</li>
+              <li>• Caméra de recul HD</li>
+              <li>• Rampes de chargement</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-50 rounded-xl p-6">
+            <h3 class="font-bold text-gray-900 mb-4">Types de bennes</h3>
+            <ul class="space-y-2 text-gray-700">
+              <li>• Benne basculante arrière</li>
+              <li>• Benne basculante trois côtés</li>
+              <li>• Benne grappin hydraulique</li>
+              <li>• Benne ampliroll</li>
+              <li>• Benne céréalière</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-50 rounded-xl p-6">
+            <h3 class="font-bold text-gray-900 mb-4">Services inclus</h3>
+            <ul class="space-y-2 text-gray-700">
+              <li>• Chauffeur professionnel expérimenté</li>
+              <li>• Carburant inclus dans le tarif</li>
+              <li>• Assurance RC Pro</li>
+              <li>• Assistance 24/7 en cas de besoin</li>
+              <li>• Facturation claire et détaillée</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Besoin d'un devis ?
+          </h2>
+          <p class="text-xl text-orange-100 mb-8">
+            Contactez-nous pour connaître les disponibilités et tarifs de notre flotte
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button client:load variant="secondary" size="lg" href="/contact">
+              <Phone class="w-5 h-5 mr-2" />
+              Demander un devis
+            </Button>
+            <a
+              href="tel:+33247000000"
+              class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-orange-600 transition-all duration-300"
+            >
+              <Phone class="w-5 h-5 mr-2" />
+              02 47 XX XX XX
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>

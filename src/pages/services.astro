@@ -1,0 +1,395 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+import { Button } from '../components/react/Button';
+import { Trash2, Package, Hammer, Mountain, CheckCircle, Phone, Building, Home, Factory, Landmark } from 'lucide-react';
+---
+
+<Layout
+  title="Nos Services de Location de Camion Benne | Tours (37)"
+  description="Services professionnels de location de camions benne à Tours : évacuation gravats, transport matériaux, démolition, terrassement. Pour particuliers, professionnels et collectivités."
+  keywords="services location camion benne, évacuation gravats Tours, transport matériaux 37, démolition, terrassement, BTP"
+>
+  <Header client:load />
+
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white py-20">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+      </div>
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Nos Services
+          </h1>
+          <p class="text-xl text-orange-100">
+            Des solutions complètes de location de camions benne pour tous vos projets de construction, rénovation et aménagement
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services détaillés -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <!-- Service 1: Évacuation gravats -->
+        <div id="evacuation" class="mb-20 scroll-mt-24">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-orange-500 rounded-2xl mb-6">
+                <Trash2 class="w-8 h-8 text-white" />
+              </div>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Évacuation de gravats et déchets
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                Notre service d'évacuation de gravats vous permet de vous débarrasser rapidement et efficacement de tous types de déchets de chantier. Nous assurons le transport vers des centres de tri agréés pour un recyclage optimal.
+              </p>
+
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Types de déchets acceptés</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                {['Gravats de démolition', 'Briques et parpaings', 'Béton armé', 'Carrelage et faïence', 'Plâtre et plaques', 'Bois de charpente', 'Métaux ferreux', 'Déchets inertes'].map((item) => (
+                  <div class="flex items-center space-x-2">
+                    <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span class="text-gray-700">{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Notre process</h3>
+              <ol class="space-y-3 mb-6">
+                <li class="flex items-start space-x-3">
+                  <span class="flex-shrink-0 w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">1</span>
+                  <div>
+                    <strong class="text-gray-900">Évaluation de vos besoins</strong>
+                    <p class="text-gray-600">Volume, type de déchets, accès au chantier</p>
+                  </div>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="flex-shrink-0 w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">2</span>
+                  <div>
+                    <strong class="text-gray-900">Intervention rapide</strong>
+                    <p class="text-gray-600">Mise à disposition du camion benne adapté</p>
+                  </div>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="flex-shrink-0 w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">3</span>
+                  <div>
+                    <strong class="text-gray-900">Évacuation et tri</strong>
+                    <p class="text-gray-600">Transport vers centres agréés et traçabilité</p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl p-8 lg:p-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg mb-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Tarifs indicatifs</h3>
+                <div class="space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-700">Benne 8m³</span>
+                    <span class="font-bold text-orange-500">À partir de 250€</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-700">Benne 15m³</span>
+                    <span class="font-bold text-orange-500">À partir de 400€</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-700">Benne 20m³</span>
+                    <span class="font-bold text-orange-500">À partir de 550€</span>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-4">*Prix indicatifs incluant chauffeur, carburant et évacuation. Devis personnalisé sur demande.</p>
+              </div>
+
+              <Button client:load variant="primary" size="lg" href="/contact" className="w-full">
+                <Phone class="w-5 h-5 mr-2" />
+                Demander un devis
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-20 border-gray-200" />
+
+        <!-- Service 2: Transport de matériaux -->
+        <div id="transport" class="mb-20 scroll-mt-24">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-8 lg:p-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Matériaux transportables</h3>
+                <ul class="space-y-3">
+                  {['Sable et gravier', 'Terre végétale', 'Enrobé à froid', 'Pierre concassée', 'Remblais', 'Calcaire', 'Tout-venant', 'Matériaux recyclés'].map((item) => (
+                    <li class="flex items-center space-x-3">
+                      <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0" />
+                      <span class="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="order-1 lg:order-2">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-2xl mb-6">
+                <Package class="w-8 h-8 text-white" />
+              </div>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Transport de matériaux
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                Nous assurons la livraison de tous types de matériaux de construction en vrac directement sur votre chantier. Service ponctuel ou régulier selon vos besoins.
+              </p>
+
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Nos avantages</h3>
+              <div class="space-y-4 mb-6">
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Livraison précise</strong>
+                    <p class="text-gray-600">Déchargement au point exact souhaité sur votre chantier</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Volumes adaptés</strong>
+                    <p class="text-gray-600">De 8m³ à 20m³ selon vos besoins</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Planification flexible</strong>
+                    <p class="text-gray-600">Livraisons ponctuelles ou programmées</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Conseils experts</strong>
+                    <p class="text-gray-600">Aide au choix des matériaux adaptés</p>
+                  </div>
+                </div>
+              </div>
+
+              <Button client:load variant="primary" size="lg" href="/contact">
+                <Phone class="w-5 h-5 mr-2" />
+                Obtenir un devis transport
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-20 border-gray-200" />
+
+        <!-- Service 3: Démolition et débarras -->
+        <div id="demolition" class="mb-20 scroll-mt-24">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-red-500 rounded-2xl mb-6">
+                <Hammer class="w-8 h-8 text-white" />
+              </div>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Démolition et débarras
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                Service complet d'assistance pour vos travaux de démolition et d'évacuation d'encombrants. Intervention rapide pour libérer votre espace.
+              </p>
+
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Types d'interventions</h3>
+              <div class="space-y-4 mb-6">
+                <div class="bg-gray-50 rounded-lg p-4">
+                  <h4 class="font-bold text-gray-900 mb-2">Démolition de bâtiments</h4>
+                  <p class="text-gray-600">Maisons, garages, dépendances, murs, cloisons</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                  <h4 class="font-bold text-gray-900 mb-2">Débarras complet</h4>
+                  <p class="text-gray-600">Mobilier, électroménager, déchets après rénovation</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                  <h4 class="font-bold text-gray-900 mb-2">Coordination chantier</h4>
+                  <p class="text-gray-600">Organisation logistique et évacuation des déchets</p>
+                </div>
+              </div>
+
+              <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                <p class="text-sm text-yellow-800">
+                  <strong>Important :</strong> Nous assurons uniquement l'évacuation des déchets. Pour les travaux de démolition, nous pouvons vous mettre en relation avec nos partenaires qualifiés.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-red-100 to-red-200 rounded-2xl p-8 lg:p-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Déchets évacués</h3>
+                <div class="grid grid-cols-1 gap-3">
+                  {['Gravats de démolition', 'Mobilier encombrant', 'Électroménager', 'Fenêtres et portes', 'Sanitaires', 'Isolants', 'Câblages et tuyaux', 'Débris divers'].map((item) => (
+                    <div class="flex items-center space-x-3">
+                      <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0" />
+                      <span class="text-gray-700">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-20 border-gray-200" />
+
+        <!-- Service 4: Terrassement -->
+        <div id="terrassement" class="mb-20 scroll-mt-24">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-8 lg:p-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Applications</h3>
+                <ul class="space-y-3">
+                  {['Préparation de fondations', 'Aménagement de terrain', 'Création de piscine', 'Installation de réseaux', 'Nivellement de terrain', 'Création d\'accès', 'Drainage et assainissement'].map((item) => (
+                    <li class="flex items-start space-x-3">
+                      <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                      <span class="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                  <p class="text-sm text-gray-600">
+                    <strong>Capacités :</strong> Évacuation de 8 à 20m³ de terres par rotation. Service à la journée ou au volume.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-1 lg:order-2">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-2xl mb-6">
+                <Mountain class="w-8 h-8 text-white" />
+              </div>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Terrassement
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                Service d'évacuation de terres pour tous vos travaux de terrassement. Intervention rapide avec des camions adaptés aux volumes importants.
+              </p>
+
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Pourquoi nous choisir ?</h3>
+              <div class="space-y-4 mb-6">
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Rotations rapides</strong>
+                    <p class="text-gray-600">Plusieurs allers-retours possibles dans la journée</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Camions adaptés</strong>
+                    <p class="text-gray-600">Bennes jusqu'à 20m³ pour gros volumes</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <strong class="text-gray-900">Évacuation réglementaire</strong>
+                    <p class="text-gray-600">Dépôt en centres autorisés avec bordereau</p>
+                  </div>
+                </div>
+              </div>
+
+              <Button client:load variant="primary" size="lg" href="/contact">
+                <Phone class="w-5 h-5 mr-2" />
+                Demander un devis terrassement
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secteurs d'activité -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Nous intervenons pour tous types de clients
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Des solutions adaptées à chaque secteur d'activité
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-shadow">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-xl mb-4">
+              <Home class="w-8 h-8 text-orange-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Particuliers</h3>
+            <p class="text-gray-600">
+              Rénovation, construction, aménagement extérieur, débarras
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-shadow">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-xl mb-4">
+              <Building class="w-8 h-8 text-blue-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Professionnels BTP</h3>
+            <p class="text-gray-600">
+              Entreprises du bâtiment, artisans, constructeurs, promoteurs
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-shadow">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-xl mb-4">
+              <Landmark class="w-8 h-8 text-green-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Collectivités</h3>
+            <p class="text-gray-600">
+              Mairies, conseils départementaux, établissements publics
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-shadow">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-xl mb-4">
+              <Factory class="w-8 h-8 text-purple-500" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Entreprises</h3>
+            <p class="text-gray-600">
+              Industries, commerces, entrepôts, locaux professionnels
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Un projet en tête ?
+          </h2>
+          <p class="text-xl text-orange-100 mb-8">
+            Contactez-nous pour discuter de vos besoins et recevoir un devis personnalisé gratuit sous 24h
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button client:load variant="secondary" size="lg" href="/contact">
+              <Phone class="w-5 h-5 mr-2" />
+              Demander un devis
+            </Button>
+            <a
+              href="/notre-flotte"
+              class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-orange-600 transition-all duration-300"
+            >
+              Voir notre flotte
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>

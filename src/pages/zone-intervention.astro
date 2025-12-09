@@ -1,0 +1,288 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+import { Button } from '../components/react/Button';
+import { CheckCircle, MapPin, Phone } from 'lucide-react';
+
+const cities = [
+  { name: 'Tours', code: '37000', priority: true },
+  { name: 'Joué-lès-Tours', code: '37300', priority: true },
+  { name: 'Saint-Cyr-sur-Loire', code: '37540', priority: true },
+  { name: 'Saint-Pierre-des-Corps', code: '37700', priority: true },
+  { name: 'Chambray-lès-Tours', code: '37170', priority: true },
+  { name: 'Ballan-Miré', code: '37510', priority: true },
+  { name: 'La Riche', code: '37520', priority: true },
+  { name: 'Fondettes', code: '37230', priority: false },
+  { name: 'Saint-Avertin', code: '37550', priority: false },
+  { name: 'La Ville-aux-Dames', code: '37700', priority: false },
+  { name: 'Amboise', code: '37400', priority: false },
+  { name: 'Montlouis-sur-Loire', code: '37270', priority: false },
+  { name: 'Véretz', code: '37270', priority: false },
+  { name: 'Vouvray', code: '37210', priority: false },
+  { name: 'Rochecorbon', code: '37210', priority: false },
+  { name: 'Monts', code: '37260', priority: false },
+  { name: 'Artannes-sur-Indre', code: '37260', priority: false },
+  { name: 'Azay-le-Rideau', code: '37190', priority: false },
+  { name: 'Langeais', code: '37130', priority: false },
+  { name: 'Château-Renault', code: '37110', priority: false },
+  { name: 'Ambillou', code: '37340', priority: false },
+  { name: 'Luynes', code: '37230', priority: false },
+  { name: 'Savonnières', code: '37510', priority: false },
+  { name: 'Villandry', code: '37510', priority: false },
+  { name: 'Esvres', code: '37320', priority: false },
+  { name: 'Bléré', code: '37150', priority: false },
+  { name: 'Loches', code: '37600', priority: false },
+  { name: 'Descartes', code: '37160', priority: false },
+  { name: 'Sainte-Maure-de-Touraine', code: '37800', priority: false },
+  { name: 'Chinon', code: '37500', priority: false }
+];
+---
+
+<Layout
+  title="Zone d'Intervention Location Camion Benne | Tours & Indre-et-Loire (37)"
+  description="Nous intervenons dans tout le département de l'Indre-et-Loire : Tours, Joué-lès-Tours, Saint-Cyr-sur-Loire et toutes les communes du 37. Rayon de 50km autour de Tours."
+  keywords="zone intervention Tours, location camion benne 37, Indre-et-Loire, Joué-lès-Tours, Saint-Cyr-sur-Loire"
+>
+  <Header client:load />
+
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-green-600 via-green-700 to-green-800 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+            <MapPin class="w-8 h-8" />
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Zone d'Intervention
+          </h1>
+          <p class="text-xl text-green-100">
+            Nous intervenons dans tout le département de l'Indre-et-Loire et limitrophes
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coverage Info -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 md:p-12 mb-12 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Rayon d'intervention principal
+            </h2>
+            <div class="text-6xl font-bold text-green-600 mb-4">50 km</div>
+            <p class="text-xl text-gray-700 max-w-2xl mx-auto">
+              autour de Tours pour des interventions rapides et efficaces
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center border-2 border-green-500">
+              <CheckCircle class="w-12 h-12 text-green-500 mx-auto mb-3" />
+              <h3 class="font-bold text-gray-900 mb-2">Intervention rapide</h3>
+              <p class="text-gray-600">Disponibilité sous 24-48h dans notre zone prioritaire</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center border-2 border-green-500">
+              <CheckCircle class="w-12 h-12 text-green-500 mx-auto mb-3" />
+              <h3 class="font-bold text-gray-900 mb-2">Tout le 37</h3>
+              <p class="text-gray-600">Couverture complète du département Indre-et-Loire</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center border-2 border-green-500">
+              <CheckCircle class="w-12 h-12 text-green-500 mx-auto mb-3" />
+              <h3 class="font-bold text-gray-900 mb-2">Départements limitrophes</h3>
+              <p class="text-gray-600">Intervention possible sur demande avec supplément</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cities List -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Villes principales desservies
+            </h2>
+            <p class="text-xl text-gray-600">
+              Zone prioritaire d'intervention avec délais garantis
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+            {cities.filter(c => c.priority).map((city) => (
+              <div class="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex items-center space-x-3 border-l-4 border-green-500">
+                <CheckCircle class="w-6 h-6 text-green-500 flex-shrink-0" />
+                <div>
+                  <div class="font-bold text-gray-900">{city.name}</div>
+                  <div class="text-sm text-gray-500">{city.code}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-gray-900 mb-8">Autres communes du département 37</h3>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {cities.filter(c => !c.priority).map((city) => (
+              <div class="bg-white rounded-lg p-3 shadow hover:shadow-md transition-shadow flex items-center space-x-2">
+                <CheckCircle class="w-4 h-4 text-green-500 flex-shrink-0" />
+                <div class="text-sm">
+                  <div class="font-semibold text-gray-900">{city.name}</div>
+                  <div class="text-xs text-gray-500">{city.code}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-12 bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
+            <p class="text-blue-900">
+              <strong>Votre ville n'apparaît pas dans la liste ?</strong> Pas d'inquiétude ! Nous intervenons dans toutes les communes du département 37 et limitrophes. Contactez-nous pour vérifier les possibilités d'intervention.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Départements limitrophes -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Départements limitrophes
+            </h2>
+            <p class="text-xl text-gray-600">
+              Intervention possible sur demande
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 rounded-xl p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Nord Indre-et-Loire</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>• Loir-et-Cher (41) - Proximité immédiate</li>
+                <li>• Sarthe (72) - Zone frontalière</li>
+                <li>• Maine-et-Loire (49) - Secteur Saumur</li>
+              </ul>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Sud Indre-et-Loire</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>• Indre (36) - Secteur Châteauroux</li>
+                <li>• Vienne (86) - Proximité Châtellerault</li>
+                <li>• Indre-et-Loire Sud - Tout le département</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-xl">
+            <p class="text-yellow-800">
+              <strong>Bon à savoir :</strong> Pour les interventions hors zone prioritaire (> 50km de Tours), un supplément kilométrique peut s'appliquer. Contactez-nous pour un devis personnalisé.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Zones spécifiques -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Accès et contraintes
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-green-600 mb-4">Zones facilement accessibles</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start space-x-2">
+                  <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span>Zones urbaines et périurbaines</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span>Lotissements et zones pavillonnaires</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span>Zones industrielles et commerciales</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <CheckCircle class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
+                  <span>Chantiers BTP accessibles</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+              <h3 class="text-xl font-bold text-orange-600 mb-4">Zones nécessitant une étude</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start space-x-2">
+                  <MapPin class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                  <span>Centres-villes historiques (voies étroites)</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <MapPin class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                  <span>Zones rurales isolées</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <MapPin class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                  <span>Chemins privés (vérification accès)</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <MapPin class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                  <span>Zones avec limitations de tonnage</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-8 bg-green-50 border-l-4 border-green-500 p-6 rounded-r-xl">
+            <p class="text-green-800">
+              <strong>Notre engagement :</strong> Avant chaque intervention, nous étudions systématiquement l'accès au site pour garantir la faisabilité et la sécurité de l'opération. N'hésitez pas à nous fournir des photos ou plans d'accès.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-green-600 to-green-700 text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Besoin d'une intervention ?
+          </h2>
+          <p class="text-xl text-green-100 mb-8">
+            Vérifiez notre disponibilité pour votre zone et obtenez un devis personnalisé gratuit
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button client:load variant="secondary" size="lg" href="/contact">
+              <Phone class="w-5 h-5 mr-2" />
+              Nous contacter
+            </Button>
+            <a
+              href="tel:+33247000000"
+              class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-green-700 transition-all duration-300"
+            >
+              <Phone class="w-5 h-5 mr-2" />
+              02 47 XX XX XX
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>

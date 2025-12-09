@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/react/Header';
+import { Footer } from '../components/react/Footer';
+---
+
+<Layout
+  title="Mentions Légales | Location Camion Benne Tours"
+  description="Mentions légales, politique de confidentialité et conditions générales du site Location Camion Benne Tours."
+  keywords="mentions légales, RGPD, confidentialité, conditions générales"
+>
+  <Header client:load />
+
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="bg-gray-900 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Mentions Légales
+          </h1>
+          <p class="text-xl text-gray-300">
+            Informations légales et conditions d'utilisation
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto prose prose-lg">
+          <!-- Éditeur du site -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Éditeur du site</h2>
+            <div class="bg-gray-50 rounded-xl p-6">
+              <p class="mb-2"><strong>Raison sociale :</strong> Location Camion Benne Tours</p>
+              <p class="mb-2"><strong>Forme juridique :</strong> [À compléter]</p>
+              <p class="mb-2"><strong>Siège social :</strong> Tours, Indre-et-Loire (37), France</p>
+              <p class="mb-2"><strong>SIRET :</strong> [À compléter]</p>
+              <p class="mb-2"><strong>Téléphone :</strong> 02 47 XX XX XX</p>
+              <p class="mb-2"><strong>Email :</strong> contact@lcb-tours.fr</p>
+              <p class="mb-2"><strong>Directeur de publication :</strong> [À compléter]</p>
+            </div>
+          </div>
+
+          <!-- Hébergement -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Hébergement du site</h2>
+            <p class="text-gray-700">
+              Le site est hébergé par :<br />
+              <strong>[Nom de l'hébergeur]</strong><br />
+              [Adresse de l'hébergeur]<br />
+              [Téléphone de l'hébergeur]
+            </p>
+          </div>
+
+          <!-- Propriété intellectuelle -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Propriété intellectuelle</h2>
+            <p class="text-gray-700 mb-4">
+              L'ensemble du contenu de ce site (textes, images, vidéos, logos, icônes, etc.) est la propriété exclusive de Location Camion Benne Tours ou de ses partenaires. Toute reproduction, distribution, modification ou utilisation des contenus du site, en tout ou partie, est strictement interdite sans l'autorisation écrite préalable de Location Camion Benne Tours.
+            </p>
+            <p class="text-gray-700">
+              Toute utilisation non autorisée du site ou de l'un quelconque des éléments qu'il contient sera considérée comme constitutive d'une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de Propriété Intellectuelle.
+            </p>
+          </div>
+
+          <!-- Données personnelles -->
+          <div id="confidentialite" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Protection des données personnelles (RGPD)</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.1 Responsable du traitement</h3>
+            <p class="text-gray-700 mb-4">
+              Le responsable du traitement des données est Location Camion Benne Tours, joignable à l'adresse contact@lcb-tours.fr.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.2 Données collectées</h3>
+            <p class="text-gray-700 mb-4">
+              Dans le cadre de l'utilisation du site, nous sommes susceptibles de collecter les données personnelles suivantes :
+            </p>
+            <ul class="list-disc pl-6 text-gray-700 mb-4">
+              <li>Nom et prénom</li>
+              <li>Adresse email</li>
+              <li>Numéro de téléphone</li>
+              <li>Informations relatives à votre projet (type de service, localisation)</li>
+              <li>Données de navigation (cookies, adresse IP)</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.3 Finalité du traitement</h3>
+            <p class="text-gray-700 mb-4">
+              Les données collectées sont utilisées pour :
+            </p>
+            <ul class="list-disc pl-6 text-gray-700 mb-4">
+              <li>Traiter vos demandes de devis et de contact</li>
+              <li>Gérer la relation client</li>
+              <li>Vous informer de nos services et actualités (avec votre consentement)</li>
+              <li>Améliorer nos services et l'expérience utilisateur</li>
+              <li>Respecter nos obligations légales et réglementaires</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.4 Durée de conservation</h3>
+            <p class="text-gray-700 mb-4">
+              Vos données personnelles sont conservées pendant la durée nécessaire à la réalisation des finalités mentionnées ci-dessus, et conformément aux obligations légales de conservation.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.5 Vos droits</h3>
+            <p class="text-gray-700 mb-4">
+              Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :
+            </p>
+            <ul class="list-disc pl-6 text-gray-700 mb-4">
+              <li><strong>Droit d'accès :</strong> obtenir une copie de vos données personnelles</li>
+              <li><strong>Droit de rectification :</strong> corriger des données inexactes ou incomplètes</li>
+              <li><strong>Droit à l'effacement :</strong> demander la suppression de vos données</li>
+              <li><strong>Droit à la limitation :</strong> restreindre le traitement de vos données</li>
+              <li><strong>Droit d'opposition :</strong> vous opposer au traitement de vos données</li>
+              <li><strong>Droit à la portabilité :</strong> recevoir vos données dans un format structuré</li>
+            </ul>
+            <p class="text-gray-700">
+              Pour exercer ces droits, vous pouvez nous contacter à l'adresse : contact@lcb-tours.fr
+            </p>
+          </div>
+
+          <!-- Cookies -->
+          <div id="cookies" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">5. Cookies</h2>
+            <p class="text-gray-700 mb-4">
+              Ce site utilise des cookies pour améliorer votre expérience de navigation. Les cookies sont de petits fichiers texte stockés sur votre appareil lors de votre visite.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">5.1 Types de cookies utilisés</h3>
+            <ul class="list-disc pl-6 text-gray-700 mb-4">
+              <li><strong>Cookies essentiels :</strong> nécessaires au fonctionnement du site</li>
+              <li><strong>Cookies de performance :</strong> pour analyser l'utilisation du site</li>
+              <li><strong>Cookies de fonctionnalité :</strong> pour mémoriser vos préférences</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">5.2 Gestion des cookies</h3>
+            <p class="text-gray-700">
+              Vous pouvez à tout moment désactiver les cookies depuis les paramètres de votre navigateur. Cependant, cela peut affecter certaines fonctionnalités du site.
+            </p>
+          </div>
+
+          <!-- Responsabilité -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">6. Limitation de responsabilité</h2>
+            <p class="text-gray-700 mb-4">
+              Location Camion Benne Tours s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site. Toutefois, nous ne pouvons garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition.
+            </p>
+            <p class="text-gray-700">
+              En conséquence, Location Camion Benne Tours décline toute responsabilité pour toute imprécision, inexactitude ou omission portant sur des informations disponibles sur le site.
+            </p>
+          </div>
+
+          <!-- Liens externes -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">7. Liens hypertextes</h2>
+            <p class="text-gray-700">
+              Le site peut contenir des liens vers d'autres sites internet. Location Camion Benne Tours n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.
+            </p>
+          </div>
+
+          <!-- Droit applicable -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">8. Droit applicable et juridiction</h2>
+            <p class="text-gray-700">
+              Les présentes mentions légales sont régies par le droit français. En cas de litige, et à défaut d'accord amiable, le tribunal compétent sera celui du ressort du siège social de Location Camion Benne Tours.
+            </p>
+          </div>
+
+          <!-- Modification -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">9. Modification des mentions légales</h2>
+            <p class="text-gray-700">
+              Location Camion Benne Tours se réserve le droit de modifier les présentes mentions légales à tout moment. Les utilisateurs sont invités à les consulter régulièrement.
+            </p>
+            <p class="text-gray-700 mt-4">
+              <strong>Dernière mise à jour :</strong> Décembre 2025
+            </p>
+          </div>
+
+          <!-- Contact -->
+          <div class="bg-orange-50 rounded-xl p-6 border-l-4 border-orange-500">
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Contact</h3>
+            <p class="text-gray-700">
+              Pour toute question concernant les présentes mentions légales ou l'utilisation de vos données personnelles, vous pouvez nous contacter :
+            </p>
+            <ul class="mt-3 text-gray-700">
+              <li><strong>Email :</strong> contact@lcb-tours.fr</li>
+              <li><strong>Téléphone :</strong> 02 47 XX XX XX</li>
+              <li><strong>Adresse :</strong> Tours, Indre-et-Loire (37), France</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Layout>
+
+<style>
+  .prose {
+    max-width: none;
+  }
+  .prose h2 {
+    margin-top: 2rem;
+  }
+  .prose p, .prose ul {
+    color: #4b5563;
+  }
+</style>
