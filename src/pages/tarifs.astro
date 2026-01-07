@@ -1,0 +1,137 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import PriceCalculator from '@/components/forms/PriceCalculator';
+
+import services from '@/data/services.json';
+import zones from '@/data/zones.json';
+---
+
+<BaseLayout
+  title="Tarifs Location de Benne à Tours | Prix et Devis Gratuit"
+  description="Découvrez nos tarifs de location de bennes à Tours. De 280€ à 550€ TTC/semaine selon le volume. Livraison incluse. Calculateur de devis en ligne."
+>
+  <Header />
+
+  <main>
+    <!-- Hero -->
+    <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+      <div class="container-custom text-center">
+        <h1 class="text-display-sm md:text-display-md font-display font-bold mb-6">
+          Nos Tarifs
+        </h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
+          Tarifs transparents et compétitifs. Livraison et reprise incluses.
+        </p>
+      </div>
+    </section>
+
+    <!-- Calculateur -->
+    <section class="py-16 bg-neutral-50">
+      <div class="container-custom">
+        <div class="max-w-2xl mx-auto">
+          <PriceCalculator client:load services={services} zones={zones} />
+        </div>
+      </div>
+    </section>
+
+    <!-- Grille tarifaire -->
+    <section class="section-spacing bg-white">
+      <div class="container-custom">
+        <h2 class="text-3xl font-bold text-neutral-900 mb-12 text-center">
+          Grille Tarifaire Complète
+        </h2>
+
+        <div class="overflow-x-auto">
+          <table class="w-full bg-white rounded-xl shadow-soft overflow-hidden">
+            <thead class="bg-primary-600 text-white">
+              <tr>
+                <th class="px-6 py-4 text-left font-semibold">Service</th>
+                <th class="px-6 py-4 text-left font-semibold">Volume</th>
+                <th class="px-6 py-4 text-left font-semibold">Capacité</th>
+                <th class="px-6 py-4 text-right font-semibold">Prix TTC/semaine</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-neutral-200">
+              {services.map((service, index) => (
+                <tr class={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
+                  <td class="px-6 py-4 font-medium text-neutral-900">{service.name}</td>
+                  <td class="px-6 py-4 text-neutral-700">{service.volume}</td>
+                  <td class="px-6 py-4 text-neutral-700">{service.weight}</td>
+                  <td class="px-6 py-4 text-right font-bold text-primary-600">{service.price}€</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-primary-50 p-6 rounded-xl">
+            <h3 class="font-bold text-lg text-neutral-900 mb-2">Durée incluse</h3>
+            <p class="text-neutral-600">7 jours de location compris dans le tarif</p>
+          </div>
+
+          <div class="bg-primary-50 p-6 rounded-xl">
+            <h3 class="font-bold text-lg text-neutral-900 mb-2">Prolongation</h3>
+            <p class="text-neutral-600">40€ par jour supplémentaire au-delà de 7 jours</p>
+          </div>
+
+          <div class="bg-primary-50 p-6 rounded-xl">
+            <h3 class="font-bold text-lg text-neutral-900 mb-2">Livraison</h3>
+            <p class="text-neutral-600">Gratuite à Tours, variable selon la zone</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Frais supplémentaires -->
+    <section class="py-16 bg-neutral-50">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-neutral-900 mb-8 text-center">
+            Informations Complémentaires
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-soft">
+              <h3 class="font-bold text-xl text-neutral-900 mb-3">Dépassement de poids</h3>
+              <p class="text-neutral-600">
+                Si le poids de vos déchets dépasse la capacité de la benne, un supplément de <strong>40€ par tonne supplémentaire</strong> sera appliqué (pesée au retour).
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-soft">
+              <h3 class="font-bold text-xl text-neutral-900 mb-3">Frais de livraison</h3>
+              <p class="text-neutral-600">
+                Livraison <strong>gratuite à Tours</strong> et communes limitrophes. Pour les autres zones du département, consultez notre <a href="/zones-intervention" class="text-primary-600 hover:underline">carte des zones d'intervention</a>.
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-soft">
+              <h3 class="font-bold text-xl text-neutral-900 mb-3">Autorisation voie publique</h3>
+              <p class="text-neutral-600">
+                Si la benne doit être posée sur la voie publique, une autorisation de la mairie est nécessaire (non incluse dans nos tarifs). Nous pouvons vous accompagner dans les démarches.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+      <div class="container-custom text-center">
+        <h2 class="text-display-sm font-bold mb-6">Besoin d'un devis personnalisé ?</h2>
+        <p class="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+          Contactez-nous pour obtenir un devis adapté à votre projet spécifique.
+        </p>
+        <a href="/contact" class="btn-secondary text-lg">
+          Demander un devis gratuit
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

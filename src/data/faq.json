@@ -1,0 +1,50 @@
+[
+  {
+    "id": "faq-1",
+    "question": "Quelle taille de benne choisir pour mes travaux ?",
+    "answer": "Le choix dépend du volume de déchets à évacuer. Pour une rénovation de salle de bain : benne 10m³. Pour une rénovation complète d'appartement : 15-20m³. Pour une démolition : 20-30m³. Notre équipe peut vous conseiller gratuitement.",
+    "category": "Choix de benne"
+  },
+  {
+    "id": "faq-2",
+    "question": "Quelle est la durée de location ?",
+    "answer": "La durée standard est de 7 jours. Des extensions sont possibles sur demande avec un tarif journalier dégressif. Contactez-nous pour une location plus longue.",
+    "category": "Tarifs et durée"
+  },
+  {
+    "id": "faq-3",
+    "question": "Quels déchets sont interdits dans les bennes ?",
+    "answer": "Sont strictement interdits : amiante, déchets chimiques, batteries, pneus, appareils électroniques, liquides. Pour les déchets spéciaux, nous pouvons vous orienter vers des filières adaptées.",
+    "category": "Déchets autorisés"
+  },
+  {
+    "id": "faq-4",
+    "question": "Faut-il un permis pour installer une benne sur la voie publique ?",
+    "answer": "Si la benne est posée sur la voie publique, une autorisation mairie est nécessaire. Nous pouvons vous accompagner dans les démarches. Sur terrain privé, aucune autorisation requise.",
+    "category": "Réglementation"
+  },
+  {
+    "id": "faq-5",
+    "question": "Quel délai pour la livraison d'une benne ?",
+    "answer": "Nous livrons sous 24-48h selon disponibilités. Pour une urgence, contactez-nous : nous ferons notre maximum pour intervenir rapidement.",
+    "category": "Livraison"
+  },
+  {
+    "id": "faq-6",
+    "question": "Les tarifs incluent-ils la livraison et la reprise ?",
+    "answer": "Oui, tous nos tarifs incluent la livraison, la mise à disposition 7 jours et la reprise. Seuls frais supplémentaires possibles : dépassement tonnage ou prolongation durée.",
+    "category": "Tarifs et durée"
+  },
+  {
+    "id": "faq-7",
+    "question": "Que se passe-t-il si je dépasse le poids autorisé ?",
+    "answer": "Un surcoût est appliqué par tonne supplémentaire (environ 40€/tonne selon type de déchets). Nous pesons la benne au retour et vous informons immédiatement en cas de dépassement.",
+    "category": "Tarifs et durée"
+  },
+  {
+    "id": "faq-8",
+    "question": "Intervenez-vous aussi le week-end ?",
+    "answer": "Nous livrons du lundi au samedi. Les livraisons dominicales sont possibles sur demande avec un supplément. Contactez-nous pour organiser votre planning.",
+    "category": "Livraison"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "name": "RP Location de Benne",
+  "legalName": "RP Location de Benne SARL",
+  "address": {
+    "street": "12 Avenue de la République",
+    "postalCode": "37000",
+    "city": "Tours",
+    "country": "France"
+  },
+  "phone": "+33 6 00 00 00 00",
+  "email": "contact@rp-locationdebenne37.fr",
+  "siret": "123 456 789 00012",
+  "tva": "FR12 123456789",
+  "hours": {
+    "weekdays": "Lundi - Vendredi : 8h00 - 18h00",
+    "saturday": "Samedi : 9h00 - 12h00",
+    "sunday": "Dimanche : Fermé"
+  },
+  "socialMedia": {
+    "facebook": "https://facebook.com/rplocationdebenne37",
+    "linkedin": "https://linkedin.com/company/rp-location-benne"
+  },
+  "description": "Spécialiste de la location de bennes à Tours et dans tout le département d'Indre-et-Loire (37). Nous proposons des solutions adaptées aux professionnels du BTP et aux particuliers pour tous types de chantiers.",
+  "keywords": [
+    "location benne Tours",
+    "location benne 37",
+    "benne gravats Tours",
+    "évacuation déchets Tours",
+    "location benne Indre-et-Loire",
+    "benne chantier Tours"
+  ],
+  "geo": {
+    "latitude": "47.394144",
+    "longitude": "0.68484"
+  }
+}

@@ -1,0 +1,80 @@
+---
+import FadeInWhenVisible from '@/components/animations/FadeInWhenVisible';
+
+const steps = [
+  {
+    number: 1,
+    title: 'Demandez votre devis',
+    description: 'Contactez-nous par téléphone ou via notre formulaire. Nous vous conseillons gratuitement sur le choix de la benne adaptée à votre projet.',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>`
+  },
+  {
+    number: 2,
+    title: 'Livraison sur site',
+    description: 'Nous livrons la benne à l\'adresse convenue sous 24-48h. Positionnement précis selon vos besoins, sur terrain privé ou voie publique (avec autorisation).',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+    </svg>`
+  },
+  {
+    number: 3,
+    title: 'Reprise et évacuation',
+    description: 'Une fois vos travaux terminés, nous récupérons la benne et assurons l\'évacuation des déchets vers les centres de tri agréés. Traçabilité garantie.',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>`
+  }
+];
+---
+
+<section class="section-spacing bg-white">
+  <div class="container-custom">
+    <div class="text-center mb-16">
+      <h2 class="text-display-sm md:text-display-md font-display font-bold text-neutral-900 mb-4">
+        Comment ça marche ?
+      </h2>
+      <p class="text-xl text-neutral-600 max-w-2xl mx-auto">
+        3 étapes simples pour louer votre benne en toute sérénité
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
+      <!-- Connecting line (desktop only) -->
+      <div class="hidden md:block absolute top-12 left-0 right-0 h-1 bg-gradient-to-r from-primary-200 via-primary-300 to-primary-200"></div>
+
+      {steps.map((step, index) => (
+        <FadeInWhenVisible client:visible delay={index * 0.2} direction="up" className="relative">
+          <div class="relative z-10">
+            <!-- Number badge -->
+            <div class="flex justify-center mb-6">
+              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-strong">
+                <span class="text-4xl font-bold text-white">{step.number}</span>
+              </div>
+            </div>
+
+            <!-- Icon -->
+            <div class="flex justify-center mb-4">
+              <div class="text-primary-600" set:html={step.icon} />
+            </div>
+
+            <!-- Content -->
+            <h3 class="text-2xl font-bold text-neutral-900 text-center mb-4">
+              {step.title}
+            </h3>
+            <p class="text-neutral-600 text-center leading-relaxed">
+              {step.description}
+            </p>
+          </div>
+        </FadeInWhenVisible>
+      ))}
+    </div>
+
+    <div class="text-center mt-16">
+      <a href="/contact" class="btn-primary text-lg">
+        Commencer maintenant
+      </a>
+    </div>
+  </div>
+</section>

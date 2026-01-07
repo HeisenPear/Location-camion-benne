@@ -1,0 +1,205 @@
+[
+  {
+    "id": "benne-10m3",
+    "name": "Benne 10m³",
+    "slug": "benne-10m3",
+    "volume": "10m³",
+    "description": "Idéale pour les petits chantiers et débarras. Parfaite pour évacuer gravats, déchets verts ou encombrants domestiques.",
+    "price": 280,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-10m3.jpg",
+    "features": [
+      "Capacité 10m³ (environ 5 tonnes)",
+      "Livraison et reprise incluses",
+      "Durée de location : 7 jours",
+      "Déchets autorisés : gravats, terre, déchets verts",
+      "Accessible particuliers et professionnels"
+    ],
+    "useCases": [
+      "Rénovation d'une pièce",
+      "Débarras de garage ou cave",
+      "Petits travaux de jardinage",
+      "Démolition de cloisons"
+    ],
+    "dimensions": {
+      "length": "3,50m",
+      "width": "1,80m",
+      "height": "1,20m"
+    },
+    "weight": "5 tonnes max"
+  },
+  {
+    "id": "benne-15m3",
+    "name": "Benne 15m³",
+    "slug": "benne-15m3",
+    "volume": "15m³",
+    "description": "Le meilleur compromis volume/prix pour vos chantiers moyens. Solution polyvalente pour professionnels et particuliers.",
+    "price": 350,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-15m3.jpg",
+    "features": [
+      "Capacité 15m³ (environ 7 tonnes)",
+      "Livraison et reprise incluses",
+      "Durée de location : 7 jours",
+      "Tous types de déchets non dangereux",
+      "Dépose facile sur chantier"
+    ],
+    "useCases": [
+      "Rénovation complète d'appartement",
+      "Démolition de garage",
+      "Gros débarras",
+      "Chantiers de construction moyenne envergure"
+    ],
+    "dimensions": {
+      "length": "4,20m",
+      "width": "1,90m",
+      "height": "1,40m"
+    },
+    "weight": "7 tonnes max"
+  },
+  {
+    "id": "benne-20m3",
+    "name": "Benne 20m³",
+    "slug": "benne-20m3",
+    "volume": "20m³",
+    "description": "Pour les grands chantiers nécessitant un volume important. Solution professionnelle pour évacuation massive de déchets.",
+    "price": 420,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-20m3.jpg",
+    "features": [
+      "Capacité 20m³ (environ 10 tonnes)",
+      "Livraison et reprise incluses",
+      "Durée de location : 7 jours",
+      "Adaptée aux chantiers de grande envergure",
+      "Gestion complète des déchets"
+    ],
+    "useCases": [
+      "Démolition maison individuelle",
+      "Gros œuvre",
+      "Rénovation complète de maison",
+      "Terrassement important"
+    ],
+    "dimensions": {
+      "length": "5,00m",
+      "width": "2,00m",
+      "height": "1,50m"
+    },
+    "weight": "10 tonnes max"
+  },
+  {
+    "id": "benne-30m3",
+    "name": "Benne 30m³",
+    "slug": "benne-30m3",
+    "volume": "30m³",
+    "description": "La solution XXL pour les très grands chantiers. Capacité maximale pour professionnels du BTP.",
+    "price": 550,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-30m3.jpg",
+    "features": [
+      "Capacité 30m³ (environ 15 tonnes)",
+      "Livraison et reprise incluses",
+      "Durée de location : 7 jours",
+      "Pour chantiers professionnels",
+      "Évacuation de très gros volumes"
+    ],
+    "useCases": [
+      "Démolition bâtiment",
+      "Gros chantiers BTP",
+      "Terrassement massif",
+      "Évacuation industrielle"
+    ],
+    "dimensions": {
+      "length": "6,00m",
+      "width": "2,20m",
+      "height": "1,80m"
+    },
+    "weight": "15 tonnes max"
+  },
+  {
+    "id": "benne-gravats",
+    "name": "Benne Gravats",
+    "slug": "benne-gravats",
+    "volume": "8m³",
+    "description": "Spécialement conçue pour les gravats lourds (béton, briques, tuiles). Résistance renforcée.",
+    "price": 320,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-gravats.jpg",
+    "features": [
+      "Capacité 8m³ renforcée",
+      "Charge utile jusqu'à 12 tonnes",
+      "Spécial matériaux lourds",
+      "Structure ultra-résistante",
+      "Évacuation en centre de tri agréé"
+    ],
+    "useCases": [
+      "Démolition béton",
+      "Évacuation briques et parpaings",
+      "Dépose de tuiles",
+      "Casse de chape"
+    ],
+    "dimensions": {
+      "length": "3,80m",
+      "width": "1,80m",
+      "height": "1,10m"
+    },
+    "weight": "12 tonnes max"
+  },
+  {
+    "id": "benne-tout-venant",
+    "name": "Benne Tout-venant",
+    "slug": "benne-tout-venant",
+    "volume": "15m³",
+    "description": "Polyvalente, accepte tous types de déchets non dangereux. Solution pratique pour chantiers mixtes.",
+    "price": 360,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-tout-venant.jpg",
+    "features": [
+      "Accepte tous déchets non dangereux",
+      "Mélange bois, plâtre, plastiques autorisé",
+      "Capacité 15m³",
+      "Tri réalisé en centre agréé",
+      "Solution économique pour déchets mixtes"
+    ],
+    "useCases": [
+      "Rénovation complète",
+      "Débarras avec déchets variés",
+      "Chantier multi-corps d'état",
+      "Nettoyage après sinistre"
+    ],
+    "dimensions": {
+      "length": "4,20m",
+      "width": "1,90m",
+      "height": "1,40m"
+    },
+    "weight": "8 tonnes max"
+  },
+  {
+    "id": "benne-bois",
+    "name": "Benne Bois",
+    "slug": "benne-bois",
+    "volume": "12m³",
+    "description": "Spécialisée pour évacuation de bois de démolition, palettes, charpentes. Valorisation garantie.",
+    "price": 310,
+    "priceUnit": "TTC / semaine",
+    "image": "/images/benne-bois.jpg",
+    "features": [
+      "Dédiée aux déchets bois",
+      "Capacité 12m³",
+      "Valorisation énergétique",
+      "Bois traité et non traité acceptés",
+      "Traçabilité du recyclage"
+    ],
+    "useCases": [
+      "Démolition charpente",
+      "Évacuation palettes",
+      "Débarras menuiseries",
+      "Coupe d'arbres"
+    ],
+    "dimensions": {
+      "length": "4,00m",
+      "width": "1,80m",
+      "height": "1,30m"
+    },
+    "weight": "6 tonnes max"
+  }
+]

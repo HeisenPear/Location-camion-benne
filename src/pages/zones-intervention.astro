@@ -1,0 +1,164 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+import zones from '@/data/zones.json';
+
+const freeZones = zones.filter(z => z.deliveryFee === 0);
+const paidZones = zones.filter(z => z.deliveryFee > 0);
+---
+
+<BaseLayout
+  title="Zones d'Intervention - Location Benne Tours et Indre-et-Loire"
+  description="RP Location de Benne intervient à Tours et dans toute l'Indre-et-Loire. Livraison gratuite à Tours. Consultez nos zones de livraison et tarifs."
+>
+  <Header />
+
+  <main>
+    <!-- Hero -->
+    <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+      <div class="container-custom text-center">
+        <h1 class="text-display-sm md:text-display-md font-display font-bold mb-6">
+          Nos Zones d'Intervention
+        </h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
+          Nous intervenons à Tours et dans tout le département d'Indre-et-Loire (37).
+        </p>
+      </div>
+    </section>
+
+    <!-- Zones détaillées -->
+    <section class="section-spacing bg-white">
+      <div class="container-custom">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Carte -->
+          <div class="order-2 lg:order-1">
+            <div class="sticky top-24">
+              <div class="aspect-square rounded-xl overflow-hidden shadow-strong">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84546.15384857245!2d0.6332542!3d47.3900474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47fcd4e5ac72c61b%3A0x40dc8d7a8f4b0!2sTours!5e0!3m2!1sfr!2sfr!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style="border:0;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Carte des zones d'intervention RP Location de Benne"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
+          <!-- Liste des zones -->
+          <div class="order-1 lg:order-2">
+            <!-- Livraison gratuite -->
+            <div class="mb-12">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                  <svg class="w-7 h-7 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-bold text-neutral-900">Livraison Gratuite</h2>
+                  <p class="text-neutral-600">Tours et communes limitrophes</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {freeZones.map((zone) => (
+                  <div class="flex items-center space-x-3 bg-green-50 px-4 py-3 rounded-lg border border-green-200">
+                    <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                      <p class="font-semibold text-neutral-900">{zone.name}</p>
+                      <p class="text-sm text-neutral-600">{zone.postalCode}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Livraison payante -->
+            <div>
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
+                  <svg class="w-7 h-7 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-bold text-neutral-900">Autres Communes</h2>
+                  <p class="text-neutral-600">Frais de livraison appliqués</p>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                {paidZones.map((zone) => (
+                  <div class="flex items-center justify-between bg-neutral-50 px-5 py-4 rounded-lg border border-neutral-200 hover:border-primary-300 transition-colors">
+                    <div>
+                      <p class="font-semibold text-neutral-900">{zone.name}</p>
+                      <p class="text-sm text-neutral-600">{zone.postalCode}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-lg font-bold text-primary-600">+{zone.deliveryFee}€</p>
+                      <p class="text-xs text-neutral-500">de livraison</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Informations supplémentaires -->
+    <section class="py-16 bg-neutral-50">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-neutral-900 mb-8 text-center">
+            Informations Pratiques
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-soft">
+              <h3 class="font-bold text-xl text-neutral-900 mb-3">Délais de livraison</h3>
+              <p class="text-neutral-600">
+                Nous nous engageons à livrer votre benne sous <strong>24 à 48 heures</strong> après validation de votre commande, selon nos disponibilités.
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-soft">
+              <h3 class="font-bold text-xl text-neutral-900 mb-3">Votre commune n'est pas listée ?</h3>
+              <p class="text-neutral-600 mb-4">
+                Nous intervenons dans tout le département d'Indre-et-Loire et au-delà selon les demandes. N'hésitez pas à nous contacter pour connaître nos conditions d'intervention dans votre secteur.
+              </p>
+              <a href="/contact" class="inline-flex items-center text-primary-600 font-semibold hover:underline">
+                Nous contacter
+                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+
+            <div class="bg-primary-50 p-6 rounded-xl border-2 border-primary-200">
+              <h3 class="font-bold text-xl text-neutral-900 mb-3">Besoin d'une intervention urgente ?</h3>
+              <p class="text-neutral-600 mb-4">
+                Pour une demande urgente, contactez-nous directement par téléphone. Nous ferons notre maximum pour vous satisfaire dans les meilleurs délais.
+              </p>
+              <a href="tel:+33600000000" class="btn-primary">
+                📞 06 00 00 00 00
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

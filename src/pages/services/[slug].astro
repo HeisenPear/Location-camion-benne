@@ -1,0 +1,248 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Button from '@/components/ui/Button.astro';
+import type { Service } from '@/types';
+
+import servicesData from '@/data/services.json';
+
+export async function getStaticPaths() {
+  return servicesData.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+
+// Schema.org Service
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: service.name,
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'RP Location de Benne',
+    telephone: '+33 6 00 00 00 00',
+    email: 'contact@rp-locationdebenne37.fr'
+  },
+  areaServed: {
+    '@type': 'City',
+    name: 'Tours',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Tours',
+      postalCode: '37000',
+      addressCountry: 'FR'
+    }
+  },
+  offers: {
+    '@type': 'Offer',
+    price: service.price,
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock'
+  }
+};
+
+// Breadcrumbs Schema
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Accueil',
+      item: 'https://rp-locationdebenne37.fr'
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Services',
+      item: 'https://rp-locationdebenne37.fr/services'
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: service.name,
+      item: `https://rp-locationdebenne37.fr/services/${service.slug}`
+    }
+  ]
+};
+
+const combinedSchema = [schema, breadcrumbSchema];
+---
+
+<BaseLayout
+  title={`${service.name} à Tours | Location ${service.volume} | RP Location de Benne`}
+  description={`Location ${service.name} à Tours. ${service.description} ${service.price}€ TTC/semaine. Livraison rapide. Devis gratuit.`}
+  schema={combinedSchema}
+>
+  <Header />
+
+  <main>
+    <!-- Breadcrumbs -->
+    <div class="bg-neutral-50 py-4">
+      <div class="container-custom">
+        <nav class="flex text-sm" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-2">
+            <li class="inline-flex items-center">
+              <a href="/" class="text-neutral-600 hover:text-primary-600">Accueil</a>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 text-neutral-400 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <a href="/services" class="text-neutral-600 hover:text-primary-600">Services</a>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 text-neutral-400 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-neutral-900 font-medium">{service.name}</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Hero Service -->
+    <section class="section-spacing bg-white">
+      <div class="container-custom">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Image -->
+          <div>
+            <img
+              src={service.image}
+              alt={service.name}
+              class="w-full rounded-2xl shadow-strong"
+              width="600"
+              height="400"
+            />
+          </div>
+
+          <!-- Info -->
+          <div>
+            <div class="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4">
+              {service.volume}
+            </div>
+            <h1 class="text-display-sm md:text-display-md font-display font-bold text-neutral-900 mb-6">
+              {service.name}
+            </h1>
+            <p class="text-xl text-neutral-600 mb-8 leading-relaxed">
+              {service.description}
+            </p>
+
+            <div class="flex items-baseline gap-2 mb-8">
+              <span class="text-5xl font-bold text-primary-600">{service.price}€</span>
+              <span class="text-lg text-neutral-600">{service.priceUnit}</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+              <Button variant="primary" size="lg" href="/contact">
+                Demander un devis
+              </Button>
+              <Button variant="outline" size="lg" href="tel:+33600000000">
+                📞 06 00 00 00 00
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Caractéristiques -->
+    <section class="py-16 bg-neutral-50">
+      <div class="container-custom">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Features -->
+          <div>
+            <h2 class="text-3xl font-bold text-neutral-900 mb-6">Caractéristiques</h2>
+            <ul class="space-y-4">
+              {service.features.map((feature) => (
+                <li class="flex items-start space-x-3">
+                  <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-neutral-700">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Dimensions & Use Cases -->
+          <div class="space-y-8">
+            {service.dimensions && (
+              <div>
+                <h3 class="text-2xl font-bold text-neutral-900 mb-4">Dimensions</h3>
+                <div class="bg-white p-6 rounded-xl shadow-soft">
+                  <dl class="space-y-2">
+                    <div class="flex justify-between">
+                      <dt class="text-neutral-600">Longueur</dt>
+                      <dd class="font-semibold text-neutral-900">{service.dimensions.length}</dd>
+                    </div>
+                    <div class="flex justify-between">
+                      <dt class="text-neutral-600">Largeur</dt>
+                      <dd class="font-semibold text-neutral-900">{service.dimensions.width}</dd>
+                    </div>
+                    <div class="flex justify-between">
+                      <dt class="text-neutral-600">Hauteur</dt>
+                      <dd class="font-semibold text-neutral-900">{service.dimensions.height}</dd>
+                    </div>
+                    {service.weight && (
+                      <div class="flex justify-between pt-2 border-t border-neutral-200">
+                        <dt class="text-neutral-600">Poids max</dt>
+                        <dd class="font-semibold text-primary-600">{service.weight}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+              </div>
+            )}
+
+            <div>
+              <h3 class="text-2xl font-bold text-neutral-900 mb-4">Idéal pour</h3>
+              <ul class="space-y-2">
+                {service.useCases.map((useCase) => (
+                  <li class="flex items-center space-x-2">
+                    <span class="w-2 h-2 bg-primary-600 rounded-full"></span>
+                    <span class="text-neutral-700">{useCase}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+      <div class="container-custom text-center">
+        <h2 class="text-display-sm font-bold mb-6">Prêt à louer cette benne ?</h2>
+        <p class="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+          Contactez-nous dès maintenant pour obtenir votre devis gratuit sous 24h.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contact" class="btn-secondary text-lg">
+            Demander un devis gratuit
+          </a>
+          <a href="/services" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-primary-700 rounded-lg transition-all duration-200">
+            Voir tous les services
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
