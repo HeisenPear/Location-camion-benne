@@ -9,33 +9,33 @@ import Button from '@/components/ui/Button.astro';
   </div>
 
   <div class="container-custom relative">
-    <div class="py-20 md:py-28 lg:py-36">
+    <div class="py-12 sm:py-20 md:py-28 lg:py-36">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <!-- Content -->
         <div class="text-center lg:text-left">
           <h1 class="text-display-sm md:text-display-md lg:text-display-lg font-display font-bold mb-6 animate-fade-in">
             Location de Bennes
-            <span class="block text-secondary-400">à Tours (37)</span>
+            <span class="block text-secondary-400">Indre-et-Loire & Région Centre</span>
           </h1>
 
           <p class="text-xl md:text-2xl text-primary-100 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-            Solutions professionnelles pour tous vos chantiers. Livraison rapide, tarifs compétitifs, service de qualité.
+            Solutions professionnelles pour tous vos chantiers dans le 37 et la région Centre. Livraison rapide, tarifs compétitifs, service de qualité.
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
             <Button
               variant="secondary"
               size="lg"
               href="/contact"
-              class="text-lg"
+              class="text-base sm:text-lg w-full sm:w-auto"
             >
               Devis gratuit en 24h
             </Button>
             <a
-              href="tel:+33600000000"
-              class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-primary-700 rounded-lg transition-all duration-200"
+              href="tel:+33631464350"
+              class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-primary-700 rounded-lg transition-all duration-200 w-full sm:w-auto"
             >
-              📞 06 00 00 00 00
+              📞 06 31 46 43 50
             </a>
           </div>
 
@@ -62,16 +62,61 @@ import Button from '@/components/ui/Button.astro';
           </div>
         </div>
 
-        <!-- Hero Image / Illustration -->
-        <div class="relative hidden lg:block">
-          <div class="relative z-10">
-            <img
-              src="/images/hero-benne.jpg"
-              alt="Benne de chantier RP Location"
-              class="rounded-2xl shadow-strong"
-              width="600"
-              height="400"
-            />
+        <!-- Hero Image Slider -->
+        <div class="relative block mt-8 lg:mt-0">
+          <div class="relative z-10 overflow-hidden rounded-2xl shadow-strong">
+            <div class="slider-container relative" id="hero-slider">
+              <div class="slider-track flex transition-transform duration-500 ease-in-out">
+                <img
+                  src="/images/Photo Jan 7 2026.webp"
+                  alt="Benne de chantier Rudy Location 37"
+                  class="slider-image w-full flex-shrink-0 object-cover"
+                  width="600"
+                  height="400"
+                />
+                <img
+                  src="/images/PHOTO-2026-01-07-13-16-34.webp"
+                  alt="Benne de chantier Rudy Location 37"
+                  class="slider-image w-full flex-shrink-0 object-cover"
+                  width="600"
+                  height="400"
+                />
+                <img
+                  src="/images/PHOTO-2026-01-07-13-16-41.webp"
+                  alt="Benne de chantier Rudy Location 37"
+                  class="slider-image w-full flex-shrink-0 object-cover"
+                  width="600"
+                  height="400"
+                />
+                <img
+                  src="/images/PHOTO-2026-01-07-13-16-47.webp"
+                  alt="Benne de chantier Rudy Location 37"
+                  class="slider-image w-full flex-shrink-0 object-cover"
+                  width="600"
+                  height="400"
+                />
+              </div>
+
+              <!-- Navigation Arrows -->
+              <button class="slider-btn slider-btn-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-20">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-neutral-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+              </button>
+              <button class="slider-btn slider-btn-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 sm:p-3 rounded-full shadow-lg transition-all z-20">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-neutral-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+
+              <!-- Dots Indicator -->
+              <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-all" data-index="0"></button>
+                <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-all" data-index="1"></button>
+                <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-all" data-index="2"></button>
+                <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-all" data-index="3"></button>
+              </div>
+            </div>
           </div>
           <!-- Decorative elements -->
           <div class="absolute -bottom-6 -right-6 w-72 h-72 bg-secondary-500 rounded-full opacity-20 blur-3xl"></div>
@@ -88,3 +133,135 @@ import Button from '@/components/ui/Button.astro';
     </svg>
   </div>
 </section>
+
+<script>
+  // Hero Image Slider
+  document.addEventListener('DOMContentLoaded', () => {
+    const slider = document.getElementById('hero-slider');
+    if (!slider) return;
+
+    const track = slider.querySelector('.slider-track');
+    const images = slider.querySelectorAll('.slider-image');
+    const prevBtn = slider.querySelector('.slider-btn-prev');
+    const nextBtn = slider.querySelector('.slider-btn-next');
+    const dots = slider.querySelectorAll('.slider-dot');
+
+    let currentIndex = 0;
+    const totalImages = images.length;
+    let autoPlayInterval;
+
+    // Update slider position
+    function updateSlider() {
+      if (track) {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      // Update dots
+      dots.forEach((dot, index) => {
+        if (index === currentIndex) {
+          dot.classList.add('bg-white', 'w-8');
+          dot.classList.remove('bg-white/50', 'w-2');
+        } else {
+          dot.classList.remove('bg-white', 'w-8');
+          dot.classList.add('bg-white/50', 'w-2');
+        }
+      });
+    }
+
+    // Next slide
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalImages;
+      updateSlider();
+    }
+
+    // Previous slide
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+      updateSlider();
+    }
+
+    // Go to specific slide
+    function goToSlide(index) {
+      currentIndex = index;
+      updateSlider();
+    }
+
+    // Auto play
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function stopAutoPlay() {
+      clearInterval(autoPlayInterval);
+    }
+
+    // Event listeners
+    nextBtn?.addEventListener('click', () => {
+      nextSlide();
+      stopAutoPlay();
+      startAutoPlay();
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      prevSlide();
+      stopAutoPlay();
+      startAutoPlay();
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        stopAutoPlay();
+        startAutoPlay();
+      });
+    });
+
+    // Pause on hover
+    slider.addEventListener('mouseenter', stopAutoPlay);
+    slider.addEventListener('mouseleave', startAutoPlay);
+
+    // Initialize
+    updateSlider();
+    startAutoPlay();
+  });
+</script>
+
+<style>
+  .slider-image {
+    height: 250px;
+  }
+
+  @media (min-width: 768px) {
+    .slider-image {
+      height: 350px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .slider-image {
+      height: 400px;
+    }
+  }
+
+  .slider-dot {
+    transition: all 0.3s ease;
+  }
+
+  .slider-btn {
+    opacity: 0.9;
+  }
+
+  .slider-btn:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 640px) {
+    .slider-btn {
+      padding: 0.5rem;
+    }
+    .slider-btn svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+</style>

@@ -147,7 +147,7 @@ ${formData.message}
           onChange={handleChange}
           error={errors.phone}
           required
-          placeholder="06 00 00 00 00"
+          placeholder="06 31 46 43 50"
         />
 
         <div className="w-full">

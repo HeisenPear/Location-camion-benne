@@ -2,15 +2,14 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
-import PriceCalculator from '@/components/forms/PriceCalculator';
+import ContactForm from '@/components/forms/ContactForm';
 
 import services from '@/data/services.json';
-import zones from '@/data/zones.json';
 ---
 
 <BaseLayout
-  title="Tarifs Location de Benne à Tours | Prix et Devis Gratuit"
-  description="Découvrez nos tarifs de location de bennes à Tours. De 280€ à 550€ TTC/semaine selon le volume. Livraison incluse. Calculateur de devis en ligne."
+  title="Devis Gratuit - Location de Benne à Tours | Rudy Location 37"
+  description="Demandez votre devis gratuit et personnalisé pour la location de benne à Tours et en Indre-et-Loire. Tarif sur mesure adapté à votre projet."
 >
   <Header />
 
@@ -19,115 +18,193 @@ import zones from '@/data/zones.json';
     <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
       <div class="container-custom text-center">
         <h1 class="text-display-sm md:text-display-md font-display font-bold mb-6">
-          Nos Tarifs
+          Devis Gratuit & Personnalisé
         </h1>
         <p class="text-xl text-primary-100 max-w-3xl mx-auto">
-          Tarifs transparents et compétitifs. Livraison et reprise incluses.
+          Chaque projet est unique. Nous vous proposons un devis sur mesure adapté à vos besoins spécifiques.
         </p>
       </div>
     </section>
 
-    <!-- Calculateur -->
-    <section class="py-16 bg-neutral-50">
-      <div class="container-custom">
-        <div class="max-w-2xl mx-auto">
-          <PriceCalculator client:load services={services} zones={zones} />
-        </div>
-      </div>
-    </section>
-
-    <!-- Grille tarifaire -->
+    <!-- Pourquoi un devis personnalisé -->
     <section class="section-spacing bg-white">
       <div class="container-custom">
-        <h2 class="text-3xl font-bold text-neutral-900 mb-12 text-center">
-          Grille Tarifaire Complète
-        </h2>
-
-        <div class="overflow-x-auto">
-          <table class="w-full bg-white rounded-xl shadow-soft overflow-hidden">
-            <thead class="bg-primary-600 text-white">
-              <tr>
-                <th class="px-6 py-4 text-left font-semibold">Service</th>
-                <th class="px-6 py-4 text-left font-semibold">Volume</th>
-                <th class="px-6 py-4 text-left font-semibold">Capacité</th>
-                <th class="px-6 py-4 text-right font-semibold">Prix TTC/semaine</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-neutral-200">
-              {services.map((service, index) => (
-                <tr class={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
-                  <td class="px-6 py-4 font-medium text-neutral-900">{service.name}</td>
-                  <td class="px-6 py-4 text-neutral-700">{service.volume}</td>
-                  <td class="px-6 py-4 text-neutral-700">{service.weight}</td>
-                  <td class="px-6 py-4 text-right font-bold text-primary-600">{service.price}€</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-primary-50 p-6 rounded-xl">
-            <h3 class="font-bold text-lg text-neutral-900 mb-2">Durée incluse</h3>
-            <p class="text-neutral-600">7 jours de location compris dans le tarif</p>
-          </div>
-
-          <div class="bg-primary-50 p-6 rounded-xl">
-            <h3 class="font-bold text-lg text-neutral-900 mb-2">Prolongation</h3>
-            <p class="text-neutral-600">40€ par jour supplémentaire au-delà de 7 jours</p>
-          </div>
-
-          <div class="bg-primary-50 p-6 rounded-xl">
-            <h3 class="font-bold text-lg text-neutral-900 mb-2">Livraison</h3>
-            <p class="text-neutral-600">Gratuite à Tours, variable selon la zone</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Frais supplémentaires -->
-    <section class="py-16 bg-neutral-50">
-      <div class="container-custom">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-neutral-900 mb-8 text-center">
-            Informations Complémentaires
+            Pourquoi un devis personnalisé ?
           </h2>
 
-          <div class="space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow-soft">
-              <h3 class="font-bold text-xl text-neutral-900 mb-3">Dépassement de poids</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="bg-primary-50 p-6 rounded-xl">
+              <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-neutral-900 mb-2">Type de déchets</h3>
               <p class="text-neutral-600">
-                Si le poids de vos déchets dépasse la capacité de la benne, un supplément de <strong>40€ par tonne supplémentaire</strong> sera appliqué (pesée au retour).
+                Le coût varie selon la nature des déchets : gravats, bois, tout-venant... Chaque matériau a ses propres contraintes de traitement.
               </p>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow-soft">
-              <h3 class="font-bold text-xl text-neutral-900 mb-3">Frais de livraison</h3>
+            <div class="bg-primary-50 p-6 rounded-xl">
+              <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-neutral-900 mb-2">Zone géographique</h3>
               <p class="text-neutral-600">
-                Livraison <strong>gratuite à Tours</strong> et communes limitrophes. Pour les autres zones du département, consultez notre <a href="/zones-intervention" class="text-primary-600 hover:underline">carte des zones d'intervention</a>.
+                La distance et l'accessibilité de votre chantier influencent le coût de livraison et de reprise.
               </p>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow-soft">
-              <h3 class="font-bold text-xl text-neutral-900 mb-3">Autorisation voie publique</h3>
+            <div class="bg-primary-50 p-6 rounded-xl">
+              <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-neutral-900 mb-2">Durée de location</h3>
               <p class="text-neutral-600">
-                Si la benne doit être posée sur la voie publique, une autorisation de la mairie est nécessaire (non incluse dans nos tarifs). Nous pouvons vous accompagner dans les démarches.
+                Besoin de la benne pour quelques jours ou plusieurs semaines ? Nous adaptons nos tarifs à la durée de votre projet.
               </p>
+            </div>
+
+            <div class="bg-primary-50 p-6 rounded-xl">
+              <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-lg text-neutral-900 mb-2">Services additionnels</h3>
+              <p class="text-neutral-600">
+                Besoin d'une évacuation urgente ? D'un dépôt sur voie publique ? Nous intégrons vos besoins spécifiques dans votre devis.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-secondary-50 border-2 border-secondary-200 p-6 rounded-xl">
+            <div class="flex items-start">
+              <svg class="w-8 h-8 text-secondary-600 mr-4 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <h3 class="font-bold text-xl text-neutral-900 mb-2">Notre engagement transparence</h3>
+                <p class="text-neutral-600">
+                  Nous établissons systématiquement un devis détaillé avant intervention. Vous connaissez le prix exact avant de vous engager. Aucun frais caché, aucune surprise.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+    <!-- Nos bennes -->
+    <section class="py-16 bg-neutral-50">
+      <div class="container-custom">
+        <h2 class="text-3xl font-bold text-neutral-900 mb-8 text-center">
+          Nos Solutions
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service) => (
+            <div class="bg-white p-6 rounded-xl shadow-soft hover:shadow-medium transition-all">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-neutral-900">{service.name}</h3>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-primary-100 text-primary-700">
+                  {service.volume}
+                </span>
+              </div>
+              <p class="text-neutral-600 mb-4 text-sm">{service.description}</p>
+              <div class="pt-4 border-t border-neutral-200">
+                <p class="text-sm text-neutral-500 mb-3">
+                  <strong>Idéal pour :</strong> {service.idealFor}
+                </p>
+                <a href={`/services/${service.slug}`} class="text-primary-600 hover:text-primary-700 font-semibold text-sm inline-flex items-center">
+                  En savoir plus
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulaire de contact -->
+    <section class="section-spacing bg-white">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-neutral-900 mb-4">
+              Demandez votre devis gratuit
+            </h2>
+            <p class="text-xl text-neutral-600">
+              Réponse sous 24h - Aucun engagement
+            </p>
+          </div>
+
+          <div class="bg-neutral-50 p-8 rounded-2xl shadow-soft">
+            <ContactForm client:load />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Avantages -->
+    <section class="py-16 bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+      <div class="container-custom">
+        <h2 class="text-3xl font-bold mb-12 text-center">Nos avantages</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-2">Réponse rapide</h3>
+            <p class="text-primary-100">Devis établi sous 24h pour vous permettre de planifier rapidement votre chantier.</p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-2">Livraison incluse</h3>
+            <p class="text-primary-100">Livraison et reprise de la benne comprises dans votre devis.</p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-2">Accompagnement</h3>
+            <p class="text-primary-100">Conseils personnalisés pour choisir la benne adaptée à votre projet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact direct -->
+    <section class="py-16 bg-neutral-50">
       <div class="container-custom text-center">
-        <h2 class="text-display-sm font-bold mb-6">Besoin d'un devis personnalisé ?</h2>
-        <p class="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-          Contactez-nous pour obtenir un devis adapté à votre projet spécifique.
+        <h2 class="text-3xl font-bold text-neutral-900 mb-4">
+          Besoin d'un devis urgent ?
+        </h2>
+        <p class="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
+          Contactez-nous directement par téléphone pour un devis immédiat
         </p>
-        <a href="/contact" class="btn-secondary text-lg">
-          Demander un devis gratuit
+        <a href="tel:+33631464350" class="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-all duration-200 hover:shadow-strong hover:-translate-y-0.5">
+          📞 06 31 46 43 50
         </a>
       </div>
     </section>

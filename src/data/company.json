@@ -1,13 +1,13 @@
 {
-  "name": "RP Location de Benne",
-  "legalName": "RP Location de Benne SARL",
+  "name": "Rudy Location 37",
+  "legalName": "Rudy Location 37 SARL",
   "address": {
     "street": "12 Avenue de la République",
     "postalCode": "37000",
     "city": "Tours",
     "country": "France"
   },
-  "phone": "+33 6 00 00 00 00",
+  "phone": "+33 6 31 46 43 50",
   "email": "contact@rp-locationdebenne37.fr",
   "siret": "123 456 789 00012",
   "tva": "FR12 123456789",
@@ -20,7 +20,7 @@
     "facebook": "https://facebook.com/rplocationdebenne37",
     "linkedin": "https://linkedin.com/company/rp-location-benne"
   },
-  "description": "Spécialiste de la location de bennes à Tours et dans tout le département d'Indre-et-Loire (37). Nous proposons des solutions adaptées aux professionnels du BTP et aux particuliers pour tous types de chantiers.",
+  "description": "Spécialiste de la location de bennes dans le département d'Indre-et-Loire (37) et la région Centre. Nous proposons des solutions adaptées aux professionnels du BTP et aux particuliers pour tous types de chantiers.",
   "keywords": [
     "location benne Tours",
     "location benne 37",

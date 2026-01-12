@@ -25,10 +25,11 @@ const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   serviceType: service.name,
+  description: service.description,
   provider: {
     '@type': 'LocalBusiness',
-    name: 'RP Location de Benne',
-    telephone: '+33 6 00 00 00 00',
+    name: 'Rudy Location 37',
+    telephone: '+33 6 31 46 43 50',
     email: 'contact@rp-locationdebenne37.fr'
   },
   areaServed: {
@@ -43,7 +44,6 @@ const schema = {
   },
   offers: {
     '@type': 'Offer',
-    price: service.price,
     priceCurrency: 'EUR',
     availability: 'https://schema.org/InStock'
   }
@@ -79,8 +79,8 @@ const combinedSchema = [schema, breadcrumbSchema];
 ---
 
 <BaseLayout
-  title={`${service.name} à Tours | Location ${service.volume} | RP Location de Benne`}
-  description={`Location ${service.name} à Tours. ${service.description} ${service.price}€ TTC/semaine. Livraison rapide. Devis gratuit.`}
+  title={`${service.name} | Location de Benne Tours | Rudy Location 37`}
+  description={`${service.description} Devis gratuit et personnalisé pour vos besoins en ${service.name.toLowerCase()}. Intervention rapide en Indre-et-Loire.`}
   schema={combinedSchema}
 >
   <Header />
@@ -118,108 +118,107 @@ const combinedSchema = [schema, breadcrumbSchema];
     <!-- Hero Service -->
     <section class="section-spacing bg-white">
       <div class="container-custom">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <!-- Image -->
-          <div>
-            <img
-              src={service.image}
-              alt={service.name}
-              class="w-full rounded-2xl shadow-strong"
-              width="600"
-              height="400"
-            />
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="text-8xl mb-6">{service.icon}</div>
+
+          <h1 class="text-display-sm md:text-display-md font-display font-bold text-neutral-900 mb-6">
+            {service.name}
+          </h1>
+
+          <p class="text-xl text-neutral-600 mb-6 leading-relaxed">
+            {service.description}
+          </p>
+
+          <p class="text-lg text-neutral-600 mb-8 leading-relaxed">
+            {service.detailedDescription}
+          </p>
+
+          <div class="bg-primary-50 border-l-4 border-primary-600 p-6 mb-8 text-left inline-block">
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-primary-600 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm text-neutral-600 font-semibold">Idéal pour :</span>
+                <span class="text-sm text-neutral-900 ml-2">{service.idealFor}</span>
+              </div>
+            </div>
           </div>
 
-          <!-- Info -->
-          <div>
-            <div class="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4">
-              {service.volume}
-            </div>
-            <h1 class="text-display-sm md:text-display-md font-display font-bold text-neutral-900 mb-6">
-              {service.name}
-            </h1>
-            <p class="text-xl text-neutral-600 mb-8 leading-relaxed">
-              {service.description}
-            </p>
-
-            <div class="flex items-baseline gap-2 mb-8">
-              <span class="text-5xl font-bold text-primary-600">{service.price}€</span>
-              <span class="text-lg text-neutral-600">{service.priceUnit}</span>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-4">
-              <Button variant="primary" size="lg" href="/contact">
-                Demander un devis
-              </Button>
-              <Button variant="outline" size="lg" href="tel:+33600000000">
-                📞 06 00 00 00 00
-              </Button>
-            </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button variant="primary" size="lg" href="/contact">
+              Demander un devis gratuit
+            </Button>
+            <Button variant="outline" size="lg" href="tel:+33631464350">
+              📞 06 31 46 43 50
+            </Button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Caractéristiques -->
+    <!-- Détails du service -->
     <section class="py-16 bg-neutral-50">
       <div class="container-custom">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <!-- Features -->
-          <div>
-            <h2 class="text-3xl font-bold text-neutral-900 mb-6">Caractéristiques</h2>
-            <ul class="space-y-4">
-              {service.features.map((feature) => (
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          <!-- Cas d'usage -->
+          <div class="bg-white p-8 rounded-2xl shadow-soft">
+            <h2 class="text-2xl font-bold text-neutral-900 mb-6 flex items-center">
+              <svg class="w-7 h-7 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+              Dans quelles situations ?
+            </h2>
+            <ul class="space-y-3">
+              {service.useCases.map((useCase) => (
                 <li class="flex items-start space-x-3">
-                  <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                   </svg>
-                  <span class="text-neutral-700">{feature}</span>
+                  <span class="text-neutral-700">{useCase}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <!-- Dimensions & Use Cases -->
-          <div class="space-y-8">
-            {service.dimensions && (
-              <div>
-                <h3 class="text-2xl font-bold text-neutral-900 mb-4">Dimensions</h3>
-                <div class="bg-white p-6 rounded-xl shadow-soft">
-                  <dl class="space-y-2">
-                    <div class="flex justify-between">
-                      <dt class="text-neutral-600">Longueur</dt>
-                      <dd class="font-semibold text-neutral-900">{service.dimensions.length}</dd>
-                    </div>
-                    <div class="flex justify-between">
-                      <dt class="text-neutral-600">Largeur</dt>
-                      <dd class="font-semibold text-neutral-900">{service.dimensions.width}</dd>
-                    </div>
-                    <div class="flex justify-between">
-                      <dt class="text-neutral-600">Hauteur</dt>
-                      <dd class="font-semibold text-neutral-900">{service.dimensions.height}</dd>
-                    </div>
-                    {service.weight && (
-                      <div class="flex justify-between pt-2 border-t border-neutral-200">
-                        <dt class="text-neutral-600">Poids max</dt>
-                        <dd class="font-semibold text-primary-600">{service.weight}</dd>
-                      </div>
-                    )}
-                  </dl>
-                </div>
-              </div>
-            )}
+          <!-- Types de déchets -->
+          <div class="bg-white p-8 rounded-2xl shadow-soft">
+            <h2 class="text-2xl font-bold text-neutral-900 mb-6 flex items-center">
+              <svg class="w-7 h-7 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              Déchets acceptés
+            </h2>
+            <ul class="space-y-3">
+              {service.wasteTypes.map((wasteType) => (
+                <li class="flex items-start space-x-3">
+                  <span class="w-2 h-2 bg-primary-600 rounded-full mt-2 flex-shrink-0"></span>
+                  <span class="text-neutral-700">{wasteType}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div>
-              <h3 class="text-2xl font-bold text-neutral-900 mb-4">Idéal pour</h3>
-              <ul class="space-y-2">
-                {service.useCases.map((useCase) => (
-                  <li class="flex items-center space-x-2">
-                    <span class="w-2 h-2 bg-primary-600 rounded-full"></span>
-                    <span class="text-neutral-700">{useCase}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <!-- Avantages -->
+    <section class="section-spacing bg-white">
+      <div class="container-custom">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-neutral-900 mb-8 text-center">
+            Nos avantages pour ce service
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {service.benefits.map((benefit) => (
+              <div class="bg-primary-50 p-6 rounded-xl flex items-start">
+                <svg class="w-6 h-6 text-primary-600 mr-4 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-neutral-700">{benefit}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -228,9 +227,9 @@ const combinedSchema = [schema, breadcrumbSchema];
     <!-- CTA Section -->
     <section class="section-spacing bg-gradient-to-br from-primary-600 to-primary-800 text-white">
       <div class="container-custom text-center">
-        <h2 class="text-display-sm font-bold mb-6">Prêt à louer cette benne ?</h2>
+        <h2 class="text-display-sm font-bold mb-6">Prêt à démarrer votre projet ?</h2>
         <p class="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-          Contactez-nous dès maintenant pour obtenir votre devis gratuit sous 24h.
+          Contactez-nous dès maintenant pour obtenir un devis gratuit et personnalisé adapté à vos besoins.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="/contact" class="btn-secondary text-lg">

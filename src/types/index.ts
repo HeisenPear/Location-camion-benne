@@ -2,19 +2,14 @@ export interface Service {
   id: string;
   name: string;
   slug: string;
-  volume: string;
+  icon: string;
   description: string;
-  price: number;
-  priceUnit: string;
+  detailedDescription: string;
   image: string;
-  features: string[];
   useCases: string[];
-  dimensions?: {
-    length: string;
-    width: string;
-    height: string;
-  };
-  weight?: string;
+  wasteTypes: string[];
+  idealFor: string;
+  benefits: string[];
 }
 
 export interface Testimonial {
