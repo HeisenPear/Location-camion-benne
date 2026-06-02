@@ -4,7 +4,7 @@ import { PROFILES } from "./core/profiles";
 import { decodeBytes } from "./core/parse";
 import { type Field, type PipelineResult } from "./core/types";
 import { statutOf } from "./core/statut";
-import { STATUT_FILL } from "./excel/styles";
+import { STATUT_COLOR } from "./excel/styles";
 // ExcelJS est volumineux : on le charge a la demande (voir generate()).
 
 // --- Acces aux elements ----------------------------------------------------
@@ -228,7 +228,7 @@ function renderPreview(result: PipelineResult): void {
     const tr = document.createElement("tr");
     const st = statutOf(t);
     const cells: [string, string?][] = [
-      [`${st.emoji} ${st.label}`, argbToCss(STATUT_FILL[st.key])],
+      [st.label, argbToCss(STATUT_COLOR[st.key])],
       [fmtDate(t.date, t.dateRaw)],
       [t.name],
       [t.type],
@@ -240,7 +240,12 @@ function renderPreview(result: PipelineResult): void {
     cells.forEach(([text, extra], i) => {
       const td = document.createElement("td");
       td.textContent = text;
-      if (i === 0 && extra) td.style.background = extra;
+      if (i === 0 && extra) {
+        td.style.background = extra;
+        td.style.color = "#fff";
+        td.style.fontWeight = "600";
+        td.style.textAlign = "center";
+      }
       if (extra === "num") td.className = "num";
       if (i === 7 && text) td.className = "lettrage";
       tr.appendChild(td);
