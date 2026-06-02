@@ -28,6 +28,12 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   AUTRE: "Autre",
 };
 
+/**
+ * Statut de presentation (avec pastille) utilise dans les feuilles Excel,
+ * inspire de la structure de lettrage cible.
+ */
+export type Statut = "PAIEMENT" | "REMBOURSEMENT" | "RETRAIT" | "EN_ATTENTE" | "AUTRE";
+
 /** Une ligne brute du CSV : entete -> valeur texte. */
 export type RawRow = Record<string, string>;
 
@@ -39,15 +45,22 @@ export interface Transaction {
   time: string;
   type: string; // libelle d'origine
   category: Category;
-  name: string; // contrepartie / description
+  name: string; // contrepartie / client
+  email: string; // adresse email de la contrepartie
   currency: string;
   gross: number; // montant brut
-  fee: number; // frais (negatif en general)
+  fee: number; // commission (negatif en general)
   net: number; // montant net
   balance: number | null; // solde apres operation
+  article: string; // titre de l'objet / libelle article
+  invoiceNumber: string; // numero de facture
+  impact: string; // sens : Credit / Debit / Memo
+  source: string; // source de paiement (PayPal, Pay Later...)
+  country: string; // pays de l'acheteur
   transactionId: string;
   referenceId: string; // numero de transaction associee
-  status: string;
+  status: string; // etat (Termine, En attente, Supprime...)
+  pending: boolean; // operation en attente
   lettrage: string; // code de lettrage (rempli par le moteur)
   group: number; // identifiant interne du groupe lettre (0 = non lettre)
 }
@@ -58,6 +71,7 @@ export type Field =
   | "time"
   | "type"
   | "name"
+  | "email"
   | "currency"
   | "gross"
   | "fee"
@@ -65,24 +79,17 @@ export type Field =
   | "balance"
   | "debit"
   | "credit"
+  | "article"
+  | "invoiceNumber"
+  | "impact"
+  | "source"
+  | "country"
   | "transactionId"
   | "referenceId"
   | "status";
 
 /** Resultat du mapping : pour chaque champ, l'entete reellement trouvee. */
 export type ResolvedMapping = Partial<Record<Field, string>>;
-
-/** Ligne de la feuille "Rapprochement banque". */
-export interface BankRow {
-  date: Date | null;
-  dateRaw: string;
-  label: string;
-  category: Category;
-  amount: number;
-  currency: string;
-  balance: number | null;
-  transactionId: string;
-}
 
 /** Ligne de la feuille "Synthese mensuelle". */
 export interface MonthlyRow {
@@ -99,6 +106,21 @@ export interface MonthlyRow {
   caHt: number;
 }
 
+/** Indicateurs du tableau de bord (sur la periode de l'export). */
+export interface DashboardStats {
+  nbPaiements: number;
+  caBrut: number;
+  commissions: number;
+  netEncaisse: number;
+  nbRemboursements: number;
+  totalRemboursements: number;
+  nbRetraits: number;
+  totalRetraits: number;
+  nbAttente: number;
+  totalAttente: number;
+  nbAutres: number;
+}
+
 export interface PipelineStats {
   rowCount: number;
   txCount: number;
@@ -113,8 +135,8 @@ export interface PipelineResult {
   transactions: Transaction[];
   mapping: ResolvedMapping;
   missingFields: Field[]; // champs essentiels introuvables
-  bankRows: BankRow[];
   monthly: MonthlyRow[];
+  dashboard: DashboardStats;
   stats: PipelineStats;
   profileId: string;
   profileLabel: string;

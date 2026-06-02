@@ -91,6 +91,8 @@ export function normalizeRows(
     const balance = mapping.balance ? parseAmount(get(row, "balance"), decimal) : null;
     const type = get(row, "type");
     const dateRaw = get(row, "date");
+    const status = get(row, "status");
+    const pending = /attente|pending|unclaimed|non reclame|on hold/.test(norm(status));
 
     return {
       index: i + 1,
@@ -100,14 +102,21 @@ export function normalizeRows(
       type,
       category: profile.categorize(type, gross, net),
       name: get(row, "name"),
+      email: get(row, "email"),
       currency: get(row, "currency").toUpperCase(),
       gross,
       fee,
       net,
       balance,
+      article: get(row, "article"),
+      invoiceNumber: get(row, "invoiceNumber"),
+      impact: get(row, "impact"),
+      source: get(row, "source"),
+      country: get(row, "country"),
       transactionId: get(row, "transactionId"),
       referenceId: get(row, "referenceId"),
-      status: get(row, "status"),
+      status,
+      pending,
       lettrage: "",
       group: 0,
     };

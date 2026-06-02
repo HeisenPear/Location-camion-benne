@@ -2,8 +2,9 @@ import "./style.css";
 import { runPipeline } from "./core/pipeline";
 import { PROFILES } from "./core/profiles";
 import { decodeBytes } from "./core/parse";
-import { CATEGORY_LABELS, type Field, type PipelineResult } from "./core/types";
-import { CATEGORY_FILL } from "./excel/styles";
+import { type Field, type PipelineResult } from "./core/types";
+import { statutOf } from "./core/statut";
+import { STATUT_FILL } from "./excel/styles";
 // ExcelJS est volumineux : on le charge a la demande (voir generate()).
 
 // --- Acces aux elements ----------------------------------------------------
@@ -55,17 +56,23 @@ const FIELD_LABELS: Record<Field, string> = {
   date: "Date",
   time: "Heure",
   type: "Type / libellé",
-  name: "Nom / description",
+  name: "Client / nom",
+  email: "Email",
   currency: "Devise",
   gross: "Brut",
-  fee: "Frais",
+  fee: "Commission",
   net: "Net",
   balance: "Solde",
   debit: "Débit",
   credit: "Crédit",
+  article: "Article",
+  invoiceNumber: "N° facture",
+  impact: "Sens",
+  source: "Source",
+  country: "Pays",
   transactionId: "N° transaction",
   referenceId: "Réf. associée",
-  status: "Statut",
+  status: "État",
 };
 
 const argbToCss = (argb: string): string => `#${argb.slice(2)}`;
@@ -161,16 +168,19 @@ function chip(label: string, value: string): HTMLElement {
 function renderStats(result: PipelineResult): void {
   statsEl.innerHTML = "";
   const s = result.stats;
+  const d = result.dashboard;
+  const euro = (n: number) => `${nf.format(n)} €`;
   statsEl.append(
     chip("Plateforme", result.profileLabel),
-    chip("Lignes lues", String(s.rowCount)),
-    chip("Opérations", String(s.txCount)),
-    chip("Groupes lettrés", String(s.groupCount)),
+    chip("Mouvements", String(s.txCount)),
+    chip("🟢 Paiements", String(d.nbPaiements)),
+    chip("CA brut", euro(d.caBrut)),
+    chip("Commissions", euro(d.commissions)),
+    chip("Net encaissé", euro(d.netEncaisse)),
     chip(
       "Période",
       s.periodStart ? `${fmtDate(s.periodStart)} → ${fmtDate(s.periodEnd)}` : "—"
-    ),
-    chip("Devises", s.currencies.join(", ") || "—")
+    )
   );
 }
 
@@ -201,7 +211,7 @@ function renderMapping(result: PipelineResult): void {
 // --- Rendu : apercu ---------------------------------------------------------
 function renderPreview(result: PipelineResult): void {
   previewTable.innerHTML = "";
-  const cols = ["N°", "Date", "Catégorie", "Type", "Nom", "Brut", "Frais", "Net", "Lettrage"];
+  const cols = ["Statut", "Date", "Client", "Type", "Brut", "Commission", "Net", "Lettrage"];
   const thead = document.createElement("thead");
   const htr = document.createElement("tr");
   for (const c of cols) {
@@ -216,12 +226,12 @@ function renderPreview(result: PipelineResult): void {
   const rows = result.transactions.slice(0, 20);
   for (const t of rows) {
     const tr = document.createElement("tr");
+    const st = statutOf(t);
     const cells: [string, string?][] = [
-      [String(t.index)],
+      [`${st.emoji} ${st.label}`, argbToCss(STATUT_FILL[st.key])],
       [fmtDate(t.date, t.dateRaw)],
-      [CATEGORY_LABELS[t.category], argbToCss(CATEGORY_FILL[t.category])],
-      [t.type],
       [t.name],
+      [t.type],
       [nf.format(t.gross), "num"],
       [nf.format(t.fee), "num"],
       [nf.format(t.net), "num"],
@@ -230,9 +240,9 @@ function renderPreview(result: PipelineResult): void {
     cells.forEach(([text, extra], i) => {
       const td = document.createElement("td");
       td.textContent = text;
-      if (i === 2 && extra) td.style.background = extra;
+      if (i === 0 && extra) td.style.background = extra;
       if (extra === "num") td.className = "num";
-      if (i === 8 && text) td.className = "lettrage";
+      if (i === 7 && text) td.className = "lettrage";
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
