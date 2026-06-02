@@ -1,8 +1,27 @@
 import type ExcelJS from "exceljs";
-import type { Category } from "../core/types";
+import type { Category, Statut } from "../core/types";
 
 export const MONEY_FMT = "#,##0.00";
+export const EURO_FMT = '#,##0.00\\ €';
 export const DATE_FMT = "dd/mm/yyyy";
+
+/** Palette par feuille (couleur de bandeau + fond clair assorti). */
+export const THEME = {
+  dashboard: { title: "FF1E3A8A", soft: "FFEAF1FF" },
+  paiements: { title: "FF16A34A", soft: "FFEAF7EE" },
+  remboursements: { title: "FFDC2626", soft: "FFFCEBEB" },
+  autres: { title: "FF2563EB", soft: "FFEAF1FF" },
+  tous: { title: "FF4F46E5", soft: "FFEEF0FF" },
+} as const;
+
+/** Fond clair de la cellule "Statut" selon la pastille. */
+export const STATUT_FILL: Record<Statut, string> = {
+  PAIEMENT: "FFE7F6EC",
+  REMBOURSEMENT: "FFFBE9E9",
+  RETRAIT: "FFE7EFFC",
+  EN_ATTENTE: "FFFDF3D6",
+  AUTRE: "FFF1F3F5",
+};
 
 export const COLORS = {
   header: "FF1E3A8A", // bleu fonce

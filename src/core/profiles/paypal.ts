@@ -15,7 +15,13 @@ export const paypalProfile: Profile = {
     date: ["Date"],
     time: ["Time", "Heure"],
     type: ["Type", "Type de transaction", "Description"],
-    name: ["Name", "Nom", "Nom de l'expediteur", "Objet"],
+    name: ["Name", "Nom", "Nom de l'expediteur"],
+    email: [
+      "De l'adresse email",
+      "From Email Address",
+      "Adresse email de l'expediteur",
+      "Email de l'expediteur",
+    ],
     currency: ["Currency", "Devise"],
     gross: [
       "Gross",
@@ -27,6 +33,16 @@ export const paypalProfile: Profile = {
     fee: ["Fee", "Frais", "Commission", "Frais PayPal"],
     net: ["Net", "Montant net"],
     balance: ["Balance", "Solde"],
+    article: ["Titre de l'objet", "Item Title", "Objet", "Nom de l'objet"],
+    invoiceNumber: ["Numero de facture", "Invoice Number", "Numero de la facture"],
+    impact: ["Impact sur le solde", "Balance Impact"],
+    source: ["Source de paiement", "Payment Source", "Type de carte"],
+    country: [
+      "Code du pays de l'acheteur pour cette transaction",
+      "Pays",
+      "Country",
+      "Code pays",
+    ],
     transactionId: [
       "Transaction ID",
       "Numero de transaction",

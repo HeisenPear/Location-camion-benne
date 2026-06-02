@@ -1,5 +1,5 @@
-import { buildBankRows } from "./bank";
 import { parseCsvText } from "./csv";
+import { buildDashboard } from "./dashboard";
 import { applyLettrage } from "./lettrage";
 import { normalizeRows } from "./normalize";
 import { detectProfile, getProfile, type Profile } from "./profiles";
@@ -43,8 +43,8 @@ export function runPipeline(text: string, options: PipelineOptions = {}): Pipeli
   const lettrage = applyLettrage(transactions);
   const ordered = [...transactions].sort(compareForOutput);
 
-  const bankRows = buildBankRows(ordered);
   const monthly = buildMonthly(ordered, vatRate);
+  const dashboard = buildDashboard(ordered);
 
   const currencies = [...new Set(ordered.map((t) => t.currency).filter(Boolean))].sort();
   const dated = ordered.map((t) => t.date).filter((d): d is Date => d != null);
@@ -55,8 +55,8 @@ export function runPipeline(text: string, options: PipelineOptions = {}): Pipeli
     transactions: ordered,
     mapping,
     missingFields,
-    bankRows,
     monthly,
+    dashboard,
     stats: {
       rowCount: rows.length,
       txCount: ordered.length,

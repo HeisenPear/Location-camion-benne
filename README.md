@@ -13,14 +13,21 @@ puis génère un classeur `.xlsx` directement exploitable.
 
 ## ✨ Ce que fait l'outil
 
-À partir d'un CSV, il produit un classeur Excel avec **4 feuilles** :
+À partir d'un CSV, il produit un classeur Excel avec **6 feuilles** :
 
 | Feuille | Contenu |
 |---|---|
-| **Lettrage** | Toutes les opérations triées par date, catégorisées, avec un **code de lettrage** reliant les lignes liées (paiement ↔ frais ↔ remboursement ↔ litige) repérées par leur référence. Couleurs par groupe et par catégorie, totaux. |
-| **Rapprochement banque** | Les seuls mouvements qui apparaissent sur le compte bancaire (retraits / approvisionnements), avec une colonne **« Pointé banque »** (liste déroulante) pour cocher contre le relevé. |
-| **Synthèse mensuelle** | Récap par mois : ventes, frais, remboursements, net encaissé, CA TTC / **TVA estimée** / CA HT, retraits banque. |
-| **Infos** | Plateforme détectée, période, devises, correspondance des colonnes, légende des catégories. |
+| **📊 Tableau de bord** | Titre + période, **cartes KPI** (nb paiements, CA brut, commissions, net encaissé), comptes (remboursements / retraits / en attente / autres), puis le **détail des paiements reçus**. |
+| **🟢 Paiements** | Les paiements valides encaissés, avec bandeau de totaux. |
+| **🔴 Remboursements** | Les remboursements émis. |
+| **🔵 Autres mouvements** | Retraits, opérations en attente et autres. |
+| **📋 Tous les mouvements** | Toutes les opérations triées par date, avec une colonne **Lettrage** reliant les lignes liées par référence (paiement ↔ remboursement ↔ litige). |
+| **📅 Synthèse mensuelle** | Récap par mois : ventes, frais, remboursements, net, CA TTC / **TVA estimée** / CA HT, retraits. |
+
+Les feuilles de mouvements partagent les mêmes colonnes : `Statut` (🟢/🔴/🔵/🟡) ·
+Date · Heure · Client · Email · Type · État · Brut · Commission · Net · Solde ·
+Article · N° Facture · Sens · Source · Pays · N° Transaction · Lettrage.
+Les montants sont de **vrais nombres** (sommables), pas du texte.
 
 ### Multi-plateformes
 
@@ -64,12 +71,13 @@ npm run demo chemin/source.csv chemin/sortie.xlsx
 ```
 src/
 ├── core/                 # moteur (sans dépendance au navigateur, testable en Node)
-│   ├── types.ts          # types partagés (Transaction, Category…)
+│   ├── types.ts          # types partagés (Transaction, Category, Statut…)
 │   ├── csv.ts            # parsing CSV (PapaParse)
 │   ├── parse.ts          # montants, dates, encodage
 │   ├── normalize.ts      # CSV brut -> opérations normalisées
+│   ├── statut.ts         # pastille de statut (🟢/🔴/🔵/🟡)
 │   ├── lettrage.ts       # rapprochement par référence (union-find) + codes
-│   ├── bank.ts           # rapprochement bancaire
+│   ├── dashboard.ts      # indicateurs du tableau de bord
 │   ├── summary.ts        # synthèse mensuelle
 │   ├── pipeline.ts       # orchestration complète
 │   └── profiles/         # profils par plateforme
@@ -78,8 +86,8 @@ src/
 │       ├── generic.ts
 │       └── index.ts      # registre + détection automatique
 ├── excel/                # génération du classeur (ExcelJS)
-│   ├── styles.ts
-│   ├── workbook.ts       # construit les 4 feuilles
+│   ├── styles.ts         # couleurs, formats, thèmes
+│   ├── workbook.ts       # construit les 6 feuilles
 │   └── download.ts       # téléchargement navigateur
 ├── main.ts               # interface (drag & drop, aperçu, options)
 └── style.css
