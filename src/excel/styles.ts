@@ -14,13 +14,22 @@ export const THEME = {
   tous: { title: "FF4F46E5", soft: "FFEEF0FF" },
 } as const;
 
-/** Fond clair de la cellule "Statut" selon la pastille. */
+/** Teinte claire appliquee a toute la ligne selon le statut. */
 export const STATUT_FILL: Record<Statut, string> = {
   PAIEMENT: "FFE7F6EC",
   REMBOURSEMENT: "FFFBE9E9",
   RETRAIT: "FFE7EFFC",
   EN_ATTENTE: "FFFDF3D6",
   AUTRE: "FFF1F3F5",
+};
+
+/** Couleur pleine de la pastille (cellule "Statut"). */
+export const STATUT_COLOR: Record<Statut, string> = {
+  PAIEMENT: "FF16A34A",
+  REMBOURSEMENT: "FFDC2626",
+  RETRAIT: "FF2563EB",
+  EN_ATTENTE: "FFD97706",
+  AUTRE: "FF64748B",
 };
 
 export const COLORS = {

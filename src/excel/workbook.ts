@@ -6,6 +6,7 @@ import {
   DATE_FMT,
   EURO_FMT,
   MONEY_FMT,
+  STATUT_COLOR,
   STATUT_FILL,
   THEME,
   setFill,
@@ -95,6 +96,7 @@ function buildTxSheet(
 ): void {
   const theme = THEME[themeKey];
   const ws = wb.addWorksheet(name, { views: [{ state: "frozen", ySplit: 4 }] });
+  ws.properties.tabColor = { argb: theme.title };
 
   TX_COLS.forEach((c, i) => (ws.getColumn(i + 1).width = c.w));
   for (const c of MONEY_COLS) {
@@ -124,7 +126,7 @@ function buildTxSheet(
   for (const tx of txs) {
     const st = statutOf(tx);
     const values: ExcelJS.CellValue[] = [
-      `${st.emoji} ${st.label}`,
+      st.label,
       tx.date ?? tx.dateRaw,
       tx.time,
       tx.name,
@@ -144,9 +146,13 @@ function buildTxSheet(
       tx.lettrage,
     ];
     values.forEach((v, i) => (ws.getCell(r, i + 1).value = v));
+    // Toute la ligne est teintee selon le statut (les "lignes de couleurs").
+    for (let c = 1; c <= TX_N; c++) setFill(ws.getCell(r, c), STATUT_FILL[st.key]);
+    // Pastille fiable : cellule "Statut" en couleur pleine + texte blanc.
     const statutCell = ws.getCell(r, 1);
-    statutCell.font = { bold: true };
-    setFill(statutCell, STATUT_FILL[st.key]);
+    setFill(statutCell, STATUT_COLOR[st.key]);
+    statutCell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+    statutCell.alignment = { horizontal: "center" };
     ws.getCell(r, 2).alignment = { horizontal: "center" };
     ws.getCell(r, 3).alignment = { horizontal: "center" };
     ws.getCell(r, 16).alignment = { horizontal: "center" };
@@ -226,6 +232,7 @@ function card2(
 function buildDashboardSheet(wb: ExcelJS.Workbook, result: PipelineResult): void {
   const d = result.dashboard;
   const ws = wb.addWorksheet("📊 Tableau de bord");
+  ws.properties.tabColor = { argb: THEME.dashboard.title };
   const N = 16;
   for (let c = 1; c <= N; c++) ws.getColumn(c).width = 9.5;
 
@@ -252,20 +259,20 @@ function buildDashboardSheet(wb: ExcelJS.Workbook, result: PipelineResult): void
   ws.getRow(2).height = 20;
   ws.getRow(3).height = 8;
 
-  card(ws, 1, 4, "🟢 Paiements reçus", d.nbPaiements, THEME.paiements.title, false);
+  card(ws, 1, 4, "Paiements reçus", d.nbPaiements, THEME.paiements.title, false);
   card(ws, 5, 8, "💶 CA brut", d.caBrut, "FF4F46E5", true);
   card(ws, 9, 12, "💸 Commissions", d.commissions, THEME.remboursements.title, true);
   card(ws, 13, 16, "✅ Net encaissé", d.netEncaisse, THEME.dashboard.title, true);
   ws.getRow(7).height = 8;
 
-  card2(ws, 1, 4, `🔴 Remboursements (${d.nbRemboursements})`, d.totalRemboursements, THEME.remboursements.title, true);
-  card2(ws, 5, 8, `🔵 Retraits (${d.nbRetraits})`, d.totalRetraits, THEME.autres.title, true);
-  card2(ws, 9, 12, `🟡 En attente (${d.nbAttente})`, d.totalAttente, "FFD97706", true);
-  card2(ws, 13, 16, `⚪ Autres (${d.nbAutres})`, d.nbAutres, "FF64748B", false);
+  card2(ws, 1, 4, `Remboursements (${d.nbRemboursements})`, d.totalRemboursements, THEME.remboursements.title, true);
+  card2(ws, 5, 8, `Retraits (${d.nbRetraits})`, d.totalRetraits, THEME.autres.title, true);
+  card2(ws, 9, 12, `En attente (${d.nbAttente})`, d.totalAttente, "FFD97706", true);
+  card2(ws, 13, 16, `Autres (${d.nbAutres})`, d.nbAutres, "FF64748B", false);
   ws.getRow(11).height = 10;
 
   // Detail des paiements
-  span(ws, 12, 1, 12, N, "🟢 Détail des paiements reçus", {
+  span(ws, 12, 1, 12, N, "Détail des paiements reçus", {
     font: { bold: true, size: 12, color: { argb: "FFFFFFFF" } },
     align: { vertical: "middle", indent: 1 },
     fill: THEME.paiements.title,
@@ -331,6 +338,7 @@ function buildDashboardSheet(wb: ExcelJS.Workbook, result: PipelineResult): void
 function buildMonthlySheet(wb: ExcelJS.Workbook, result: PipelineResult): void {
   const theme = THEME.tous;
   const ws = wb.addWorksheet("📅 Synthèse mensuelle", { views: [{ state: "frozen", ySplit: 4 }] });
+  ws.properties.tabColor = { argb: theme.title };
   const tvaPct = (result.vatRate * 100).toFixed(result.vatRate * 100 % 1 ? 1 : 0);
   const cols = [
     { h: "Mois", w: 18 },
@@ -431,9 +439,9 @@ export function buildWorkbook(result: PipelineResult): ExcelJS.Workbook {
 
   buildTxSheet(
     wb,
-    "🟢 Paiements",
+    "Paiements",
     "paiements",
-    `🟢 Paiements reçus — ${paiements.length} transaction(s)`,
+    `Paiements reçus — ${paiements.length} transaction(s)`,
     `CA brut : ${euro(result.dashboard.caBrut)}   •   Commissions : ${euro(
       result.dashboard.commissions
     )}   •   Net encaissé : ${euro(result.dashboard.netEncaisse)}`,
@@ -442,18 +450,18 @@ export function buildWorkbook(result: PipelineResult): ExcelJS.Workbook {
 
   buildTxSheet(
     wb,
-    "🔴 Remboursements",
+    "Remboursements",
     "remboursements",
-    `🔴 Remboursements — ${remboursements.length} transaction(s)`,
+    `Remboursements — ${remboursements.length} transaction(s)`,
     `Total remboursé : ${euro(sum(remboursements, (t) => t.net || t.gross))}`,
     remboursements
   );
 
   buildTxSheet(
     wb,
-    "🔵 Autres mouvements",
+    "Autres mouvements",
     "autres",
-    `🔵 Autres mouvements — ${autres.length} transaction(s)`,
+    `Autres mouvements — ${autres.length} transaction(s)`,
     `Retraits : ${euro(result.dashboard.totalRetraits)}   •   En attente : ${euro(
       result.dashboard.totalAttente
     )}`,
