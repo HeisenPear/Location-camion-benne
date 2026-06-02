@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://rp-locationdebenne37.fr/sitemap-index.xml

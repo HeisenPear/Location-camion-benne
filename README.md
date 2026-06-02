@@ -1,202 +1,106 @@
-# RP Location de Benne - Site Web
+# Lettrage Auto
 
-Site vitrine pour RP Location de Benne à Tours (37) - Location de bennes pour professionnels et particuliers.
+Outil web qui transforme un **export CSV** (PayPal, relevé bancaire, etc.) en
+**fichier Excel trié, catégorisé et prêt pour le lettrage comptable**.
 
-## 🚀 Stack Technique
+On glisse un CSV, l'outil lit / trie / catégorise / rapproche les opérations,
+puis génère un classeur `.xlsx` directement exploitable.
 
-- **Framework:** Astro 4.x (SSG)
-- **UI Components:** React 18 (Islands Architecture)
-- **Animations:** Framer Motion
-- **Styling:** Tailwind CSS
-- **TypeScript:** Strict mode
-- **SEO:** Schema.org, Sitemap XML, robots.txt
+> 🔒 **100 % local** : tout le traitement se fait dans le navigateur. Aucune
+> donnée financière n'est envoyée sur un serveur.
 
-## 📦 Installation
+---
 
+## ✨ Ce que fait l'outil
+
+À partir d'un CSV, il produit un classeur Excel avec **4 feuilles** :
+
+| Feuille | Contenu |
+|---|---|
+| **Lettrage** | Toutes les opérations triées par date, catégorisées, avec un **code de lettrage** reliant les lignes liées (paiement ↔ frais ↔ remboursement ↔ litige) repérées par leur référence. Couleurs par groupe et par catégorie, totaux. |
+| **Rapprochement banque** | Les seuls mouvements qui apparaissent sur le compte bancaire (retraits / approvisionnements), avec une colonne **« Pointé banque »** (liste déroulante) pour cocher contre le relevé. |
+| **Synthèse mensuelle** | Récap par mois : ventes, frais, remboursements, net encaissé, CA TTC / **TVA estimée** / CA HT, retraits banque. |
+| **Infos** | Plateforme détectée, période, devises, correspondance des colonnes, légende des catégories. |
+
+### Multi-plateformes
+
+L'outil n'est **pas limité à PayPal**. Il repose sur des **profils** qui
+décrivent comment lire une source donnée (mapping des colonnes, format des
+montants/dates, règles de catégorisation). La plateforme est **détectée
+automatiquement** à partir des en-têtes, et peut être forcée manuellement.
+
+Profils inclus :
+- **PayPal** (exports « Activité » / « Transactions », FR et EN) ;
+- **Banque / générique** (colonnes Date / Libellé / Montant ou Débit / Crédit).
+
+---
+
+## 🚀 Utilisation
+
+### En ligne
+Déployé en site statique (Vercel) : ouvrez l'URL, glissez votre CSV,
+réglez la TVA si besoin, cliquez sur **Générer le fichier Excel**.
+
+### En local
 ```bash
-# Installer les dépendances
 npm install
-
-# Lancer le serveur de développement
-npm run dev
-
-# Build pour la production
-npm run build
-
-# Prévisualiser le build
-npm run preview
+npm run dev      # serveur de dev (http://localhost:5173)
+npm run build    # build de production dans dist/
+npm run preview  # prévisualise le build
 ```
 
-## 🎨 Images Placeholder
-
-Les images suivantes doivent être ajoutées dans le dossier `public/images/` :
-
-### Images requises :
-
-- `hero-benne.jpg` (600x400px min) - Photo d'une benne pour le hero de la homepage
-- `benne-10m3.jpg` (800x600px min) - Benne 10m³
-- `benne-15m3.jpg` (800x600px min) - Benne 15m³
-- `benne-20m3.jpg` (800x600px min) - Benne 20m³
-- `benne-30m3.jpg` (800x600px min) - Benne 30m³
-- `benne-gravats.jpg` (800x600px min) - Benne gravats
-- `benne-tout-venant.jpg` (800x600px min) - Benne tout-venant
-- `benne-bois.jpg` (800x600px min) - Benne bois
-- `og-default.jpg` (1200x630px) - Image Open Graph par défaut
-
-### Format recommandé :
-- Format : WebP (avec fallback JPG)
-- Résolution : 2x pour les écrans Retina
-- Optimisation : Compression avec TinyPNG ou ImageOptim
-
-### Placeholders temporaires :
-Pour tester le site sans images, vous pouvez utiliser des placeholders de https://placehold.co/ ou https://via.placeholder.com/
-
-## 🗺️ Google Maps
-
-Pour activer Google Maps :
-
-1. Obtenir une API key sur [Google Cloud Console](https://console.cloud.google.com/)
-2. Les iframes Google Maps sont déjà configurés dans les pages
-3. Restreindre la clé au domaine en production pour la sécurité
-
-## 📝 Contenu
-
-Tous les contenus actuels sont des **placeholders réalistes**. Remplacer :
-
-- `/src/data/company.json` - Informations réelles de l'entreprise (adresse, téléphone, email, SIRET, TVA)
-- `/src/data/services.json` - Tarifs et descriptions réels des services
-- `/src/data/zones.json` - Zones d'intervention et tarifs de livraison réels
-- `/src/data/testimonials.json` - Vrais témoignages clients
-- `/src/data/faq.json` - Questions fréquentes adaptées
-
-## 🎯 SEO
-
-Le site est optimisé pour le SEO local :
-
-- ✅ Schema.org LocalBusiness sur toutes les pages
-- ✅ Meta tags optimisés (title, description, OG, Twitter Card)
-- ✅ Sitemap XML généré automatiquement
-- ✅ robots.txt configuré
-- ✅ URLs optimisées et parlantes
-- ✅ Breadcrumbs avec Schema.org
-- ✅ Alt text sur images (à personnaliser avec vraies images)
-- ✅ Performance Lighthouse 95+ (objectif)
-
-## 📱 Responsive Design
-
-- Mobile-first approach
-- Breakpoints : 640px, 768px, 1024px, 1280px
-- Navigation mobile avec hamburger menu animé (Framer Motion)
-- Touch-friendly (44px min target size)
-- Sticky header avec effet au scroll
-
-## 🚀 Déploiement
-
-### Netlify / Vercel (Recommandé)
-
+### Démo en ligne de commande
+Génère un `.xlsx` à partir du CSV d'exemple (utile pour tester le moteur) :
 ```bash
-# Build command
-npm run build
-
-# Publish directory
-dist
-
-# Node version
-18.x ou supérieur
+npm run demo
+# ou avec vos propres fichiers :
+npm run demo chemin/source.csv chemin/sortie.xlsx
 ```
 
-### Variables d'environnement (optionnel)
-Créer un fichier `.env` si nécessaire :
-```
-PUBLIC_GOOGLE_MAPS_API_KEY=votre_clé_ici
-```
+---
 
-## 📊 Performance
-
-Objectifs Lighthouse :
-- Performance : 95+
-- Accessibility : 95+
-- Best Practices : 95+
-- SEO : 95+
-
-Optimisations incluses :
-- CSS critical inline
-- Images lazy loading
-- Fonts optimisées (preload, font-display: swap)
-- Code-splitting React components (client:visible, client:load)
-- Compression Astro (CSS, HTML, JS)
-
-## 🧞 Commandes
-
-| Commande | Action |
-|:---------|:-------|
-| `npm install` | Installe les dépendances |
-| `npm run dev` | Lance le serveur de dev sur `localhost:4321` |
-| `npm run build` | Build le site pour la production dans `./dist/` |
-| `npm run preview` | Prévisualise le build localement |
-| `npm run astro check` | Vérification TypeScript |
-
-## 📂 Structure du Projet
+## 🧩 Architecture
 
 ```
-/
-├── public/
-│   ├── images/          # Images à ajouter
-│   ├── favicon.svg
-│   └── robots.txt
-├── src/
-│   ├── components/
-│   │   ├── animations/  # Wrappers Framer Motion
-│   │   ├── forms/       # ContactForm, PriceCalculator
-│   │   ├── layout/      # Header, Footer, Navigation
-│   │   ├── sections/    # Hero, ServicesGrid, FAQ, etc.
-│   │   └── ui/          # Button, Card, Input, Textarea
-│   ├── data/            # Fichiers JSON de contenu
-│   ├── layouts/         # BaseLayout avec SEO
-│   ├── pages/           # Pages du site (Astro)
-│   ├── styles/          # global.css
-│   └── types/           # Types TypeScript
-├── astro.config.mjs
-├── tailwind.config.mjs
-└── tsconfig.json
+src/
+├── core/                 # moteur (sans dépendance au navigateur, testable en Node)
+│   ├── types.ts          # types partagés (Transaction, Category…)
+│   ├── csv.ts            # parsing CSV (PapaParse)
+│   ├── parse.ts          # montants, dates, encodage
+│   ├── normalize.ts      # CSV brut -> opérations normalisées
+│   ├── lettrage.ts       # rapprochement par référence (union-find) + codes
+│   ├── bank.ts           # rapprochement bancaire
+│   ├── summary.ts        # synthèse mensuelle
+│   ├── pipeline.ts       # orchestration complète
+│   └── profiles/         # profils par plateforme
+│       ├── profile.ts    # interface Profile + helpers
+│       ├── paypal.ts
+│       ├── generic.ts
+│       └── index.ts      # registre + détection automatique
+├── excel/                # génération du classeur (ExcelJS)
+│   ├── styles.ts
+│   ├── workbook.ts       # construit les 4 feuilles
+│   └── download.ts       # téléchargement navigateur
+├── main.ts               # interface (drag & drop, aperçu, options)
+└── style.css
 ```
 
-## 🎨 Personnalisation
+### Ajouter une plateforme
+1. Créer `src/core/profiles/ma-plateforme.ts` exportant un objet `Profile`
+   (mapping des colonnes + fonctions `match` et `categorize`).
+2. L'ajouter au tableau `PROFILES` dans `src/core/profiles/index.ts`.
 
-### Couleurs (Tailwind)
-Modifier `tailwind.config.mjs` :
-- `primary` : Bleu principal (#3b82f6)
-- `secondary` : Orange (#f97316)
-- `neutral` : Gris (#6b7280)
+C'est tout : le profil apparaît dans le sélecteur et entre dans la détection
+automatique.
 
-### Fonts
-Modifier `src/styles/global.css` :
-- Sans : Inter Variable
-- Display : Montserrat
+---
 
-## 📞 Support Technique
+## 🛠️ Stack
+- **Vite** + **TypeScript** (site statique, aucun back-end)
+- **PapaParse** — lecture CSV robuste (séparateur auto, guillemets, encodage)
+- **ExcelJS** — génération de `.xlsx` mis en forme (couleurs, filtres, totaux)
 
-- Documentation Astro : https://docs.astro.build
-- Tailwind CSS : https://tailwindcss.com/docs
-- Framer Motion : https://www.framer.com/motion/
-- React : https://react.dev
-
-## ✅ Checklist Avant Mise en Production
-
-- [ ] Remplacer toutes les images placeholder
-- [ ] Mettre à jour company.json avec vraies informations
-- [ ] Mettre à jour les tarifs dans services.json
-- [ ] Mettre à jour les zones dans zones.json
-- [ ] Ajouter vrais témoignages clients
-- [ ] Configurer Google Maps API key
-- [ ] Tester tous les formulaires mailto:
-- [ ] Vérifier robots.txt et sitemap
-- [ ] Test Lighthouse (95+ sur tous scores)
-- [ ] Test responsive sur tous devices
-- [ ] Test navigation et tous les liens
-- [ ] Validation W3C HTML
-- [ ] Test Google Rich Results (Schema.org)
-
-## 📄 License
-
-Propriétaire - RP Location de Benne © 2026
+## ⚠️ Avertissement
+La TVA affichée est une **estimation** (CA encaissé supposé TTC × taux saisi).
+Cet outil prépare le lettrage : **vérifiez toujours les écritures** avant
+intégration dans votre comptabilité.
