@@ -1,0 +1,10 @@
+Date;Heure;Fuseau horaire;Nom;Type;État;Devise;Avant commission;Commission;Net;Solde;Numéro de transaction;Numéro de transaction de référence
+07/01/2026;10:15:32;Europe/Paris;Jean Dupont;Paiement Express Checkout;Validé;EUR;100,00;-3,40;96,60;96,60;TXN1001;
+09/01/2026;14:02:11;Europe/Paris;Marie Martin;Paiement reçu;Validé;EUR;50,00;-1,90;48,10;144,70;TXN1002;
+12/01/2026;09:30:00;Europe/Paris;Jean Dupont;Remboursement;Validé;EUR;-100,00;3,40;-96,60;48,10;TXN1003;TXN1001
+15/01/2026;08:00:00;Europe/Paris;;Virement vers votre banque;Validé;EUR;-48,10;0,00;-48,10;0,00;TXN1004;
+03/02/2026;11:45:20;Europe/Paris;ACME SARL;Paiement de facture;Validé;EUR;200,00;-6,10;193,90;193,90;TXN1005;
+05/02/2026;16:20:00;Europe/Paris;John Doe;Paiement reçu;Validé;USD;30,00;-1,50;28,50;28,50;TXN1009;
+20/02/2026;13:05:00;Europe/Paris;ACME SARL;Litige (chargeback);Validé;EUR;-200,00;0,00;-200,00;-6,10;TXN1006;TXN1005
+21/02/2026;07:10:00;Europe/Paris;;Ajout de fonds depuis une banque;Validé;EUR;250,00;0,00;250,00;243,90;TXN1007;
+28/02/2026;08:30:00;Europe/Paris;;Virement vers votre banque;Validé;EUR;-243,90;0,00;-243,90;0,00;TXN1008;

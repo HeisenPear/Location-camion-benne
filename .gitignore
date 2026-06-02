@@ -1,24 +1,22 @@
-# build output
-dist/
-# generated types
-.astro/
-
-# dependencies
+# Dependances
 node_modules/
 
-# logs
+# Build
+dist/
+*.local
+
+# Sorties generees par le script de demo
+demo-output.xlsx
+*.generated.xlsx
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
+# Editeurs / OS
 .DS_Store
-
-# jetbrains setting folder
+.vscode/*
+!.vscode/extensions.json
 .idea/
+*.swp

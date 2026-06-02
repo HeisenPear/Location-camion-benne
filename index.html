@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lettrage Auto — CSV vers Excel prêt pour le lettrage</title>
+    <meta
+      name="description"
+      content="Transforme un export CSV (PayPal, banque…) en fichier Excel trié, catégorisé et prêt pour le lettrage comptable. Tout se passe dans votre navigateur."
+    />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">⇄</span>
+        <div>
+          <h1>Lettrage Auto</h1>
+          <p>CSV &rarr; Excel prêt pour le lettrage</p>
+        </div>
+      </div>
+      <span class="badge">PayPal &amp; multi-plateformes</span>
+    </header>
+
+    <main>
+      <section id="drop" class="dropzone">
+        <input type="file" id="file" accept=".csv,.txt,text/csv" hidden />
+        <div class="drop-inner">
+          <div class="drop-icon" aria-hidden="true">📄</div>
+          <p class="drop-title">Glissez votre fichier CSV ici</p>
+          <p class="drop-sub">
+            ou <button type="button" id="browse" class="link">parcourir vos fichiers</button>
+          </p>
+          <p class="drop-note">
+            🔒 Aucune donnée n'est envoyée sur Internet : tout le traitement se fait dans votre navigateur.
+          </p>
+        </div>
+      </section>
+
+      <div id="error" class="banner error" hidden></div>
+
+      <section id="config" class="panel" hidden>
+        <div class="config-grid">
+          <label>
+            <span>Fichier</span>
+            <output id="fileName">—</output>
+          </label>
+          <label>
+            <span>Plateforme</span>
+            <select id="profile"></select>
+          </label>
+          <label>
+            <span>Séparateur</span>
+            <select id="delimiter">
+              <option value="">Auto-détection</option>
+              <option value=",">Virgule ( , )</option>
+              <option value=";">Point-virgule ( ; )</option>
+              <option value="	">Tabulation</option>
+              <option value="|">Barre verticale ( | )</option>
+            </select>
+          </label>
+          <label>
+            <span>TVA (%) pour la synthèse</span>
+            <input id="vat" type="number" min="0" max="100" step="0.1" value="20" />
+          </label>
+        </div>
+      </section>
+
+      <section id="results" class="panel" hidden>
+        <div id="stats" class="stats"></div>
+        <details class="mapping-details" open>
+          <summary>Colonnes détectées</summary>
+          <div id="mapping" class="mapping"></div>
+        </details>
+
+        <h3 class="preview-title">Aperçu <span id="previewCount"></span></h3>
+        <div class="table-wrap">
+          <table id="preview"></table>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="generate" class="btn-primary">
+            ⬇ Générer le fichier Excel
+          </button>
+          <span id="status" class="status"></span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>
+        Lettrage Auto — outil local de préparation au lettrage comptable.
+        Vérifiez toujours les écritures avant intégration.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
