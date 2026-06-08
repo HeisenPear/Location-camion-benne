@@ -1,10 +1,10 @@
-Date;Heure;Fuseau horaire;Nom;Type;État;Devise;Avant commission;Commission;Net;Solde;Numéro de transaction;Numéro de transaction de référence
-07/01/2026;10:15:32;Europe/Paris;Jean Dupont;Paiement Express Checkout;Validé;EUR;100,00;-3,40;96,60;96,60;TXN1001;
-09/01/2026;14:02:11;Europe/Paris;Marie Martin;Paiement reçu;Validé;EUR;50,00;-1,90;48,10;144,70;TXN1002;
-12/01/2026;09:30:00;Europe/Paris;Jean Dupont;Remboursement;Validé;EUR;-100,00;3,40;-96,60;48,10;TXN1003;TXN1001
-15/01/2026;08:00:00;Europe/Paris;;Virement vers votre banque;Validé;EUR;-48,10;0,00;-48,10;0,00;TXN1004;
-03/02/2026;11:45:20;Europe/Paris;ACME SARL;Paiement de facture;Validé;EUR;200,00;-6,10;193,90;193,90;TXN1005;
-05/02/2026;16:20:00;Europe/Paris;John Doe;Paiement reçu;Validé;USD;30,00;-1,50;28,50;28,50;TXN1009;
-20/02/2026;13:05:00;Europe/Paris;ACME SARL;Litige (chargeback);Validé;EUR;-200,00;0,00;-200,00;-6,10;TXN1006;TXN1005
-21/02/2026;07:10:00;Europe/Paris;;Ajout de fonds depuis une banque;Validé;EUR;250,00;0,00;250,00;243,90;TXN1007;
-28/02/2026;08:30:00;Europe/Paris;;Virement vers votre banque;Validé;EUR;-243,90;0,00;-243,90;0,00;TXN1008;
+Date;Heure;Nom;Type;État;Avant commission;Commission;Net;Impact sur le solde;Solde;Numéro de facture;Titre de l'objet;Numéro de transaction;Numéro de la transaction de référence;De l'adresse email;Source de paiement;Code du pays de l'acheteur pour cette transaction;Identifiant bancaire
+01/04/2026;10:00:00;Client Alpha;Paiement Express Checkout;Terminé;100,00;-3,40;96,60;Crédit;96,60;1001;Commande 1001;TXNA1;;alpha@example.com;PayPal;FR;
+02/04/2026;11:00:00;Client Beta;Paiement Express Checkout;Terminé;50,00;-1,90;48,10;Crédit;144,70;1002;Commande 1002;TXNB2;;beta@example.com;Pay Later;FR;
+02/04/2026;11:00:05;;Suspension de paiement;Terminé;-48,10;0,00;-48,10;Débit;96,60;1002;Commande 1002;TXNB2S;TXNB2;vendeur@example.com;PayPal;FR;
+05/04/2026;09:00:00;;Déblocage de paiement;Terminé;48,10;0,00;48,10;Crédit;144,70;1002;Commande 1002;TXNB2D;TXNB2;vendeur@example.com;PayPal;FR;
+06/04/2026;14:00:00;Client Alpha;Remboursement de paiement;Terminé;-100,00;0,00;-100,00;Débit;44,70;1001;Commande 1001;TXNA1R;TXNA1;alpha@example.com;PayPal;FR;
+09/04/2026;15:00:00;;Retrait initié par l'utilisateur;Terminé;-44,70;0,00;-44,70;Débit;0,00;;;TXNW1;;vendeur@example.com;PayPal;;2604091234567
+10/04/2026;10:00:00;Client Gamma;Paiement Express Checkout;Terminé;200,00;-6,10;193,90;Crédit;193,90;1003;Commande 1003;TXNG3;;gamma@example.com;PayPal;FR;
+11/04/2026;10:00:00;;Solde suspendu pour enquête sur un litige;Terminé;-50,00;0,00;-50,00;Débit;143,90;1003;Commande 1003;TXNG3L;TXNG3;vendeur@example.com;PayPal;FR;
+12/04/2026;10:00:00;;Annulation de la suspension pour résolution du litige;Terminé;50,00;0,00;50,00;Crédit;193,90;1003;Commande 1003;TXNG3A;TXNG3;vendeur@example.com;PayPal;FR;

@@ -1,485 +1,523 @@
 import ExcelJS from "exceljs";
-import { statutOf } from "../core/statut";
 import type { PipelineResult, Transaction } from "../core/types";
-import {
-  COLORS,
-  DATE_FMT,
-  EURO_FMT,
-  MONEY_FMT,
-  STATUT_COLOR,
-  STATUT_FILL,
-  THEME,
-  setFill,
-  styleHeaderRow,
-} from "./styles";
+import { C, FONT, MONEY_FMT, MONEY_TOTAL, colLetter, fillForType, setFill } from "./styles";
 
-// Colonnes communes aux feuilles de mouvements (inspirees du fichier cible).
-const TX_COLS = [
-  { h: "Statut", w: 14 },
-  { h: "Date", w: 12 },
-  { h: "Heure", w: 9 },
-  { h: "Client", w: 22 },
-  { h: "Email client", w: 28 },
-  { h: "Type transaction", w: 24 },
-  { h: "État", w: 12 },
-  { h: "Montant brut (€)", w: 15 },
-  { h: "Commission (€)", w: 14 },
-  { h: "Net (€)", w: 12 },
-  { h: "Solde (€)", w: 12 },
-  { h: "Article", w: 26 },
-  { h: "N° Facture", w: 14 },
-  { h: "Sens", w: 10 },
-  { h: "Source", w: 12 },
-  { h: "Pays", w: 7 },
-  { h: "N° Transaction", w: 22 },
-  { h: "Lettrage", w: 10 },
-];
-const TX_N = TX_COLS.length;
-const MONEY_COLS = [8, 9, 10, 11];
-
-const THIN = { style: "thin" as const, color: { argb: "FFCBD5E1" } };
-const BOX = { top: THIN, left: THIN, bottom: THIN, right: THIN };
-
-function euro(n: number): string {
-  return `${n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
-}
-function frDate(d: Date | null): string {
-  return d ? d.toLocaleDateString("fr-FR") : "—";
-}
-function sum(txs: Transaction[], pick: (t: Transaction) => number): number {
-  return txs.reduce((a, t) => a + pick(t), 0);
-}
-
-interface SpanOpts {
-  font?: Partial<ExcelJS.Font>;
-  align?: Partial<ExcelJS.Alignment>;
+// ---------------------------------------------------------------------------
+// Helpers de mise en forme (police Arial partout, comme le gabarit)
+// ---------------------------------------------------------------------------
+interface CellOpts {
   fill?: string;
+  bold?: boolean;
+  italic?: boolean;
+  size?: number;
+  color?: string;
+  align?: "left" | "center" | "right";
+  wrap?: boolean;
   numFmt?: string;
-  border?: boolean;
 }
 
-/** Fusionne une plage, y place une valeur et applique un style. */
-function span(
+function put(
   ws: ExcelJS.Worksheet,
-  r1: number,
-  c1: number,
-  r2: number,
-  c2: number,
+  r: number,
+  c: number,
   value: ExcelJS.CellValue,
-  opts: SpanOpts = {}
+  o: CellOpts = {}
 ): ExcelJS.Cell {
-  ws.mergeCells(r1, c1, r2, c2);
-  const cell = ws.getCell(r1, c1);
+  const cell = ws.getCell(r, c);
   cell.value = value;
-  if (opts.numFmt) cell.numFmt = opts.numFmt;
-  if (opts.font) cell.font = opts.font;
-  cell.alignment = opts.align ?? { vertical: "middle" };
-  for (let r = r1; r <= r2; r++) {
-    for (let c = c1; c <= c2; c++) {
-      if (opts.fill) setFill(ws.getCell(r, c), opts.fill);
-      if (opts.border) ws.getCell(r, c).border = BOX;
-    }
-  }
+  cell.font = {
+    name: FONT,
+    size: o.size ?? 9,
+    bold: !!o.bold,
+    italic: !!o.italic,
+    color: { argb: o.color ?? C.ink },
+  };
+  cell.alignment = { vertical: "middle", horizontal: o.align ?? "left", wrapText: !!o.wrap };
+  if (o.fill) setFill(cell, o.fill);
+  if (o.numFmt) cell.numFmt = o.numFmt;
   return cell;
 }
 
-// ---------------------------------------------------------------------------
-// Feuilles de mouvements (Paiements, Remboursements, Autres, Tous)
-// ---------------------------------------------------------------------------
-function buildTxSheet(
-  wb: ExcelJS.Workbook,
-  name: string,
-  themeKey: keyof typeof THEME,
-  title: string,
-  summary: string,
-  txs: Transaction[]
-): void {
-  const theme = THEME[themeKey];
-  const ws = wb.addWorksheet(name, { views: [{ state: "frozen", ySplit: 4 }] });
-  ws.properties.tabColor = { argb: theme.title };
-
-  TX_COLS.forEach((c, i) => (ws.getColumn(i + 1).width = c.w));
-  for (const c of MONEY_COLS) {
-    ws.getColumn(c).numFmt = MONEY_FMT;
-    ws.getColumn(c).alignment = { horizontal: "right" };
-  }
-  ws.getColumn(2).numFmt = DATE_FMT;
-
-  span(ws, 1, 1, 1, TX_N, title, {
-    font: { bold: true, size: 14, color: { argb: "FFFFFFFF" } },
-    align: { vertical: "middle", indent: 1 },
-    fill: theme.title,
-  });
-  ws.getRow(1).height = 26;
-  span(ws, 2, 1, 2, TX_N, summary, {
-    font: { bold: true, size: 11, color: { argb: theme.title } },
-    align: { vertical: "middle", indent: 1 },
-    fill: theme.soft,
-  });
-  ws.getRow(2).height = 20;
-  ws.getRow(3).height = 6;
-
-  TX_COLS.forEach((c, i) => (ws.getCell(4, i + 1).value = c.h));
-  styleHeaderRow(ws.getRow(4));
-
-  let r = 5;
-  for (const tx of txs) {
-    const st = statutOf(tx);
-    const values: ExcelJS.CellValue[] = [
-      st.label,
-      tx.date ?? tx.dateRaw,
-      tx.time,
-      tx.name,
-      tx.email,
-      tx.type,
-      tx.status,
-      tx.gross,
-      tx.fee,
-      tx.net,
-      tx.balance ?? "",
-      tx.article,
-      tx.invoiceNumber,
-      tx.impact,
-      tx.source,
-      tx.country,
-      tx.transactionId,
-      tx.lettrage,
-    ];
-    values.forEach((v, i) => (ws.getCell(r, i + 1).value = v));
-    // Toute la ligne est teintee selon le statut (les "lignes de couleurs").
-    for (let c = 1; c <= TX_N; c++) setFill(ws.getCell(r, c), STATUT_FILL[st.key]);
-    // Pastille fiable : cellule "Statut" en couleur pleine + texte blanc.
-    const statutCell = ws.getCell(r, 1);
-    setFill(statutCell, STATUT_COLOR[st.key]);
-    statutCell.font = { bold: true, color: { argb: "FFFFFFFF" } };
-    statutCell.alignment = { horizontal: "center" };
-    ws.getCell(r, 2).alignment = { horizontal: "center" };
-    ws.getCell(r, 3).alignment = { horizontal: "center" };
-    ws.getCell(r, 16).alignment = { horizontal: "center" };
-    const lc = ws.getCell(r, 18);
-    lc.alignment = { horizontal: "center" };
-    if (tx.lettrage) lc.font = { bold: true, color: { argb: COLORS.title } };
-    r += 1;
-  }
-
-  if (txs.length) {
-    ws.getCell(r, 4).value = "TOTAL";
-    ws.getCell(r, 8).value = sum(txs, (t) => t.gross);
-    ws.getCell(r, 9).value = sum(txs, (t) => t.fee);
-    ws.getCell(r, 10).value = sum(txs, (t) => t.net);
-    for (let c = 1; c <= TX_N; c++) {
-      const cell = ws.getCell(r, c);
-      cell.font = { bold: true };
-      setFill(cell, theme.soft);
-      cell.border = { top: { style: "double", color: { argb: theme.title } } };
-    }
-  }
-
-  ws.autoFilter = { from: { row: 4, column: 1 }, to: { row: 4, column: TX_N } };
-}
-
-// ---------------------------------------------------------------------------
-// Tableau de bord
-// ---------------------------------------------------------------------------
-function card(
+/** Bandeau / section fusionne sur toute la largeur. */
+function band(
   ws: ExcelJS.Worksheet,
-  c1: number,
-  c2: number,
-  label: string,
-  value: number,
-  color: string,
-  money: boolean
+  r: number,
+  lastCol: number,
+  text: string,
+  o: CellOpts
 ): void {
-  span(ws, 4, c1, 4, c2, label, {
-    font: { bold: true, size: 11, color: { argb: "FFFFFFFF" } },
-    align: { horizontal: "center", vertical: "middle" },
-    fill: color,
-    border: true,
-  });
-  span(ws, 5, c1, 6, c2, value, {
-    font: { bold: true, size: 18, color: { argb: color } },
-    align: { horizontal: "center", vertical: "middle" },
-    fill: "FFF8FAFC",
-    numFmt: money ? EURO_FMT : "0",
-    border: true,
-  });
+  ws.mergeCells(r, 1, r, lastCol);
+  put(ws, r, 1, text, o);
 }
 
-function card2(
+/** Ligne d'entete de colonnes (fond plein, blanc gras, centre). */
+function headerRow(
   ws: ExcelJS.Worksheet,
-  c1: number,
-  c2: number,
-  label: string,
-  value: number,
-  color: string,
-  money: boolean
+  r: number,
+  labels: string[],
+  fill: string,
+  height = 28,
+  size = 10
 ): void {
-  span(ws, 8, c1, 8, c2, label, {
-    font: { bold: true, size: 11, color: { argb: "FFFFFFFF" } },
-    align: { horizontal: "center", vertical: "middle" },
-    fill: color,
-    border: true,
-  });
-  span(ws, 9, c1, 10, c2, value, {
-    font: { bold: true, size: 16, color: { argb: color } },
-    align: { horizontal: "center", vertical: "middle" },
-    fill: "FFF8FAFC",
-    numFmt: money ? EURO_FMT : "0",
-    border: true,
-  });
-}
-
-function buildDashboardSheet(wb: ExcelJS.Workbook, result: PipelineResult): void {
-  const d = result.dashboard;
-  const ws = wb.addWorksheet("📊 Tableau de bord");
-  ws.properties.tabColor = { argb: THEME.dashboard.title };
-  const N = 16;
-  for (let c = 1; c <= N; c++) ws.getColumn(c).width = 9.5;
-
-  const period = `${frDate(result.stats.periodStart)} → ${frDate(result.stats.periodEnd)}`;
-  span(ws, 1, 1, 1, N, "📊 Tableau de bord — Lettrage PayPal", {
-    font: { bold: true, size: 16, color: { argb: "FFFFFFFF" } },
-    align: { vertical: "middle", indent: 1 },
-    fill: THEME.dashboard.title,
-  });
-  ws.getRow(1).height = 32;
-  span(
-    ws,
-    2,
-    1,
-    2,
-    N,
-    `Export ${result.profileLabel}  •  ${period}  •  ${result.stats.txCount} mouvements`,
-    {
-      font: { size: 11, color: { argb: THEME.dashboard.title } },
-      align: { vertical: "middle", indent: 1 },
-      fill: THEME.dashboard.soft,
-    }
+  ws.getRow(r).height = height;
+  labels.forEach((label, i) =>
+    put(ws, r, i + 1, label, { fill, bold: true, color: C.white, align: "center", wrap: true, size })
   );
-  ws.getRow(2).height = 20;
-  ws.getRow(3).height = 8;
+}
 
-  card(ws, 1, 4, "Paiements reçus", d.nbPaiements, THEME.paiements.title, false);
-  card(ws, 5, 8, "💶 CA brut", d.caBrut, "FF4F46E5", true);
-  card(ws, 9, 12, "💸 Commissions", d.commissions, THEME.remboursements.title, true);
-  card(ws, 13, 16, "✅ Net encaissé", d.netEncaisse, THEME.dashboard.title, true);
-  ws.getRow(7).height = 8;
+const eur = (n: number): string =>
+  `${n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 
-  card2(ws, 1, 4, `Remboursements (${d.nbRemboursements})`, d.totalRemboursements, THEME.remboursements.title, true);
-  card2(ws, 5, 8, `Retraits (${d.nbRetraits})`, d.totalRetraits, THEME.autres.title, true);
-  card2(ws, 9, 12, `En attente (${d.nbAttente})`, d.totalAttente, "FFD97706", true);
-  card2(ws, 13, 16, `Autres (${d.nbAutres})`, d.nbAutres, "FF64748B", false);
-  ws.getRow(11).height = 10;
+const norm = (s: string): string =>
+  (s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 
-  // Detail des paiements
-  span(ws, 12, 1, 12, N, "Détail des paiements reçus", {
-    font: { bold: true, size: 12, color: { argb: "FFFFFFFF" } },
-    align: { vertical: "middle", indent: 1 },
-    fill: THEME.paiements.title,
-  });
-  ws.getRow(12).height = 22;
+const isRetrait = (t: Transaction): boolean => norm(t.type).includes("retrait");
+const isRemboursement = (t: Transaction): boolean => norm(t.type).includes("remboursement");
+const isCredit = (t: Transaction): boolean =>
+  norm(t.impact).startsWith("cred") || (!t.impact && t.net >= 0);
+const isPayLater = (t: Transaction): boolean => norm(t.source).includes("pay later");
 
-  const head = (c1: number, c2: number, label: string, left = false) =>
-    span(ws, 13, c1, 13, c2, label, {
-      font: { bold: true, color: { argb: "FFFFFFFF" } },
-      align: { horizontal: left ? "left" : "center", vertical: "middle", indent: left ? 1 : 0 },
-      fill: COLORS.header,
-      border: true,
-    });
-  head(1, 2, "Date");
-  head(3, 7, "Client", true);
-  head(8, 9, "Brut (€)");
-  head(10, 11, "Commission (€)");
-  head(12, 13, "Net (€)");
-  ws.getRow(13).height = 18;
+function timeMs(time: string): number {
+  const m = (time || "").match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if (!m) return 0;
+  return Number(m[1]) * 3600000 + Number(m[2]) * 60000 + Number(m[3] || 0) * 1000;
+}
+/** Horodatage complet (date + heure) pour trier/decouper finement. */
+function stamp(t: Transaction): number {
+  return (t.date ? t.date.getTime() : 0) + timeMs(t.time);
+}
 
-  const payments = result.transactions.filter((t) => statutOf(t).key === "PAIEMENT");
-  let r = 14;
-  for (const tx of payments) {
-    span(ws, r, 1, r, 2, tx.date ?? tx.dateRaw, {
-      numFmt: DATE_FMT,
-      align: { horizontal: "center" },
-      border: true,
-    });
-    span(ws, r, 3, r, 7, tx.name, { align: { horizontal: "left", indent: 1 }, border: true });
-    span(ws, r, 8, r, 9, tx.gross, { numFmt: MONEY_FMT, align: { horizontal: "right" }, border: true });
-    span(ws, r, 10, r, 11, tx.fee, { numFmt: MONEY_FMT, align: { horizontal: "right" }, border: true });
-    span(ws, r, 12, r, 13, tx.net, { numFmt: MONEY_FMT, align: { horizontal: "right" }, border: true });
-    r += 1;
-  }
-  span(ws, r, 1, r, 7, "TOTAL", {
-    font: { bold: true },
-    align: { horizontal: "right", indent: 1 },
-    fill: THEME.paiements.soft,
-  });
-  span(ws, r, 8, r, 9, sum(payments, (t) => t.gross), {
-    numFmt: MONEY_FMT,
-    font: { bold: true },
-    align: { horizontal: "right" },
-    fill: THEME.paiements.soft,
-  });
-  span(ws, r, 10, r, 11, sum(payments, (t) => t.fee), {
-    numFmt: MONEY_FMT,
-    font: { bold: true },
-    align: { horizontal: "right" },
-    fill: THEME.paiements.soft,
-  });
-  span(ws, r, 12, r, 13, sum(payments, (t) => t.net), {
-    numFmt: MONEY_FMT,
-    font: { bold: true },
-    align: { horizontal: "right" },
-    fill: THEME.paiements.soft,
-  });
+function sortChrono(txs: Transaction[]): Transaction[] {
+  return [...txs].sort((a, b) => stamp(a) - stamp(b) || a.index - b.index);
 }
 
 // ---------------------------------------------------------------------------
-// Synthese mensuelle (complement)
+// 1. Transactions PayPal
 // ---------------------------------------------------------------------------
-function buildMonthlySheet(wb: ExcelJS.Workbook, result: PipelineResult): void {
-  const theme = THEME.tous;
-  const ws = wb.addWorksheet("📅 Synthèse mensuelle", { views: [{ state: "frozen", ySplit: 4 }] });
-  ws.properties.tabColor = { argb: theme.title };
-  const tvaPct = (result.vatRate * 100).toFixed(result.vatRate * 100 % 1 ? 1 : 0);
-  const cols = [
-    { h: "Mois", w: 18 },
-    { h: "Nb opérations", w: 13 },
-    { h: "Ventes brutes (€)", w: 16 },
-    { h: "Frais (€)", w: 12 },
-    { h: "Remboursements (€)", w: 17 },
-    { h: "Net encaissé (€)", w: 15 },
-    { h: "CA TTC (€)", w: 13 },
-    { h: `TVA ${tvaPct}% (€)`, w: 13 },
-    { h: "CA HT (€)", w: 13 },
-    { h: "Retraits (€)", w: 14 },
+const TX_HEADERS = [
+  "Date", "Heure", "Nom du client", "Type de transaction", "État",
+  "Montant brut (€)", "Commission (€)", "Net reçu (€)", "Impact", "Solde (€)",
+  "N° Facture", "Référence commande", "N° Transaction PayPal", "N° Transaction origine",
+  "Email client", "Source paiement", "Pays", "Lettrage",
+];
+const TX_WIDTHS = [12, 10, 28, 32, 12, 16, 15, 15, 10, 15, 20, 26, 22, 22, 34, 14, 7, 20];
+
+function buildTransactions(wb: ExcelJS.Workbook, txs: Transaction[]): void {
+  const ws = wb.addWorksheet("Transactions PayPal", { views: [{ state: "frozen", ySplit: 1 }] });
+  TX_WIDTHS.forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  headerRow(ws, 1, TX_HEADERS, C.navy, 36, 10);
+
+  let r = 2;
+  for (const t of txs) {
+    const fill = fillForType(t.type);
+    const money = { align: "right" as const, numFmt: MONEY_FMT };
+    put(ws, r, 1, t.dateRaw, { fill });
+    put(ws, r, 2, t.time, { fill });
+    put(ws, r, 3, t.name, { fill });
+    put(ws, r, 4, t.type, { fill });
+    put(ws, r, 5, t.status, { fill });
+    put(ws, r, 6, t.gross, { fill, ...money });
+    put(ws, r, 7, t.fee, { fill, ...money });
+    put(ws, r, 8, t.net, { fill, ...money });
+    put(ws, r, 9, t.impact, { fill });
+    put(ws, r, 10, t.balance ?? "", { fill, ...money });
+    put(ws, r, 11, t.invoiceNumber, { fill });
+    put(ws, r, 12, t.article, { fill });
+    put(ws, r, 13, t.transactionId, { fill });
+    put(ws, r, 14, t.referenceId, { fill });
+    put(ws, r, 15, t.email, { fill });
+    put(ws, r, 16, t.source, { fill });
+    put(ws, r, 17, t.country, { fill, align: "center" });
+    put(ws, r, 18, t.lettrage, { fill, align: "center" });
+    ws.getRow(r).height = 16;
+    r += 1;
+  }
+  ws.autoFilter = { from: "A1", to: `${colLetter(TX_HEADERS.length)}1` };
+}
+
+// ---------------------------------------------------------------------------
+// Decoupage par virement (utilise par Virements + Rapprochement)
+// ---------------------------------------------------------------------------
+interface Periode {
+  retrait: Transaction | null; // null = periode en cours (non viree)
+  start: string;
+  end: string;
+  txs: Transaction[]; // transactions hors retrait
+}
+
+function decouperParVirement(txs: Transaction[]): Periode[] {
+  const retraits = txs.filter(isRetrait);
+  const others = txs.filter((t) => !isRetrait(t));
+  const bounds = retraits.map(stamp);
+  const firstDate = txs.length ? txs[0].dateRaw : "";
+
+  const groups: Transaction[][] = retraits.map(() => []);
+  const enCours: Transaction[] = [];
+  for (const t of others) {
+    const td = stamp(t);
+    const idx = bounds.findIndex((b) => td <= b);
+    if (idx === -1) enCours.push(t);
+    else groups[idx].push(t);
+  }
+
+  const periodes: Periode[] = retraits.map((retrait, i) => ({
+    retrait,
+    start: i === 0 ? firstDate : retraits[i - 1].dateRaw,
+    end: retrait.dateRaw,
+    txs: groups[i],
+  }));
+  if (enCours.length && retraits.length) {
+    periodes.push({
+      retrait: null,
+      start: retraits[retraits.length - 1].dateRaw,
+      end: enCours[enCours.length - 1].dateRaw,
+      txs: enCours,
+    });
+  } else if (enCours.length) {
+    periodes.push({ retrait: null, start: firstDate, end: enCours[enCours.length - 1].dateRaw, txs: enCours });
+  }
+  return periodes;
+}
+
+// ---------------------------------------------------------------------------
+// 2. Virements Banque
+// ---------------------------------------------------------------------------
+function buildVirements(wb: ExcelJS.Workbook, periodes: Periode[]): void {
+  const ws = wb.addWorksheet("Virements Banque");
+  [6, 14, 14, 18, 28, 18, 18, 22, 22, 16].forEach((w, i) => (ws.getColumn(i + 1).width = w));
+
+  band(ws, 1, 10, "VIREMENTS PAYPAL → BANQUE  —  Feuille de lettrage", {
+    fill: C.navy, bold: true, color: C.white, size: 13, align: "center", wrap: true,
+  });
+  ws.getRow(1).height = 34;
+  headerRow(ws, 2, [
+    "#", "Date virement", "Heure", "Période couverte", "Identifiant bancaire",
+    "Montant viré (€)", "Solde PayPal restant (€)", "N° transactions", "N° Crédits nets", "✓ Lettré",
+  ], C.blue, 28, 10);
+
+  let r = 3;
+  let num = 1;
+  let totalVire = 0;
+  for (const p of periodes) {
+    const fill = p.retrait ? "FFE3F2FD" : "FFFFFDE7";
+    const creditsNets = p.txs.filter(isCredit).reduce((s, t) => s + t.net, 0);
+    const montant = p.retrait ? p.retrait.net : 0;
+    totalVire += montant;
+    put(ws, r, 1, num, { fill, align: "center", size: 10 });
+    put(ws, r, 2, p.retrait ? p.retrait.dateRaw : "En cours", { fill, size: 10 });
+    put(ws, r, 3, p.retrait ? p.retrait.time : "—", { fill, size: 10 });
+    put(ws, r, 4, `${p.start} → ${p.end}${p.retrait ? "" : " (non viré)"}`, { fill, size: 10 });
+    put(ws, r, 5, p.retrait ? p.retrait.bankId || "—" : "—", { fill, italic: true, size: 9, color: C.grayTxt });
+    put(ws, r, 6, montant, { fill, bold: true, align: "right", numFmt: MONEY_FMT, size: 10 });
+    put(ws, r, 7, p.retrait ? p.retrait.balance ?? "" : lastBalance(p.txs), { fill, align: "right", numFmt: MONEY_FMT, size: 10 });
+    put(ws, r, 8, p.txs.length, { fill, align: "center", size: 10 });
+    put(ws, r, 9, creditsNets, { fill, align: "right", numFmt: MONEY_FMT, size: 10 });
+    put(ws, r, 10, p.retrait ? "" : "En cours", { fill: C.lettre, align: "center", size: 10 });
+    ws.getRow(r).height = 20;
+    r += 1;
+    num += 1;
+  }
+
+  r += 1; // ligne vide
+  const totalRow = r;
+  ws.mergeCells(totalRow, 1, totalRow, 5);
+  put(ws, totalRow, 1, "TOTAL VIREMENTS REÇUS EN BANQUE", { fill: C.dark, bold: true, color: C.white, align: "right", size: 10 });
+  for (let c = 2; c <= 5; c++) setFill(ws.getCell(totalRow, c), C.dark);
+  put(ws, totalRow, 6, totalVire, { fill: C.dark, bold: true, color: C.white, align: "right", numFmt: MONEY_TOTAL, size: 11 });
+  for (let c = 7; c <= 10; c++) setFill(ws.getCell(totalRow, c), C.dark);
+  ws.getRow(totalRow).height = 22;
+
+  const noteRow = totalRow + 2;
+  band(ws, noteRow, 10,
+    "ℹ️  Pour lettrer : Retrouvez chaque 'Identifiant bancaire' dans votre relevé bancaire. Le montant doit correspondre exactement à 'Montant viré'. Cochez la colonne ✓ Lettré.",
+    { italic: true, size: 9, color: C.grayTxt, wrap: true });
+}
+
+function lastBalance(txs: Transaction[]): number | string {
+  for (let i = txs.length - 1; i >= 0; i--) if (txs[i].balance != null) return txs[i].balance as number;
+  return "";
+}
+
+// ---------------------------------------------------------------------------
+// 3. Rapprochement par virement
+// ---------------------------------------------------------------------------
+const RAP_SUB = ["#", "Date", "Heure", "Nom client", "Type transaction", "Brut (€)", "Commission (€)", "Net (€)", "Impact", "N° Facture", "N° Transaction"];
+
+function buildRapprochement(wb: ExcelJS.Workbook, periodes: Periode[]): void {
+  const ws = wb.addWorksheet("Rapprochement");
+  [6, 13, 10, 26, 30, 13, 14, 14, 14, 22, 16].forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  band(ws, 1, 11, "RAPPROCHEMENT PAR VIREMENT  —  Toutes transactions groupées par période de virement", {
+    fill: C.navy, bold: true, color: C.white, size: 13, align: "center", wrap: true,
+  });
+  ws.getRow(1).height = 34;
+
+  let r = 2;
+  let vnum = 1;
+  for (const p of periodes) {
+    const titre = p.retrait
+      ? `VIREMENT ${vnum}  ·  ${p.start} → ${p.end}  ·  Viré : ${eur(p.retrait.net)}`
+      : `SOLDE EN COURS  ·  ${p.start} → ${p.end}  ·  Non encore viré`;
+    band(ws, r, 11, titre, { fill: p.retrait ? C.blue : C.orange, bold: true, color: C.white, size: 11 });
+    ws.getRow(r).height = 24;
+    r += 1;
+
+    headerRow(ws, r, RAP_SUB, C.slate, 20, 10);
+    r += 1;
+
+    let i = 1;
+    let sb = 0, sc = 0, sn = 0, nc = 0, nd = 0;
+    for (const t of p.txs) {
+      const fill = fillForType(t.type);
+      const credit = isCredit(t);
+      const money = { align: "right" as const, numFmt: MONEY_FMT };
+      put(ws, r, 1, i, { fill, align: "center" });
+      put(ws, r, 2, t.dateRaw, { fill });
+      put(ws, r, 3, t.time, { fill });
+      put(ws, r, 4, t.name, { fill });
+      put(ws, r, 5, t.type, { fill });
+      put(ws, r, 6, t.gross, { fill, ...money });
+      put(ws, r, 7, t.fee, { fill, ...money });
+      put(ws, r, 8, t.net, { fill, ...money });
+      put(ws, r, 9, t.impact, { fill, align: "center", bold: !credit, color: credit ? C.creditTxt : C.debitTxt });
+      put(ws, r, 10, t.invoiceNumber, { fill });
+      put(ws, r, 11, t.transactionId, { fill });
+      ws.getRow(r).height = 15;
+      sb += t.gross; sc += t.fee; sn += t.net;
+      if (t.net >= 0) nc += 1; else nd += 1;
+      i += 1;
+      r += 1;
+    }
+
+    // Sous-total periode
+    ws.mergeCells(r, 1, r, 5);
+    put(ws, r, 1, `Sous-total période  (${nc} crédits / ${nd} débits)`, { fill: C.subtotal, bold: true });
+    for (let c = 2; c <= 5; c++) setFill(ws.getCell(r, c), C.subtotal);
+    put(ws, r, 6, sb, { fill: C.subtotal, bold: true, align: "right", numFmt: MONEY_FMT });
+    put(ws, r, 7, sc, { fill: C.subtotal, bold: true, align: "right", numFmt: MONEY_FMT });
+    put(ws, r, 8, sn, { fill: C.subtotal, bold: true, align: "right", numFmt: MONEY_FMT });
+    for (let c = 9; c <= 11; c++) setFill(ws.getCell(r, c), C.subtotal);
+    r += 1;
+
+    // Ligne virement banque
+    if (p.retrait) {
+      ws.mergeCells(r, 1, r, 5);
+      put(ws, r, 1, `▶ VIREMENT BANQUE  ·  ID bancaire : ${p.retrait.bankId || "—"}`, { fill: "FFE3F2FD", bold: true });
+      for (let c = 2; c <= 5; c++) setFill(ws.getCell(r, c), "FFE3F2FD");
+      put(ws, r, 6, "", { fill: "FFE3F2FD" });
+      put(ws, r, 7, "", { fill: "FFE3F2FD" });
+      put(ws, r, 8, p.retrait.net, { fill: "FFE3F2FD", bold: true, align: "right", numFmt: MONEY_FMT });
+      put(ws, r, 9, "VIREMENT", { fill: "FFE3F2FD", align: "center", bold: true });
+      put(ws, r, 10, p.retrait.dateRaw, { fill: "FFE3F2FD" });
+      put(ws, r, 11, `Solde PayPal restant : ${(p.retrait.balance ?? 0).toFixed(2)} €`, { fill: "FFE3F2FD" });
+      r += 1;
+    }
+    r += 1; // ligne vide
+    if (p.retrait) vnum += 1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 4. Remboursements
+// ---------------------------------------------------------------------------
+function buildRemboursements(wb: ExcelJS.Workbook, txs: Transaction[], byId: Map<string, Transaction>): void {
+  const ws = wb.addWorksheet("Remboursements");
+  [5, 13, 26, 16, 22, 22, 26, 18, 18, 22, 20].forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  band(ws, 1, 11, "REMBOURSEMENTS  —  Liste complète avec lien vers transaction d'origine", {
+    fill: C.red, bold: true, color: C.white, size: 13, align: "center", wrap: true,
+  });
+  ws.getRow(1).height = 34;
+  headerRow(ws, 2, [
+    "#", "Date", "Nom client remboursé", "Net remboursé (€)", "N° Facture",
+    "N° Transaction remboursement", "N° Transaction d'origine", "Date paiement original",
+    "Montant original (€)", "Email client", "✓ Lettré",
+  ], C.red, 28, 10);
+
+  const fill = "FFFFEBEE";
+  const rembs = txs.filter(isRemboursement);
+  let r = 3;
+  let num = 1;
+  let total = 0;
+  for (const t of rembs) {
+    const orig = t.referenceId ? byId.get(t.referenceId) : undefined;
+    put(ws, r, 1, num, { fill, align: "center" });
+    put(ws, r, 2, t.dateRaw, { fill });
+    put(ws, r, 3, t.name, { fill });
+    put(ws, r, 4, t.net, { fill, align: "right", numFmt: MONEY_FMT });
+    put(ws, r, 5, t.invoiceNumber, { fill });
+    put(ws, r, 6, t.transactionId, { fill, italic: true, size: 8, color: C.grayTxt });
+    put(ws, r, 7, t.referenceId, { fill, italic: true, size: 8, color: C.grayTxt });
+    put(ws, r, 8, orig ? orig.dateRaw : "", { fill });
+    put(ws, r, 9, orig ? orig.gross : "", { fill, align: "right", numFmt: MONEY_FMT });
+    put(ws, r, 10, t.email, { fill });
+    put(ws, r, 11, "", { fill: C.lettre, align: "center" });
+    ws.getRow(r).height = 16;
+    total += t.net;
+    num += 1;
+    r += 1;
+  }
+  ws.mergeCells(r, 1, r, 3);
+  put(ws, r, 1, "TOTAL REMBOURSEMENTS", { fill: C.red, bold: true, color: C.white, align: "right", size: 10 });
+  put(ws, r, 4, total, { fill: C.red, bold: true, color: C.white, align: "right", numFmt: MONEY_TOTAL, size: 11 });
+  for (let c = 5; c <= 11; c++) setFill(ws.getCell(r, c), C.red);
+  ws.getRow(r).height = 22;
+
+  band(ws, r + 2, 11,
+    "ℹ️  Chaque remboursement est lié à sa transaction d'origine via le 'N° Transaction d'origine'. Vérifiez que le remboursement a bien été déduit du virement correspondant. Cochez ✓ Lettré une fois contrôlé.",
+    { italic: true, size: 9, color: C.grayTxt, wrap: true });
+}
+
+// ---------------------------------------------------------------------------
+// 5. Anomalies & Attentions
+// ---------------------------------------------------------------------------
+const ANOM_SUB = ["Catégorie", "Date", "Nom", "Type", "Net (€)", "Impact", "N° Facture", "N° Tx référence", "Source paiement", "Pays"];
+
+function buildAnomalies(wb: ExcelJS.Workbook, txs: Transaction[]): void {
+  const ws = wb.addWorksheet("Anomalies & Attentions");
+  [14, 13, 26, 30, 14, 16, 22, 22, 18, 18].forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  band(ws, 1, 10, "ANOMALIES & POINTS D'ATTENTION  —  Transactions à vérifier manuellement", {
+    fill: C.orange, bold: true, color: C.white, size: 13, align: "center", wrap: true,
+  });
+  ws.getRow(1).height = 34;
+
+  const sections: { title: string; label: string; fill: string; head: string; rows: Transaction[] }[] = [
+    { title: "▌ SUSPENSION DE PAIEMENT  —  Paiements temporairement retenus par PayPal", label: "Suspension de paiement", fill: "FFFFF3E0", head: C.anomHead, rows: txs.filter((t) => norm(t.type) === "suspension de paiement") },
+    { title: "▌ DÉBLOCAGE DE PAIEMENT  —  Libération des suspensions — à faire correspondre", label: "Déblocage de paiement", fill: "FFF3E5F5", head: C.anomHead, rows: txs.filter((t) => norm(t.type) === "deblocage de paiement") },
+    { title: "▌ SOLDE SUSPENDU POUR ENQUÊTE SUR UN LITIGE  —  Litige ouvert — fonds bloqués", label: "Solde suspendu pour enquête sur un litige", fill: "FFFFFDE7", head: C.anomHead, rows: txs.filter((t) => norm(t.type).includes("solde suspendu")) },
+    { title: "▌ ANNULATION DE LA SUSPENSION POUR RÉSOLUTION DU LITIGE  —  Litige résolu — fonds libérés", label: "Annulation de la suspension pour résolution du litige", fill: "FFF1F8E9", head: C.anomHead, rows: txs.filter((t) => norm(t.type).includes("annulation de la suspension")) },
+    { title: "▌ PAY LATER (Paiement en 4X)  —  Transactions financées par PayPal Credit", label: "Pay Later 4X", fill: "FFF3E5F5", head: C.purpleHead, rows: txs.filter(isPayLater) },
   ];
-  const n = cols.length;
-  cols.forEach((c, i) => (ws.getColumn(i + 1).width = c.w));
-  for (let c = 3; c <= n; c++) {
-    ws.getColumn(c).numFmt = MONEY_FMT;
-    ws.getColumn(c).alignment = { horizontal: "right" };
-  }
 
-  span(ws, 1, 1, 1, n, "📅 Synthèse mensuelle", {
-    font: { bold: true, size: 14, color: { argb: "FFFFFFFF" } },
-    align: { vertical: "middle", indent: 1 },
-    fill: theme.title,
-  });
-  ws.getRow(1).height = 26;
-  span(ws, 2, 1, 2, n, "TVA estimée — CA encaissé supposé TTC, à vérifier selon votre régime", {
-    font: { italic: true, size: 10, color: { argb: theme.title } },
-    align: { vertical: "middle", indent: 1 },
-    fill: theme.soft,
-  });
-  ws.getRow(2).height = 18;
-  ws.getRow(3).height = 6;
-
-  cols.forEach((c, i) => (ws.getCell(4, i + 1).value = c.h));
-  styleHeaderRow(ws.getRow(4));
-
-  let r = 5;
-  for (const m of result.monthly) {
-    const vals = [
-      m.monthLabel,
-      m.count,
-      m.ventesBrut,
-      m.frais,
-      m.remboursements,
-      m.netEncaisse,
-      m.caTtc,
-      m.tva,
-      m.caHt,
-      m.retraitsBanque,
-    ];
-    vals.forEach((v, i) => (ws.getCell(r, i + 1).value = v));
-    ws.getCell(r, 2).alignment = { horizontal: "center" };
+  let r = 2;
+  for (const s of sections) {
+    if (!s.rows.length) continue;
+    band(ws, r, 10, `${s.title}  (${s.rows.length} lignes)`, { fill: s.fill, bold: true, color: C.anomHead, size: 10 });
+    ws.getRow(r).height = 22;
+    r += 1;
+    headerRow(ws, r, ANOM_SUB, s.head, 18, 10);
+    r += 1;
+    for (const t of s.rows) {
+      put(ws, r, 1, s.label, { fill: s.fill });
+      put(ws, r, 2, t.dateRaw, { fill: s.fill });
+      put(ws, r, 3, t.name, { fill: s.fill });
+      put(ws, r, 4, t.type, { fill: s.fill });
+      put(ws, r, 5, t.net, { fill: s.fill, bold: true, align: "right", numFmt: MONEY_FMT, color: t.net < 0 ? C.debitTxt : C.creditTxt });
+      put(ws, r, 6, t.impact, { fill: s.fill, align: "center" });
+      put(ws, r, 7, t.invoiceNumber, { fill: s.fill });
+      put(ws, r, 8, t.referenceId || t.transactionId, { fill: s.fill });
+      put(ws, r, 9, t.source, { fill: s.fill });
+      put(ws, r, 10, t.country, { fill: s.fill });
+      ws.getRow(r).height = 15;
+      r += 1;
+    }
+    ws.getRow(r).height = 8; // espace
     r += 1;
   }
-
-  const sumM = (key: keyof (typeof result.monthly)[number]): number =>
-    result.monthly.reduce((a, m) => a + (m[key] as number), 0);
-  ws.getCell(r, 1).value = "TOTAL";
-  [
-    [2, "count"],
-    [3, "ventesBrut"],
-    [4, "frais"],
-    [5, "remboursements"],
-    [6, "netEncaisse"],
-    [7, "caTtc"],
-    [8, "tva"],
-    [9, "caHt"],
-    [10, "retraitsBanque"],
-  ].forEach(([c, key]) => {
-    ws.getCell(r, c as number).value = sumM(key as keyof (typeof result.monthly)[number]);
-  });
-  for (let c = 1; c <= n; c++) {
-    const cell = ws.getCell(r, c);
-    cell.font = { bold: true };
-    setFill(cell, theme.soft);
-    cell.border = { top: { style: "double", color: { argb: theme.title } } };
-  }
-
-  ws.autoFilter = { from: { row: 4, column: 1 }, to: { row: 4, column: n } };
+  if (r === 2) band(ws, 2, 10, "Aucune anomalie détectée sur la période.", { italic: true, size: 10, color: C.grayTxt });
 }
 
-/** Construit le classeur Excel complet (structure inspiree du fichier cible). */
+// ---------------------------------------------------------------------------
+// 6. Résumé
+// ---------------------------------------------------------------------------
+const RESUME_ORDER = [
+  "Paiement Express Checkout",
+  "Suspension de paiement",
+  "Remboursement de paiement",
+  "Retrait initié par l'utilisateur",
+  "Déblocage de paiement",
+  "Solde suspendu pour enquête sur un litige",
+  "Annulation de la suspension pour résolution du litige",
+];
+
+function buildResume(wb: ExcelJS.Workbook, txs: Transaction[]): void {
+  const ws = wb.addWorksheet("Résumé");
+  [36, 15, 15].forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  headerRow(ws, 1, ["Résumé des transactions", "Nombre", "Montant net (€)"], C.navy, 28, 10);
+
+  const groups = new Map<string, { count: number; net: number }>();
+  for (const t of txs) {
+    const g = groups.get(t.type) ?? { count: 0, net: 0 };
+    g.count += 1;
+    g.net += t.net;
+    groups.set(t.type, g);
+  }
+  const ordered = [
+    ...RESUME_ORDER.filter((k) => groups.has(k)),
+    ...[...groups.keys()].filter((k) => !RESUME_ORDER.includes(k)),
+  ];
+
+  let r = 2;
+  let credits = 0;
+  let debits = 0;
+  for (const type of ordered) {
+    const g = groups.get(type)!;
+    const fill = fillForType(type);
+    put(ws, r, 1, type, { fill, size: 10 });
+    put(ws, r, 2, g.count, { fill, align: "center", size: 10 });
+    put(ws, r, 3, g.net, { fill, size: 10, numFmt: MONEY_FMT });
+    if (g.net >= 0) credits += g.net; else debits += g.net;
+    r += 1;
+  }
+  put(ws, r, 1, "TOTAL CRÉDITS", { fill: "FFE8F5E9", bold: true, size: 10 });
+  put(ws, r, 2, "", { fill: "FFE8F5E9", size: 10 });
+  const creditRow = r;
+  put(ws, r, 3, credits, { fill: "FFE8F5E9", bold: true, size: 10, numFmt: MONEY_TOTAL });
+  r += 1;
+  put(ws, r, 1, "TOTAL DÉBITS", { fill: "FFFFEBEE", bold: true, size: 10 });
+  put(ws, r, 2, "", { fill: "FFFFEBEE", size: 10 });
+  const debitRow = r;
+  put(ws, r, 3, debits, { fill: "FFFFEBEE", bold: true, size: 10, numFmt: MONEY_FMT });
+  r += 1;
+  put(ws, r, 1, "SOLDE NET", { fill: C.navy, bold: true, color: C.white, size: 10 });
+  put(ws, r, 2, "", { fill: C.navy, size: 10 });
+  put(ws, r, 3, { formula: `C${creditRow}+C${debitRow}` }, { fill: C.navy, bold: true, color: C.white, align: "right", size: 10, numFmt: MONEY_TOTAL });
+}
+
+// ---------------------------------------------------------------------------
+// 7. Légende
+// ---------------------------------------------------------------------------
+const LEGENDE: [string, string][] = [
+  ["Paiement Express Checkout  —  Crédit normal", "FFE8F5E9"],
+  ["Suspension de paiement  —  Paiement en attente (débit temporaire)", "FFFFF3E0"],
+  ["Déblocage de paiement  —  Libération de la suspension", "FFF3E5F5"],
+  ["Remboursement de paiement  —  Remboursement client", "FFFFEBEE"],
+  ["Retrait initié par l'utilisateur  —  Virement vers banque", "FFE3F2FD"],
+  ["Solde suspendu pour enquête sur un litige  —  Litige en cours", "FFFFFDE7"],
+  ["Annulation de la suspension pour résolution du litige  —  Litige résolu", "FFF1F8E9"],
+];
+
+function buildLegende(wb: ExcelJS.Workbook): void {
+  const ws = wb.addWorksheet("Légende");
+  ws.getColumn(1).width = 40;
+  ws.getColumn(2).width = 20;
+  headerRow(ws, 1, ["Type de transaction", "Couleur"], C.navy, 18, 10);
+  let r = 2;
+  for (const [label, fill] of LEGENDE) {
+    put(ws, r, 1, label, { fill });
+    put(ws, r, 2, "", { fill });
+    r += 1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Assemblage
+// ---------------------------------------------------------------------------
 export function buildWorkbook(result: PipelineResult): ExcelJS.Workbook {
   const wb = new ExcelJS.Workbook();
   wb.creator = "Lettrage Auto";
   wb.created = new Date();
 
-  const txs = result.transactions;
-  const paiements = txs.filter((t) => statutOf(t).key === "PAIEMENT");
-  const remboursements = txs.filter((t) => statutOf(t).key === "REMBOURSEMENT");
-  const autres = txs.filter((t) => {
-    const k = statutOf(t).key;
-    return k === "RETRAIT" || k === "EN_ATTENTE" || k === "AUTRE";
-  });
+  const txs = sortChrono(result.transactions);
+  const byId = new Map<string, Transaction>();
+  for (const t of txs) if (t.transactionId) byId.set(t.transactionId, t);
+  const periodes = decouperParVirement(txs);
 
-  buildDashboardSheet(wb, result);
-
-  buildTxSheet(
-    wb,
-    "Paiements",
-    "paiements",
-    `Paiements reçus — ${paiements.length} transaction(s)`,
-    `CA brut : ${euro(result.dashboard.caBrut)}   •   Commissions : ${euro(
-      result.dashboard.commissions
-    )}   •   Net encaissé : ${euro(result.dashboard.netEncaisse)}`,
-    paiements
-  );
-
-  buildTxSheet(
-    wb,
-    "Remboursements",
-    "remboursements",
-    `Remboursements — ${remboursements.length} transaction(s)`,
-    `Total remboursé : ${euro(sum(remboursements, (t) => t.net || t.gross))}`,
-    remboursements
-  );
-
-  buildTxSheet(
-    wb,
-    "Autres mouvements",
-    "autres",
-    `Autres mouvements — ${autres.length} transaction(s)`,
-    `Retraits : ${euro(result.dashboard.totalRetraits)}   •   En attente : ${euro(
-      result.dashboard.totalAttente
-    )}`,
-    autres
-  );
-
-  buildTxSheet(
-    wb,
-    "📋 Tous les mouvements",
-    "tous",
-    `📋 Tous les mouvements — ${txs.length} transaction(s)`,
-    `Période ${frDate(result.stats.periodStart)} → ${frDate(
-      result.stats.periodEnd
-    )}   •   Net global : ${euro(sum(txs, (t) => t.net))}`,
-    txs
-  );
-
-  buildMonthlySheet(wb, result);
+  buildTransactions(wb, txs);
+  buildVirements(wb, periodes);
+  buildRapprochement(wb, periodes);
+  buildRemboursements(wb, txs, byId);
+  buildAnomalies(wb, txs);
+  buildResume(wb, txs);
+  buildLegende(wb);
 
   return wb;
 }

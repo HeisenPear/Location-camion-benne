@@ -113,6 +113,7 @@ export function normalizeRows(
       impact: get(row, "impact"),
       source: get(row, "source"),
       country: get(row, "country"),
+      bankId: get(row, "bankId"),
       transactionId: get(row, "transactionId"),
       referenceId: get(row, "referenceId"),
       status,

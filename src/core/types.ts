@@ -57,6 +57,7 @@ export interface Transaction {
   impact: string; // sens : Credit / Debit / Memo
   source: string; // source de paiement (PayPal, Pay Later...)
   country: string; // pays de l'acheteur
+  bankId: string; // identifiant bancaire (pour les retraits)
   transactionId: string;
   referenceId: string; // numero de transaction associee
   status: string; // etat (Termine, En attente, Supprime...)
@@ -84,6 +85,7 @@ export type Field =
   | "impact"
   | "source"
   | "country"
+  | "bankId"
   | "transactionId"
   | "referenceId"
   | "status";
