@@ -43,6 +43,7 @@ export const paypalProfile: Profile = {
       "Country",
       "Code pays",
     ],
+    bankId: ["Identifiant bancaire", "Bank Reference ID", "Banking Identifier"],
     transactionId: [
       "Transaction ID",
       "Numero de transaction",

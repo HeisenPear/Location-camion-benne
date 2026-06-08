@@ -13,21 +13,22 @@ puis génère un classeur `.xlsx` directement exploitable.
 
 ## ✨ Ce que fait l'outil
 
-À partir d'un CSV, il produit un classeur Excel avec **6 feuilles** :
+À partir d'un CSV, il produit un classeur Excel reproduisant **exactement la
+structure de lettrage de référence** — 7 feuilles, même mise en forme et mêmes
+codes couleur ; **seules les données changent** :
 
 | Feuille | Contenu |
 |---|---|
-| **📊 Tableau de bord** | Titre + période, **cartes KPI** (nb paiements, CA brut, commissions, net encaissé), comptes (remboursements / retraits / en attente / autres), puis le **détail des paiements reçus**. |
-| **🟢 Paiements** | Les paiements valides encaissés, avec bandeau de totaux. |
-| **🔴 Remboursements** | Les remboursements émis. |
-| **🔵 Autres mouvements** | Retraits, opérations en attente et autres. |
-| **📋 Tous les mouvements** | Toutes les opérations triées par date, avec une colonne **Lettrage** reliant les lignes liées par référence (paiement ↔ remboursement ↔ litige). |
-| **📅 Synthèse mensuelle** | Récap par mois : ventes, frais, remboursements, net, CA TTC / **TVA estimée** / CA HT, retraits. |
+| **Transactions PayPal** | Toutes les opérations, colorées **par type** (vert = paiement, crème = suspension, rose = remboursement, bleu = retrait, violet = déblocage, jaune = litige…). |
+| **Virements Banque** | Un virement PayPal → banque par retrait : période couverte, identifiant bancaire, montant viré, solde restant, nombre de transactions, à pointer (✓ Lettré). |
+| **Rapprochement** | Toutes les transactions **groupées par période de virement**, avec sous-total et ligne « ▶ VIREMENT BANQUE » par période. |
+| **Remboursements** | Liste des remboursements liés à leur **transaction d'origine** (date + montant du paiement initial). |
+| **Anomalies & Attentions** | Sections par cas à vérifier : suspensions, déblocages, litiges, Pay Later (4X). |
+| **Résumé** | Nombre et montant net par type ; totaux crédits / débits / solde net. |
+| **Légende** | Signification de chaque couleur. |
 
-Les feuilles de mouvements partagent les mêmes colonnes : `Statut` (🟢/🔴/🔵/🟡) ·
-Date · Heure · Client · Email · Type · État · Brut · Commission · Net · Solde ·
-Article · N° Facture · Sens · Source · Pays · N° Transaction · Lettrage.
-Les montants sont de **vrais nombres** (sommables), pas du texte.
+Les montants sont de **vrais nombres** (format `#,##0.00 €`, sommables), pas du
+texte. Les couleurs sont attribuées par type de transaction (voir la Légende).
 
 ### Multi-plateformes
 

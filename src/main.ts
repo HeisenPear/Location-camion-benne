@@ -3,8 +3,7 @@ import { runPipeline } from "./core/pipeline";
 import { PROFILES } from "./core/profiles";
 import { decodeBytes } from "./core/parse";
 import { type Field, type PipelineResult } from "./core/types";
-import { statutOf } from "./core/statut";
-import { STATUT_COLOR } from "./excel/styles";
+import { fillForType } from "./excel/styles";
 // ExcelJS est volumineux : on le charge a la demande (voir generate()).
 
 // --- Acces aux elements ----------------------------------------------------
@@ -70,6 +69,7 @@ const FIELD_LABELS: Record<Field, string> = {
   impact: "Sens",
   source: "Source",
   country: "Pays",
+  bankId: "Identifiant bancaire",
   transactionId: "N° transaction",
   referenceId: "Réf. associée",
   status: "État",
@@ -211,7 +211,7 @@ function renderMapping(result: PipelineResult): void {
 // --- Rendu : apercu ---------------------------------------------------------
 function renderPreview(result: PipelineResult): void {
   previewTable.innerHTML = "";
-  const cols = ["Statut", "Date", "Client", "Type", "Brut", "Commission", "Net", "Lettrage"];
+  const cols = ["Date", "Client", "Type", "Brut", "Commission", "Net", "Impact"];
   const thead = document.createElement("thead");
   const htr = document.createElement("tr");
   for (const c of cols) {
@@ -223,31 +223,24 @@ function renderPreview(result: PipelineResult): void {
   previewTable.appendChild(thead);
 
   const tbody = document.createElement("tbody");
-  const rows = result.transactions.slice(0, 20);
+  const rows = result.transactions.slice(0, 25);
   for (const t of rows) {
     const tr = document.createElement("tr");
-    const st = statutOf(t);
-    const cells: [string, string?][] = [
-      [st.label, argbToCss(STATUT_COLOR[st.key])],
+    const bg = argbToCss(fillForType(t.type));
+    const cells: [string, boolean?][] = [
       [fmtDate(t.date, t.dateRaw)],
       [t.name],
       [t.type],
-      [nf.format(t.gross), "num"],
-      [nf.format(t.fee), "num"],
-      [nf.format(t.net), "num"],
-      [t.lettrage],
+      [nf.format(t.gross), true],
+      [nf.format(t.fee), true],
+      [nf.format(t.net), true],
+      [t.impact],
     ];
-    cells.forEach(([text, extra], i) => {
+    cells.forEach(([text, num]) => {
       const td = document.createElement("td");
       td.textContent = text;
-      if (i === 0 && extra) {
-        td.style.background = extra;
-        td.style.color = "#fff";
-        td.style.fontWeight = "600";
-        td.style.textAlign = "center";
-      }
-      if (extra === "num") td.className = "num";
-      if (i === 7 && text) td.className = "lettrage";
+      td.style.background = bg;
+      if (num) td.className = "num";
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
