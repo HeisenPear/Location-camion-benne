@@ -76,6 +76,20 @@ const isRemboursement = (t: Transaction): boolean => norm(t.type).includes("remb
 const isCredit = (t: Transaction): boolean =>
   norm(t.impact).startsWith("cred") || (!t.impact && t.net >= 0);
 const isPayLater = (t: Transaction): boolean => norm(t.source).includes("pay later");
+const isVente = (t: Transaction): boolean => {
+  const n = norm(t.type);
+  if (/suspension|deblocage|annulation|retrait|remboursement|litige/.test(n)) return false;
+  return t.net > 0;
+};
+/** HT/TVA d'une ligne : ventes à partir du brut TTC, remboursements du net. */
+function htTvaForLine(t: Transaction, rate: number): { ht: number; tva: number } | null {
+  let ttc: number | null = null;
+  if (isVente(t)) ttc = t.gross;
+  else if (isRemboursement(t)) ttc = t.net;
+  if (ttc === null) return null;
+  const ht = ttc / (1 + rate);
+  return { ht, tva: ttc - ht };
+}
 
 function timeMs(time: string): number {
   const m = (time || "").match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
@@ -102,10 +116,13 @@ const TX_HEADERS = [
 ];
 const TX_WIDTHS = [12, 10, 28, 32, 12, 16, 15, 15, 10, 15, 20, 26, 22, 22, 34, 14, 7, 20];
 
-function buildTransactions(wb: ExcelJS.Workbook, txs: Transaction[]): void {
+function buildTransactions(wb: ExcelJS.Workbook, txs: Transaction[], rate: number): void {
   const ws = wb.addWorksheet("Transactions PayPal", { views: [{ state: "frozen", ySplit: 1 }] });
-  TX_WIDTHS.forEach((w, i) => (ws.getColumn(i + 1).width = w));
-  headerRow(ws, 1, TX_HEADERS, C.navy, 36, 10);
+  const pct = Number((rate * 100).toFixed((rate * 100) % 1 ? 1 : 0));
+  const headers = [...TX_HEADERS, "Montant HT (€)", `TVA ${pct} % (€)`];
+  const widths = [...TX_WIDTHS, 15, 14];
+  widths.forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  headerRow(ws, 1, headers, C.navy, 36, 10);
 
   let r = 2;
   for (const t of txs) {
@@ -129,10 +146,13 @@ function buildTransactions(wb: ExcelJS.Workbook, txs: Transaction[]): void {
     put(ws, r, 16, t.source, { fill });
     put(ws, r, 17, t.country, { fill, align: "center" });
     put(ws, r, 18, t.lettrage, { fill, align: "center" });
+    const vt = htTvaForLine(t, rate);
+    put(ws, r, 19, vt ? vt.ht : "", { fill, ...money });
+    put(ws, r, 20, vt ? vt.tva : "", { fill, ...money });
     ws.getRow(r).height = 16;
     r += 1;
   }
-  ws.autoFilter = { from: "A1", to: `${colLetter(TX_HEADERS.length)}1` };
+  ws.autoFilter = { from: "A1", to: `${colLetter(20)}1` };
 }
 
 // ---------------------------------------------------------------------------
@@ -499,6 +519,93 @@ function buildLegende(wb: ExcelJS.Workbook): void {
 }
 
 // ---------------------------------------------------------------------------
+// 8. Chiffre d'affaires (TTC / TVA / HT)
+// ---------------------------------------------------------------------------
+const CA_MONTHS = [
+  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre",
+];
+
+function buildCA(wb: ExcelJS.Workbook, txs: Transaction[], rate: number): void {
+  const ws = wb.addWorksheet("Chiffre d'affaires", { views: [{ state: "frozen", ySplit: 2 }] });
+  [16, 10, 18, 20, 18, 17, 16, 18, 16].forEach((w, i) => (ws.getColumn(i + 1).width = w));
+  const pct = Number((rate * 100).toFixed((rate * 100) % 1 ? 1 : 0));
+
+  band(ws, 1, 9, `CHIFFRE D'AFFAIRES  —  TTC / TVA / HT  (TVA ${pct} %)`, {
+    fill: C.navy, bold: true, color: C.white, size: 13, align: "center", wrap: true,
+  });
+  ws.getRow(1).height = 34;
+  headerRow(ws, 2, [
+    "Mois", "Nb ventes", "CA brut TTC (€)", "Remboursements TTC (€)", "CA net TTC (€)",
+    `TVA collectée ${pct} % (€)`, "CA net HT (€)", "Commissions PayPal (€)", "Net encaissé (€)",
+  ], C.navy, 30, 10);
+
+  interface M { label: string; nb: number; brut: number; remb: number; comm: number }
+  const months = new Map<string, M>();
+  const key = (t: Transaction): string =>
+    t.date ? `${t.date.getFullYear()}-${String(t.date.getMonth() + 1).padStart(2, "0")}` : "0000-00";
+  const label = (k: string): string => {
+    const [y, m] = k.split("-");
+    const i = Number(m) - 1;
+    return i >= 0 && i < 12 ? `${CA_MONTHS[i]} ${y}` : "Sans date";
+  };
+
+  for (const t of txs) {
+    if (!isVente(t) && !isRemboursement(t)) continue;
+    const k = key(t);
+    const g = months.get(k) ?? { label: label(k), nb: 0, brut: 0, remb: 0, comm: 0 };
+    if (isVente(t)) {
+      g.nb += 1;
+      g.brut += t.gross;
+      g.comm += t.fee;
+    } else {
+      g.remb += t.net;
+    }
+    months.set(k, g);
+  }
+
+  const money = { align: "right" as const, numFmt: MONEY_FMT };
+  const keys = [...months.keys()].sort();
+  let r = 3;
+  let tNb = 0, tBrut = 0, tRemb = 0, tComm = 0;
+  for (const k of keys) {
+    const g = months.get(k)!;
+    const netTtc = g.brut + g.remb;
+    const ht = netTtc / (1 + rate);
+    put(ws, r, 1, g.label, { fill: "FFE8F5E9" });
+    put(ws, r, 2, g.nb, { fill: "FFE8F5E9", align: "center" });
+    put(ws, r, 3, g.brut, { fill: "FFE8F5E9", ...money });
+    put(ws, r, 4, g.remb, { fill: "FFE8F5E9", ...money });
+    put(ws, r, 5, netTtc, { fill: "FFE8F5E9", ...money });
+    put(ws, r, 6, netTtc - ht, { fill: "FFE8F5E9", ...money });
+    put(ws, r, 7, ht, { fill: "FFE8F5E9", ...money });
+    put(ws, r, 8, g.comm, { fill: "FFE8F5E9", ...money });
+    put(ws, r, 9, netTtc + g.comm, { fill: "FFE8F5E9", ...money });
+    tNb += g.nb; tBrut += g.brut; tRemb += g.remb; tComm += g.comm;
+    r += 1;
+  }
+
+  const netTtcT = tBrut + tRemb;
+  const htT = netTtcT / (1 + rate);
+  const tot = { align: "right" as const, numFmt: MONEY_TOTAL, bold: true, color: C.white };
+  put(ws, r, 1, "TOTAL", { fill: C.dark, bold: true, color: C.white, align: "right" });
+  put(ws, r, 2, tNb, { fill: C.dark, bold: true, color: C.white, align: "center" });
+  put(ws, r, 3, tBrut, { fill: C.dark, ...tot });
+  put(ws, r, 4, tRemb, { fill: C.dark, ...tot });
+  put(ws, r, 5, netTtcT, { fill: C.dark, ...tot });
+  put(ws, r, 6, netTtcT - htT, { fill: C.dark, ...tot });
+  put(ws, r, 7, htT, { fill: C.dark, ...tot });
+  put(ws, r, 8, tComm, { fill: C.dark, ...tot });
+  put(ws, r, 9, netTtcT + tComm, { fill: C.dark, ...tot });
+  ws.getRow(r).height = 22;
+
+  band(ws, r + 2, 9,
+    `ℹ️  CA net TTC = ventes − remboursements.  TVA collectée = CA net TTC × ${pct}/${100 + pct}.  CA net HT = CA net TTC / ${(1 + rate).toFixed(2)}.  Les commissions PayPal sont des charges (déduites du net encaissé), sans TVA.`,
+    { italic: true, size: 9, color: C.grayTxt, wrap: true });
+  ws.autoFilter = { from: "A2", to: "I2" };
+}
+
+// ---------------------------------------------------------------------------
 // Assemblage
 // ---------------------------------------------------------------------------
 export function buildWorkbook(result: PipelineResult): ExcelJS.Workbook {
@@ -510,13 +617,15 @@ export function buildWorkbook(result: PipelineResult): ExcelJS.Workbook {
   const byId = new Map<string, Transaction>();
   for (const t of txs) if (t.transactionId) byId.set(t.transactionId, t);
   const periodes = decouperParVirement(txs);
+  const rate = result.vatRate ?? 0.2;
 
-  buildTransactions(wb, txs);
+  buildTransactions(wb, txs, rate);
   buildVirements(wb, periodes);
   buildRapprochement(wb, periodes);
   buildRemboursements(wb, txs, byId);
   buildAnomalies(wb, txs);
   buildResume(wb, txs);
+  buildCA(wb, txs, rate);
   buildLegende(wb);
 
   return wb;
